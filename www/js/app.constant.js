@@ -2,7 +2,7 @@
   angular.module("activinApp.constants", [])
 
 .constant("appConfig", {
-	"serverAddress": "http://dev.activin.com"
+	"apiUrl": "http://localhost:9000"
 })
 
 ;

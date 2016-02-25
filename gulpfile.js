@@ -83,12 +83,12 @@ var rename = require('gulp-rename');
 var config = {
   "development": {
     appConfig: {
-      "serverAddress": "http://dev.activin.com"
+      "apiUrl": "http://localhost:9000"
     }
   },
   "production": {
     appConfig: {
-      "serverAddress": "http://activin.com"
+      "apiUrl": "http://activin.com"
     }
   }
 }
@@ -154,7 +154,7 @@ gulp.task('inject:css', () => {
 });
 
 gulp.task('constant', function () {
-  var envConfig = config[process.env.NODE_ENV];
+  var envConfig = config[process.env.NODE_ENV || 'development'];
 
   return ngConstant({
       name: 'activinApp.constants',
@@ -169,7 +169,7 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('www/js'))
 });
 
-gulp.task('test', ['cli-check', 'env:dev', 'wiredep:test'], (done) => {
+gulp.task('test', ['cli-check', 'env:dev', 'constant', 'wiredep:test'], (done) => {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
@@ -179,6 +179,7 @@ gulp.task('test', ['cli-check', 'env:dev', 'wiredep:test'], (done) => {
 gulp.task('serve', [
   'cli-check',
   'env:dev',
+  'constant',
   'wiredep:client',
   'inject'
 ], (done) => {
