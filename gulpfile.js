@@ -81,14 +81,16 @@ var env = require('gulp-env');
 var rename = require('gulp-rename');
 
 var config = {
-  "development": {
+  development: {
     appConfig: {
-      "apiUrl": "http://localhost:9000"
+      apiUrl: "http://localhost:9000",
+      userRoles: ['guest', 'user', 'admin']
     }
   },
-  "production": {
+  production: {
     appConfig: {
-      "apiUrl": "http://activin.com"
+      apiUrl: "http://activin.com",
+      userRoles: ['guest', 'user', 'admin']
     }
   }
 }
