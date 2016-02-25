@@ -17,6 +17,14 @@ module.exports = function (config) {
       'mocha', 'chai'
     ],
 
+    preprocessors: {
+      '**/*.html': 'ng-html2js'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'www/'
+    },
+
     // list of files / patterns to load in the browser
     files: [
       // bower:js
@@ -30,7 +38,8 @@ module.exports = function (config) {
       'www/lib/angular-mocks/angular-mocks.js',
       // endbower
       'www/js/**/*.js',
-      'www/js/**/*.spec.js'
+      'www/js/**/*.spec.js',
+      'www/templates/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -55,7 +64,8 @@ module.exports = function (config) {
     plugins: [
       'karma-phantomjs-launcher',
       'karma-mocha',
-      'karma-chai'
+      'karma-chai',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode
