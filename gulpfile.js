@@ -52,8 +52,28 @@ gulp.task('git-check', function (done) {
   done();
 });
 
+gulp.task('cli-check', ['git-check'], function (done) {
+  if (!sh.which('cordova')) {
+    console.log(
+      '  ' + gutil.colors.red('cordova is not installed.'),
+      '\n  Cordova, the cross-platform dev tool is required.',
+      '\n  Install with command ' + gutil.colors.cyan('npm install -g cordova')
+    );
+    process.exit(1);
+  } else if (!sh.which('ionic')) {
+    console.log(
+      '  ' + gutil.colors.red('ionic is not installed.'),
+      '\n  Ionic, the cordova framework based on AngularJS is required.',
+      '\n  Install with command ' + gutil.colors.cyan('npm install -g ionic')
+    );
+    process.exit(1);
+  }
+  done();
+});
+
 // PERSO
 var wiredep = require('wiredep').stream;
+var KarmaServer = require('karma').Server;
 
 // inject bower components
 gulp.task('wiredep:client', () => {
@@ -70,4 +90,16 @@ gulp.task('wiredep:test', () => {
       devDependencies: true
     }))
     .pipe(gulp.dest('./'));
+});
+
+gulp.task('test', ['cli-check', 'wiredep:test'], (done) => {
+  new KarmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('serve', ['cli-check', 'wiredep:client'], (done) => {
+  sh.exec('ionic serve');
+  done();
 });
