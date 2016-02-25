@@ -74,6 +74,41 @@ gulp.task('cli-check', ['git-check'], function (done) {
 // PERSO
 var wiredep = require('wiredep').stream;
 var KarmaServer = require('karma').Server;
+var inject = require('gulp-inject');
+var debug = require('gulp-debug');
+var ngConstant = require('gulp-ng-constant');
+var env = require('gulp-env');
+var rename = require('gulp-rename');
+
+var config = {
+  "development": {
+    appConfig: {
+      "serverAddress": "http://dev.activin.com"
+    }
+  },
+  "production": {
+    appConfig: {
+      "serverAddress": "http://activin.com"
+    }
+  }
+}
+
+gulp.task('env:dev', () => {
+  console.log('Environnement : development');
+  env({
+    vars: {
+      NODE_ENV: 'development'
+    }
+  });
+});
+gulp.task('env:prod', () => {
+  console.log('Environnement : production');
+  env({
+    vars: {
+      NODE_ENV: 'production'
+    }
+  });
+});
 
 // inject bower components
 gulp.task('wiredep:client', () => {
@@ -92,14 +127,61 @@ gulp.task('wiredep:test', () => {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('test', ['cli-check', 'wiredep:test'], (done) => {
+gulp.task('inject', ['inject:js', 'inject:css'], cb => {
+  cb();
+});
+
+gulp.task('inject:js', () => {
+  return gulp.src('www/index.html')
+    .pipe(inject(
+      gulp.src(['www/js/**/*.js', '!www/js/**/*.{spec,mock}.js'], {
+        read: false
+      }), {
+        transform: (filepath) => '<script src="' + filepath.replace('/www/', '') + '"></script>'
+      }))
+    .pipe(gulp.dest('www'));
+});
+
+gulp.task('inject:css', () => {
+  return gulp.src('www/index.html')
+    .pipe(inject(
+      gulp.src(['www/css/**/*.css', '!www/css/ionic.app.min.css'], {
+        read: false
+      }), {
+        transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></script>'
+      }))
+    .pipe(gulp.dest('www'));
+});
+
+gulp.task('constant', function () {
+  var envConfig = config[process.env.NODE_ENV];
+
+  return ngConstant({
+      name: 'activinApp.constants',
+      deps: [],
+      wrap: true,
+      stream: true,
+      constants: envConfig
+    })
+    .pipe(rename({
+      basename: 'app.constant'
+    }))
+    .pipe(gulp.dest('www/js'))
+});
+
+gulp.task('test', ['cli-check', 'env:dev', 'wiredep:test'], (done) => {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('serve', ['cli-check', 'wiredep:client'], (done) => {
+gulp.task('serve', [
+  'cli-check',
+  'env:dev',
+  'wiredep:client',
+  'inject'
+], (done) => {
   sh.exec('ionic serve');
   done();
 });

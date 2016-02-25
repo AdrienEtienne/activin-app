@@ -11,6 +11,6 @@ describe('Controller: MainController', function () {
 	}));
 
 	it('should attach a list of sports to the controller', function () {
-		expect(2).toBe(2);
+		assert.equal(2, 2);
 	});
 });
