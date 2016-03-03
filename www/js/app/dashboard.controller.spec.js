@@ -3,7 +3,7 @@
 describe('Controller: MainController', function () {
 
 	// load the controller's module
-	beforeEach(module('starter.controllers'));
+	beforeEach(module('dashboard.controller'));
 
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function ($controller, $rootScope) {

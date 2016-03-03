@@ -1,12 +1,11 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="your Dashboard {{user.name}}">
 <ion-content class="padding">
-<h2>Welcome to ActivIn</h2>
 <div class="card" ng-repeat="sport in sports">
 	<div class="item item-divider">
-		{{sport._id}}
+		{{sport.name}}
 	</div>
 	<div class="item item-text-wrap">
-		{{sport.name}}
+		Id: {{sport._id}}
 	</div>
 </div>
 </ion-content>
