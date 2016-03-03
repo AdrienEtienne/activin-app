@@ -2,13 +2,12 @@
 
 (function () {
 
-  function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
+  function AuthService($http, $q, appConfig, Util, User) {
     var safeCb = Util.safeCb;
     var currentUser = {};
     var userRoles = appConfig.userRoles || [];
 
-    if (window.localStorage['token'] /*$cookies.get('token')*/ &&
-      $location.path() !== '/logout') {
+    if (window.localStorage['token'] /*$cookies.get('token')*/ ) {
       currentUser = User.get();
     }
 
@@ -28,8 +27,7 @@
           })
           .then(function (res) {
             window.localStorage['token'] = res.data.token;
-            //$cookies.put('token', res.data.token);
-            //currentUser = User.get();
+            currentUser = User.get();
             return currentUser.$promise;
           })
           .then(function (user) {
@@ -48,7 +46,6 @@
        */
       logout: function () {
         window.localStorage['token'] = undefined;
-        //$cookies.remove('token');
         currentUser = {};
       },
 
@@ -63,7 +60,6 @@
         return User.save(user,
           function (data) {
             window.localStorage['token'] = data.token;
-            //$cookies.put('token', data.token);
             currentUser = User.get();
             return safeCb(callback)(null, user);
           },
