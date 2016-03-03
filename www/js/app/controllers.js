@@ -1,6 +1,6 @@
-angular.module('starter.controllers', ['ngResource'])
+angular.module('starter.controllers', ['ngResource', 'components.auth'])
 
-.controller('DashCtrl', function ($scope, $resource, appConfig, $http) {
+.controller('DashCtrl', function ($scope, $resource, appConfig) {
   var Sport = $resource(appConfig.apiUrl + '/api/sports');
   $scope.sports = Sport.query(
     function (data) {
@@ -14,7 +14,7 @@ angular.module('starter.controllers', ['ngResource'])
     var sport = new Sport({
       name: name
     });
-    sport.save().then(function (response) {
+    sport.$save().then(function (response) {
       console.log('then save', response);
     }).catch(function (response) {
       console.log('catch save', response);
@@ -41,8 +41,19 @@ angular.module('starter.controllers', ['ngResource'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function ($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function ($scope, Auth) {
+  var that = this;
+
+  that.user = {};
+  that.errors = {};
+
+  that.login = function () {
+    Auth.login(that.user.email, that.user.password)
+      .then(function () {
+        console.log('Auth then');
+      })
+      .catch(function () {
+        console.log('Auth catch');
+      });
+  }
 });

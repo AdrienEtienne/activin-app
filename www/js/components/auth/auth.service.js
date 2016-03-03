@@ -7,7 +7,8 @@
     var currentUser = {};
     var userRoles = appConfig.userRoles || [];
 
-    if ($cookies.get('token') && $location.path() !== '/logout') {
+    if (window.localStorage['token'] /*$cookies.get('token')*/ &&
+      $location.path() !== '/logout') {
       currentUser = User.get();
     }
 
@@ -21,13 +22,14 @@
        * @return {Promise}
        */
       login: function (email, password, callback) {
-        return $http.post('/auth/local', {
+        return $http.post(appConfig.apiUrl + '/auth/local', {
             email: email,
             password: password
           })
           .then(function (res) {
-            $cookies.put('token', res.data.token);
-            currentUser = User.get();
+            window.localStorage['token'] = res.data.token;
+            //$cookies.put('token', res.data.token);
+            //currentUser = User.get();
             return currentUser.$promise;
           })
           .then(function (user) {
@@ -45,7 +47,8 @@
        * Delete access token and user info
        */
       logout: function () {
-        $cookies.remove('token');
+        window.localStorage['token'] = undefined;
+        //$cookies.remove('token');
         currentUser = {};
       },
 
@@ -59,7 +62,8 @@
       createUser: function (user, callback) {
         return User.save(user,
           function (data) {
-            $cookies.put('token', data.token);
+            window.localStorage['token'] = data.token;
+            //$cookies.put('token', data.token);
             currentUser = User.get();
             return safeCb(callback)(null, user);
           },
@@ -178,7 +182,8 @@
        * @return {String} - a token string used for authenticating
        */
       getToken: function () {
-        return $cookies.get('token');
+        //return $cookies.get('token');
+        return window.localStorage['token'];
       }
     };
 
