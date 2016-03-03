@@ -1,25 +1,14 @@
 angular.module('starter.controllers', ['ngResource', 'components.auth'])
 
 .controller('DashCtrl', function ($scope, $resource, appConfig) {
-  var Sport = $resource(appConfig.apiUrl + '/api/sports');
-  $scope.sports = Sport.query(
+  var sport = $resource(appConfig.apiUrl + '/api/sports');
+  $scope.sports = sport.query(
     function (data) {
       console.log(data);
     },
     function (err) {
       console.log(err);
     });
-
-  $scope.add = function (name) {
-    var sport = new Sport({
-      name: name
-    });
-    sport.$save().then(function (response) {
-      console.log('then save', response);
-    }).catch(function (response) {
-      console.log('catch save', response);
-    });
-  }
 })
 
 .controller('ChatsCtrl', function ($scope, Chats) {
