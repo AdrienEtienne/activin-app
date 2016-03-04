@@ -4,7 +4,8 @@ angular.module('components.auth', [
 		'activinApp.constants',
 		'components.util',
 		'ngCookies',
-		'ui.router'
+		'ui.router',
+		'ngResource'
 	])
 	.config(function ($httpProvider) {
 		$httpProvider.interceptors.push('authInterceptor');

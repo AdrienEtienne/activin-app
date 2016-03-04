@@ -75,7 +75,8 @@ angular.module('starter', [
       url: '/account',
       views: {
         'home-dash': {
-          templateUrl: 'templates/account/list.html'
+          templateUrl: 'templates/account/list.html',
+          controller: 'AccountCtrl'
         }
       }
     })
