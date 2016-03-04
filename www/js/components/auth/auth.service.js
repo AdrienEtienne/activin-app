@@ -7,11 +7,9 @@
     var currentUser = {};
     var userRoles = appConfig.userRoles || [];
 
-    if (window.localStorage['token'] /*$cookies.get('token')*/ ) {
-      currentUser = User.get();
-    }
-
     var Auth = {
+
+
 
       /**
        * Authenticate user and save token
@@ -26,6 +24,8 @@
             password: password
           })
           .then(function (res) {
+            window.localStorage['email'] = email;
+            window.localStorage['password'] = password;
             window.localStorage['token'] = res.data.token;
             currentUser = User.get();
             return currentUser.$promise;
@@ -45,6 +45,8 @@
        * Delete access token and user info
        */
       logout: function () {
+        window.localStorage['email'] = undefined;
+        window.localStorage['password'] = undefined;
         window.localStorage['token'] = undefined;
         currentUser = {};
       },
@@ -177,8 +179,16 @@
        *
        * @return {String} - a token string used for authenticating
        */
+      hasLogin: function () {
+        return window.localStorage['email'] && window.localStorage['password'];
+      },
+
+      /**
+       * Test if
+       *
+       * @return {String} - a token string used for authenticating
+       */
       getToken: function () {
-        //return $cookies.get('token');
         return window.localStorage['token'];
       }
     };

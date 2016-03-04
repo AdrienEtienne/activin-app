@@ -12,7 +12,7 @@ angular.module('starter', [
   'starter.services'
 ])
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, Auth, $state) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -26,6 +26,18 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
   });
+
+  if (Auth.hasLogin()) {
+    var tmp = Auth.login(window.localStorage['email'], window.localStorage['password']);
+    tmp.then(function () {
+      $state.go('home.dash');
+    }).catch(function () {
+      $state.go('auth');
+    })
+  } else {
+    Auth.logout();
+    $state.go('auth');
+  }
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
