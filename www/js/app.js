@@ -27,11 +27,17 @@ angular.module('starter', [
     }
   });
 
-  Auth.getCurrentUser().$promise.then(function () {
-    $state.go('home.dash');
-  }).catch(function () {
+  if (Auth.hasLogin()) {
+    var tmp = Auth.login(window.localStorage['email'], window.localStorage['password']);
+    tmp.then(function () {
+      $state.go('home.dash');
+    }).catch(function () {
+      $state.go('auth');
+    })
+  } else {
+    Auth.logout();
     $state.go('auth');
-  })
+  }
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
