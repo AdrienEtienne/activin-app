@@ -74,6 +74,14 @@ angular.module('starter', [
           templateUrl: 'templates/account/my-sports.html'
         }
       }
+    })
+    .state('home.information', {
+      url: '/information',
+      views: {
+        'home-dash': {
+          templateUrl: 'templates/information.html'
+        }
+      }
     });
 
   // if none of the above states are matched, use this as the fallback

@@ -3,5 +3,6 @@
 angular.module('starter.controllers', [
 	'auth.controller',
 	'dashboard.controller',
-	'parameter.controllers'
+	'account.controller',
+	'information.controller'
 ]);

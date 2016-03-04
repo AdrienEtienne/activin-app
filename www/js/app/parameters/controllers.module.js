@@ -1,1 +1,1 @@
-angular.module('parameter.controllers', []);
+angular.module('account.controller', []);
