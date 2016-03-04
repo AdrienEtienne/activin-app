@@ -79,7 +79,8 @@ angular.module('starter', [
       url: '/information',
       views: {
         'home-dash': {
-          templateUrl: 'templates/information.html'
+          templateUrl: 'templates/information.html',
+          controller: 'InformationCtrl'
         }
       }
     });

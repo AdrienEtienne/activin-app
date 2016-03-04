@@ -1,7 +1,7 @@
 angular.module('information.controller', ['activinApp.constants'])
 
-.controller('InformationCtrl', function (appConfig) {
+.controller('InformationCtrl', function (appConfig, $scope) {
 	var that = this;
 
-	that.version = appConfig.version;
+	$scope.version = appConfig.version;
 });
