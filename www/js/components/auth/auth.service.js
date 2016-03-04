@@ -175,12 +175,12 @@
       },
 
       /**
-       * Get auth token
+       * Test if login info presents
        *
-       * @return {String} - a token string used for authenticating
+       * @return {Boolean} - local login presents
        */
       hasLogin: function () {
-        return window.localStorage['email'] && window.localStorage['password'];
+        return window.localStorage['email'] !== 'undefined' && window.localStorage['password'] !== 'undefined';
       },
 
       /**
