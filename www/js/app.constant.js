@@ -2,12 +2,12 @@
   angular.module("activinApp.constants", [])
 
 .constant("appConfig", {
-	"apiUrl": "http://localhost:9000",
 	"userRoles": [
 		"guest",
 		"user",
 		"admin"
-	]
+	],
+	"apiUrl": "http://localhost:9000"
 })
 
 ;

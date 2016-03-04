@@ -80,23 +80,7 @@ var ngConstant = require('gulp-ng-constant');
 var env = require('gulp-env');
 var rename = require('gulp-rename');
 
-var config = {
-  development: {
-    appConfig: {
-      apiUrl: "http://localhost:9000",
-      userRoles: ['guest', 'user', 'admin']
-    }
-  },
-  production: {
-    appConfig: {
-      apiUrl: "http://activin.com",
-      userRoles: ['guest', 'user', 'admin']
-    }
-  }
-}
-
 gulp.task('env:dev', () => {
-  console.log('Environnement : development');
   env({
     vars: {
       NODE_ENV: 'development'
@@ -104,7 +88,6 @@ gulp.task('env:dev', () => {
   });
 });
 gulp.task('env:prod', () => {
-  console.log('Environnement : production');
   env({
     vars: {
       NODE_ENV: 'production'
@@ -156,14 +139,14 @@ gulp.task('inject:css', () => {
 });
 
 gulp.task('constant', function () {
-  var envConfig = config[process.env.NODE_ENV || 'development'];
-
   return ngConstant({
       name: 'activinApp.constants',
       deps: [],
       wrap: true,
       stream: true,
-      constants: envConfig
+      constants: {
+        appConfig: require('./environment').appConfig
+      }
     })
     .pipe(rename({
       basename: 'app.constant'
