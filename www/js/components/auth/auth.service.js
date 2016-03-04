@@ -180,7 +180,7 @@
        * @return {Boolean} - local login presents
        */
       hasLogin: function () {
-        return window.localStorage['email'] !== undefined && window.localStorage['password'] !== undefined;
+        return window.localStorage['email'] !== 'undefined' && window.localStorage['password'] !== 'undefined';
       },
 
       /**

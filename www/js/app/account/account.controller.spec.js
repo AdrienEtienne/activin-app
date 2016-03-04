@@ -2,7 +2,7 @@
 
 describe('Controller: AccountCtrl', function () {
 
-	var ctrl, scope, Auth;
+	var ctrl, scope, Auth, state;
 
 	// load the controller's module
 	beforeEach(module('account.controller'));
@@ -14,9 +14,10 @@ describe('Controller: AccountCtrl', function () {
 	});
 
 	// Initialize the controller and a mock $window
-	beforeEach(inject(function ($controller, $rootScope, _Auth_) {
+	beforeEach(inject(function ($controller, $rootScope, _Auth_, $state) {
 		scope = $rootScope.$new();
 		Auth = _Auth_;
+		state = $state;
 		ctrl = $controller('AccountCtrl', {
 			$scope: scope
 		});
@@ -27,6 +28,17 @@ describe('Controller: AccountCtrl', function () {
 	});
 
 	it('should logout the user', function () {
+		state.go = function () {};
+		scope.logout();
+		assert.equal(Auth.hasLogin(), false);
+	});
 
+	it('should go to auth', function () {
+		var tmp;
+		state.go = function (name) {
+			tmp = name;
+		}
+		scope.logout();
+		assert.equal(tmp, 'auth');
 	});
 });
