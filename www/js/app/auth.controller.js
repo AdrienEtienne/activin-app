@@ -10,7 +10,7 @@ angular.module('auth.controller', ['components.auth'])
 		that.error = null;
 		Auth.login(that.user.email, that.user.password)
 			.then(function () {
-				$state.go('tab.dash');
+				$state.go('home.dash');
 			})
 			.catch(function (response) {
 				if (response.message) {
@@ -20,12 +20,4 @@ angular.module('auth.controller', ['components.auth'])
 				}
 			});
 	}
-
-	Auth.getCurrentUser()
-		.$promise
-		.then(function () {
-			$state.go('tab.dash');
-		}).catch(function (response) {
-			Auth.logout();
-		});
 });
