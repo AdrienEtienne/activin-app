@@ -29,10 +29,10 @@ module.exports = function (config) {
     files: [
       // bower:js
       'www/lib/angular/angular.js',
-      'www/lib/angular-animate/angular-animate.js',
-      'www/lib/angular-sanitize/angular-sanitize.js',
       'www/lib/angular-resource/angular-resource.js',
       'www/lib/angular-cookies/angular-cookies.js',
+      'www/lib/angular-animate/angular-animate.js',
+      'www/lib/angular-sanitize/angular-sanitize.js',
       'www/lib/angular-ui-router/release/angular-ui-router.js',
       'www/lib/ionic/js/ionic.js',
       'www/lib/ionic/js/ionic-angular.js',

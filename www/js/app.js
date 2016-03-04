@@ -42,19 +42,44 @@ angular.module('starter', [
       url: '/auth',
       templateUrl: 'templates/auth.html',
       controller: 'AuthCtrl',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      cache: false
     })
-    .state('tab', {
-      url: '/tab',
+    .state('home', {
+      url: '/home',
       abstract: true,
-      templateUrl: 'templates/tabs.html'
+      templateUrl: 'templates/menus.html'
     })
-    .state('tab.dash', {
+    .state('home.dash', {
       url: '/dash',
       views: {
-        'tab-dash': {
-          templateUrl: 'templates/tab-dash.html',
+        'home-dash': {
+          templateUrl: 'templates/dash.html',
           controller: 'DashCtrl'
+        }
+      }
+    })
+    .state('home.account', {
+      url: '/account',
+      views: {
+        'home-dash': {
+          templateUrl: 'templates/account/list.html'
+        }
+      }
+    })
+    .state('home.mysports', {
+      url: '/account/mysports',
+      views: {
+        'home-dash': {
+          templateUrl: 'templates/account/my-sports.html'
+        }
+      }
+    })
+    .state('home.information', {
+      url: '/information',
+      views: {
+        'home-dash': {
+          templateUrl: 'templates/information.html'
         }
       }
     });

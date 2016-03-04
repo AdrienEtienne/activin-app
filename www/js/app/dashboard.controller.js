@@ -5,13 +5,6 @@ angular.module('dashboard.controller', [
 
 .controller('DashCtrl', function ($scope, $resource, appConfig, Auth) {
 	var sport = $resource(appConfig.apiUrl + '/api/sports');
-	$scope.sports = sport.query(
-		function (data) {
-			console.log(data);
-		},
-		function (err) {
-			console.log(err);
-		});
-
+	$scope.sports = sport.query();
 	$scope.user = Auth.getCurrentUser();
 });
