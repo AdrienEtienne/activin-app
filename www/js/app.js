@@ -12,7 +12,7 @@ angular.module('starter', [
   'starter.services'
 ])
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, Auth, $state) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -26,6 +26,12 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
   });
+
+  Auth.getCurrentUser().$promise.then(function () {
+    $state.go('home.dash');
+  }).catch(function () {
+    $state.go('auth');
+  })
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {

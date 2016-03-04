@@ -7,7 +7,7 @@
     var currentUser = {};
     var userRoles = appConfig.userRoles || [];
 
-    if (window.localStorage['token'] /*$cookies.get('token')*/ ) {
+    if (window.localStorage['token']) {
       currentUser = User.get();
     }
 
