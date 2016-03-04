@@ -1,4 +1,6 @@
-angular.module('account.controller', ['components.auth'])
+angular.module('account.controller', [
+		'components.auth'
+	])
 	.controller('AccountCtrl', function ($scope, Auth, $state) {
 
 		$scope.logout = function () {

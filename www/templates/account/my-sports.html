@@ -1,5 +1,13 @@
 <ion-view title="My Sports">
-  <ion-content class="has-header" padding="true">
-    <h1>List of sports</h1>
-  </ion-content>
+	<ion-content class="has-header">
+		<h1>List of sports</h1>
+		<div class="card" ng-repeat="sport in sports">
+			<div class="item item-divider">
+				{{sport.name}}
+			</div>
+			<div class="item item-text-wrap">
+				Id: {{sport._id}}
+			</div>
+		</div>
+	</ion-content>
 </ion-view>
