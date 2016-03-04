@@ -61,12 +61,16 @@ angular.module('starter', [
     })
     .state('home.account', {
       url: '/account',
-      templateUrl: 'templates/account/list.html'
+      views: {
+        'home-dash': {
+          templateUrl: 'templates/account/list.html'
+        }
+      }
     })
-    .state('home.account.mysports', {
+    .state('home.mysports', {
       url: '/account/mysports',
       views: {
-        'parameter': {
+        'home-dash': {
           templateUrl: 'templates/account/my-sports.html'
         }
       }
