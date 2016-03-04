@@ -7,6 +7,7 @@
 		"user",
 		"admin"
 	],
+	"version": "1.0.0-alpha.1",
 	"apiUrl": "http://localhost:9000"
 })
 
