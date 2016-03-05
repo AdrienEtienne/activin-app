@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/AdrienEtienne/activin-app.svg?branch=master)](https://travis-ci.org/AdrienEtienne/activin-app)
+
 # ActivIn-App
 
 Mobile Application for ActivIn.
