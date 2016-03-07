@@ -155,18 +155,32 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('www/js'))
 });
 
-gulp.task('sequence', done => {
+gulp.task('sequence:dev', done => {
   runSequence('cli-check', 'env:dev', 'constant', 'wiredep:test', 'inject', done);
 });
 
-gulp.task('test', ['sequence'], (done) => {
+gulp.task('sequence:production', done => {
+  runSequence('cli-check', 'env:prod', 'constant', 'inject', done);
+});
+
+gulp.task('test', ['sequence:dev'], (done) => {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('serve', ['sequence'], (done) => {
+gulp.task('serve', ['sequence:dev'], (done) => {
   sh.exec('ionic serve');
+  done();
+});
+
+gulp.task('build', ['sequence:production'], (done) => {
+  sh.exec('ionic build');
+  done();
+});
+
+gulp.task('build:android', ['sequence:production'], (done) => {
+  sh.exec('ionic build android');
   done();
 });
