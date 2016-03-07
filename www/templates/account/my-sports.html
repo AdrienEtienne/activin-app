@@ -1,5 +1,23 @@
 <ion-view title="My Sports">
-  <ion-content class="has-header" padding="true">
-    <h1>List of sports</h1>
-  </ion-content>
+	<ion-content class="has-header">
+		<div class="item item-divider">
+			Selected
+		</div>
+		<div class="item item-button-right" ng-repeat="sport in mySports track by $index| orderBy : 'name'">
+			<span ng-bind="sport.name"></span>
+			<button class="button button-clear button-assertive" ng-click="unselect(sport,$index)">
+			<i class="icon ion-minus"></i>
+			</button>
+		</div>
+
+		<div class="item item-divider">
+			Not selected
+		</div>
+		<div class="item item-button-right" ng-repeat="sport in noneMySports track by $index | orderBy : 'name'">
+			<span ng-bind="sport.name"></span>
+			<button class="button button-clear button-balanced" ng-click="select(sport,$index)">
+			<i class="icon ion-plus"></i>
+			</button>
+		</div>
+	</ion-content>
 </ion-view>

@@ -84,7 +84,8 @@ angular.module('starter', [
       url: '/account/mysports',
       views: {
         'home-dash': {
-          templateUrl: 'templates/account/my-sports.html'
+          templateUrl: 'templates/account/my-sports.html',
+          controller: 'MySportsAccountCtrl'
         }
       }
     })
