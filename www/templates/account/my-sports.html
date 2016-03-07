@@ -1,22 +1,23 @@
 <ion-view title="My Sports">
 	<ion-content class="has-header">
-		<h1>List of sports</h1>
-		<div class="card" ng-repeat="sport in mySports">
-			<div class="item item-divider">
-				{{sport.name}}
-			</div>
-			<div class="item item-text-wrap">
-				Id: {{sport._id}}
-			</div>
+		<div class="item item-divider">
+			Selected
 		</div>
-		<h1>None mine sports</h1>
-		<div class="card" ng-repeat="sport in noneMySports">
-			<div class="item item-divider">
-				{{sport.name}}
-			</div>
-			<div class="item item-text-wrap">
-				Id: {{sport._id}}
-			</div>
+		<div class="item item-button-right" ng-repeat="sport in vm.mySports| orderBy : 'name'">
+			<span ng-bind="sport.name"></span>
+			<button class="button button-outline button-assertive">
+			<i class="icon ion-minus"></i>
+			</button>
+		</div>
+
+		<div class="item item-divider">
+			Not selected
+		</div>
+		<div class="item item-button-right" ng-repeat="sport in vm.noneMySports | orderBy : 'name'">
+			<span ng-bind="sport.name"></span>
+			<button class="button button-outline button-balanced">
+			<i class="icon ion-plus"></i>
+			</button>
 		</div>
 	</ion-content>
 </ion-view>
