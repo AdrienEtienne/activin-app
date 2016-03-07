@@ -5,7 +5,7 @@
 		</div>
 		<div class="item item-button-right" ng-repeat="sport in mySports track by $index| orderBy : 'name'">
 			<span ng-bind="sport.name"></span>
-			<button class="button button-outline button-assertive" ng-click="unselect(sport,$index)">
+			<button class="button button-clear button-assertive" ng-click="unselect(sport,$index)">
 			<i class="icon ion-minus"></i>
 			</button>
 		</div>
@@ -15,7 +15,7 @@
 		</div>
 		<div class="item item-button-right" ng-repeat="sport in noneMySports track by $index | orderBy : 'name'">
 			<span ng-bind="sport.name"></span>
-			<button class="button button-outline button-balanced" ng-click="select(sport,$index)">
+			<button class="button button-clear button-balanced" ng-click="select(sport,$index)">
 			<i class="icon ion-plus"></i>
 			</button>
 		</div>
