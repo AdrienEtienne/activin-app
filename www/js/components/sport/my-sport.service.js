@@ -13,6 +13,13 @@
 					method: 'mine'
 				}
 			},
+			noneMine: {
+				method: 'GET',
+				isArray: true,
+				params: {
+					method: 'noneMine'
+				}
+			},
 			select: {
 				method: 'POST',
 				params: {
