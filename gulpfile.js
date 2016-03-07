@@ -72,6 +72,7 @@ gulp.task('cli-check', ['git-check'], function (done) {
 });
 
 // PERSO
+var runSequence = require('run-sequence');
 var wiredep = require('wiredep').stream;
 var KarmaServer = require('karma').Server;
 var inject = require('gulp-inject');
@@ -112,8 +113,8 @@ gulp.task('wiredep:test', () => {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('inject', ['inject:js', 'inject:css'], cb => {
-  cb();
+gulp.task('inject', cb => {
+  runSequence('inject:js', 'inject:css', cb);
 });
 
 gulp.task('inject:js', () => {
@@ -154,20 +155,18 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('www/js'))
 });
 
-gulp.task('test', ['cli-check', 'env:dev', 'constant', 'wiredep:test'], (done) => {
+gulp.task('sequence', done => {
+  runSequence('cli-check', 'env:dev', 'constant', 'wiredep:test', 'inject', done);
+});
+
+gulp.task('test', ['sequence'], (done) => {
   new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('serve', [
-  'cli-check',
-  'env:dev',
-  'constant',
-  'wiredep:client',
-  'inject'
-], (done) => {
+gulp.task('serve', ['sequence'], (done) => {
   sh.exec('ionic serve');
   done();
 });
