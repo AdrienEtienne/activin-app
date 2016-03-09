@@ -175,6 +175,11 @@ gulp.task('serve', ['sequence:dev'], (done) => {
   done();
 });
 
+gulp.task('serve:dist', ['sequence:production'], (done) => {
+  sh.exec('ionic serve');
+  done();
+});
+
 gulp.task('build', ['sequence:production'], (done) => {
   sh.exec('ionic build');
   done();
