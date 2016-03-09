@@ -1,18 +1,20 @@
 <ion-view view-title="Authentication">
-<ion-content>
-<div class="item">
-	<label class="item item-input">
-		<input type="email" name="email" class="form-control" ng-model="vm.user.email" required>
-	</label>
-	<label class="item item-input">
-		<input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
-	</label>
-	<button class="button button-full button-positive" ng-click="vm.login()" >
-	Submit
-	</button>
-</div>
-</ion-content>
-<div class="bar bar-footer bar-assertive" ng-show="vm.error">
-  <div class="title">{{vm.error}}</div>
-</div>
+	<ion-content>
+		<div class="list">
+			<label class="item item-input">
+				<input type="email" name="email" class="form-control" ng-model="vm.user.email" required>
+			</label>
+			<label class="item item-input">
+				<input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
+			</label>
+			<div class="padding">
+				<button class="button button-full button-positive" ng-click="vm.login()" >
+				Submit
+				</button>
+			</div>
+		</div>
+	</ion-content>
+	<div class="bar bar-footer bar-assertive" ng-show="vm.error">
+		<div class="title">{{vm.error}}</div>
+	</div>
 </ion-view>
