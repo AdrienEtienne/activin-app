@@ -13,7 +13,7 @@
 		<div class="item item-divider">
 			Not selected
 		</div>
-		<div class="item item-button-right" ng-repeat="sport in noneMySports track by $index | orderBy : 'name'">
+		<div class="item item-button-right" ng-repeat="sport in notMySports track by $index | orderBy : 'name'">
 			<span ng-bind="sport.name"></span>
 			<button class="button button-clear button-balanced" ng-click="select(sport,$index)">
 			<i class="icon ion-plus"></i>

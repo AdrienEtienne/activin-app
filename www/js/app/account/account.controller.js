@@ -1,5 +1,6 @@
 angular.module('account.controller', [
-		'components.auth'
+		'components.auth',
+		'starter.services'
 	])
 	.controller('AccountCtrl', function ($scope, Auth, $state) {
 
