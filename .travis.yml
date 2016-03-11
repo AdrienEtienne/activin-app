@@ -9,3 +9,8 @@ before_script:
   - npm install -g bower cordova ionic
   - npm install
   - bower install
+
+branches:
+  only:
+    - master
+    - develop
