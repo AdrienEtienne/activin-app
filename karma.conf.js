@@ -31,6 +31,7 @@ module.exports = function (config) {
       'www/lib/angular/angular.js',
       'www/lib/angular-resource/angular-resource.js',
       'www/lib/angular-cookies/angular-cookies.js',
+      'www/lib/ngCordova/dist/ng-cordova.js',
       'www/lib/angular-animate/angular-animate.js',
       'www/lib/angular-sanitize/angular-sanitize.js',
       'www/lib/angular-ui-router/release/angular-ui-router.js',
@@ -40,6 +41,7 @@ module.exports = function (config) {
       // endbower
       'www/js/**/*.js',
       'www/js/**/*.spec.js',
+      'www/js/**/*.mock.js',
       'www/templates/**/*.html'
     ],
 
