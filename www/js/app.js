@@ -31,7 +31,6 @@ angular.module('starter', [
         .login(Auth.getLogin(), Auth.getPassword())
         .then(function () {
           $state.go('home.dash');
-          hideSplashScreen();
         }).catch(function () {
           $state.go('login');
         });
@@ -55,7 +54,8 @@ angular.module('starter', [
     .state('login', {
       url: '/login',
       templateUrl: 'templates/auth/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl',
+      cache: false
     })
     .state('home', {
       url: '/home',
