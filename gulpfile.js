@@ -80,6 +80,7 @@ var debug = require('gulp-debug');
 var ngConstant = require('gulp-ng-constant');
 var env = require('gulp-env');
 var rename = require('gulp-rename');
+var replace = require('gulp-replace');
 
 gulp.task('env:dev', () => {
   env({
@@ -159,12 +160,20 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('www/js'))
 });
 
+gulp.task('replace-build-version', function () {
+  gulp.src('./config.xml')
+    .pipe(replace(
+      /version=\"[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(-alpha\.[0-9]{1,3})?\"/,
+      'version=\"' + require('./package.json').version + '\"'))
+    .pipe(gulp.dest('./'));
+});
+
 gulp.task('sequence:dev', done => {
   runSequence('cli-check', 'env:dev', 'constant', 'wiredep', 'inject', done);
 });
 
 gulp.task('sequence:production', done => {
-  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', done);
+  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', 'replace-build-version', done);
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {
@@ -191,5 +200,10 @@ gulp.task('build', ['sequence:production'], (done) => {
 
 gulp.task('build:android', ['sequence:production'], (done) => {
   sh.exec('ionic build android');
+  done();
+});
+
+gulp.task('build:android:release', ['sequence:production'], (done) => {
+  sh.exec('ionic build android --release');
   done();
 });
