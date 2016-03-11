@@ -34,7 +34,7 @@ angular.module('starter', [
         $state.go('home.dash');
       }).catch(function () {
         $state.go('login');
-      })
+      });
   } else {
     Auth.logout();
     $state.go('login');

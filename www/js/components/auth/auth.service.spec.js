@@ -14,18 +14,6 @@ describe('Service: Auth', function () {
 		window.localStorage['token'] = undefined;
 	}));
 
-	describe('Logout()', function () {
-		it('should not have token', function () {
-			should.not.exist(Auth.getToken());
-		});
-
-		it('should not have password', function () {
-			window.localStorage['token'] = 'token';
-			Auth.logout();
-			should.not.exist(Auth.getToken());
-		});
-	});
-
 	describe('Login/Password/Token', function () {
 		beforeEach(function () {
 			$httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
