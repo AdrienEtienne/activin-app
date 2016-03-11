@@ -179,8 +179,27 @@
        *
        * @return {Boolean} - local login presents
        */
-      hasLogin: function () {
-        return window.localStorage['email'] !== 'undefined' && window.localStorage['password'] !== 'undefined';
+      getLogin: function () {
+        if (window.localStorage['email'] !== 'undefined' &&
+          window.localStorage['email'] !== 'null') {
+          return window.localStorage['email']
+        } else {
+          return null;
+        }
+      },
+
+      /**
+       * Test if login info presents
+       *
+       * @return {Boolean} - local login presents
+       */
+      getPassword: function () {
+        if (window.localStorage['password'] !== 'undefined' &&
+          window.localStorage['password'] !== 'null') {
+          return window.localStorage['password']
+        } else {
+          return null;
+        }
       },
 
       /**
@@ -189,7 +208,12 @@
        * @return {String} - a token string used for authenticating
        */
       getToken: function () {
-        return window.localStorage['token'];
+        if (window.localStorage['token'] !== 'undefined' &&
+          window.localStorage['token'] !== 'null') {
+          return window.localStorage['token']
+        } else {
+          return null;
+        }
       }
     };
 

@@ -4,6 +4,8 @@ angular.module('auth.controller', ['components.auth'])
 	var that = this;
 
 	$scope.user = {};
+	$scope.user.email = Auth.getLogin();
+	$scope.user.password = Auth.getPassword();
 	$scope.isLogin = false;
 	$scope.errors = null;
 
@@ -17,7 +19,9 @@ angular.module('auth.controller', ['components.auth'])
 			})
 			.catch(function (response) {
 				$scope.isLogin = false;
-				if (response.message) {
+				if (!response) {
+					$scope.error = 'No response';
+				} else if (response.message) {
 					$scope.error = response.message;
 				} else {
 					$scope.error = 'Unknown error';

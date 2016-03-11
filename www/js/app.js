@@ -27,13 +27,14 @@ angular.module('starter', [
     }
   });
 
-  if (Auth.hasLogin()) {
-    var tmp = Auth.login(window.localStorage['email'], window.localStorage['password']);
-    tmp.then(function () {
-      $state.go('home.dash');
-    }).catch(function () {
-      $state.go('login');
-    })
+  if (Auth.getLogin() && Auth.getPassword()) {
+    Auth
+      .login(Auth.getLogin(), Auth.getPassword())
+      .then(function () {
+        $state.go('home.dash');
+      }).catch(function () {
+        $state.go('login');
+      });
   } else {
     Auth.logout();
     $state.go('login');
@@ -53,8 +54,7 @@ angular.module('starter', [
     .state('login', {
       url: '/login',
       templateUrl: 'templates/auth/login.html',
-      controller: 'LoginCtrl',
-      cache: false
+      controller: 'LoginCtrl'
     })
     .state('home', {
       url: '/home',
