@@ -2,10 +2,10 @@
 	<ion-content>
 		<div class="list">
 			<label class="item item-input">
-				<input ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" required>
+				<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" required>
 			</label>
 			<label class="item item-input">
-				<input ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" required>
+				<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" required>
 			</label>
 			<div class="padding">
 				<button class="button button-full button-positive" ng-disabled="isLogin" ng-click="login()" >

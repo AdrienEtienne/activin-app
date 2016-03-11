@@ -96,6 +96,10 @@ gulp.task('env:prod', () => {
   });
 });
 
+gulp.task('wiredep', cb => {
+  runSequence('wiredep:client', 'wiredep:test', cb);
+});
+
 // inject bower components
 gulp.task('wiredep:client', () => {
   return gulp.src('www/index.html')
@@ -156,11 +160,11 @@ gulp.task('constant', function () {
 });
 
 gulp.task('sequence:dev', done => {
-  runSequence('cli-check', 'env:dev', 'constant', 'wiredep:test', 'inject', done);
+  runSequence('cli-check', 'env:dev', 'constant', 'wiredep', 'inject', done);
 });
 
 gulp.task('sequence:production', done => {
-  runSequence('cli-check', 'env:prod', 'constant', 'inject', done);
+  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', done);
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {

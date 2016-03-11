@@ -25,20 +25,20 @@ angular.module('starter', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-  });
 
-  if (Auth.getLogin() && Auth.getPassword()) {
-    Auth
-      .login(Auth.getLogin(), Auth.getPassword())
-      .then(function () {
-        $state.go('home.dash');
-      }).catch(function () {
-        $state.go('login');
-      });
-  } else {
-    Auth.logout();
-    $state.go('login');
-  }
+    if (Auth.getLogin() && Auth.getPassword()) {
+      Auth
+        .login(Auth.getLogin(), Auth.getPassword())
+        .then(function () {
+          $state.go('home.dash');
+        }).catch(function () {
+          $state.go('login');
+        });
+    } else {
+      Auth.logout();
+      $state.go('login');
+    }
+  });
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -54,7 +54,8 @@ angular.module('starter', [
     .state('login', {
       url: '/login',
       templateUrl: 'templates/auth/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl',
+      cache: false
     })
     .state('home', {
       url: '/home',
