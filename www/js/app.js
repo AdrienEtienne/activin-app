@@ -32,11 +32,11 @@ angular.module('starter', [
     tmp.then(function () {
       $state.go('home.dash');
     }).catch(function () {
-      $state.go('auth');
+      $state.go('login');
     })
   } else {
     Auth.logout();
-    $state.go('auth');
+    $state.go('login');
   }
 })
 
@@ -99,6 +99,6 @@ angular.module('starter', [
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/auth');
+  $urlRouterProvider.otherwise('/login');
 
 });

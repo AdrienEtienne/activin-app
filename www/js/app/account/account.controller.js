@@ -6,6 +6,6 @@ angular.module('account.controller', [
 
 		$scope.logout = function () {
 			Auth.logout();
-			$state.go('auth');
+			$state.go('login');
 		}
 	});
