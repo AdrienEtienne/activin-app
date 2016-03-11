@@ -50,11 +50,10 @@ angular.module('starter', [
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    .state('auth', {
-      url: '/auth',
-      templateUrl: 'templates/auth.html',
-      controller: 'AuthCtrl',
-      controllerAs: 'vm',
+    .state('login', {
+      url: '/login',
+      templateUrl: 'templates/auth/login.html',
+      controller: 'LoginCtrl',
       cache: false
     })
     .state('home', {
