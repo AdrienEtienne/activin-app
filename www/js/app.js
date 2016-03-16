@@ -12,7 +12,7 @@ angular.module('starter', [
   'starter.services'
 ])
 
-.run(function ($ionicPlatform, Auth, $state) {
+.run(function ($ionicPlatform, Auth, $state, Location) {
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -30,6 +30,12 @@ angular.module('starter', [
       Auth
         .login(Auth.getLogin(), Auth.getPassword())
         .then(function () {
+          if (Auth.getCurrentUser().keepLocation == true) {
+            Location.getLongLat().then(function (loc) {
+              Auth.setCurrentLocation(loc.long, loc.lat);
+            });
+          }
+
           $state.go('home.dash');
         }).catch(function () {
           $state.go('login');

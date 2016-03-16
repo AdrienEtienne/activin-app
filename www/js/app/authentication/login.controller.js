@@ -1,6 +1,6 @@
 angular.module('auth.controller', ['components.auth', 'components.location'])
 
-.controller('LoginCtrl', function ($scope, Auth, User, $state, Location, $q) {
+.controller('LoginCtrl', function ($scope, Auth, $state, Location, $q) {
 	var that = this;
 
 	$scope.user = {};
@@ -31,6 +31,7 @@ angular.module('auth.controller', ['components.auth', 'components.location'])
 		Auth.login($scope.user.email, $scope.user.password)
 			.then(function () {
 				$scope.isLogin = false;
+				that.updateLocation();
 				$state.go('home.dash');
 			})
 			.catch(function (response) {
