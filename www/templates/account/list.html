@@ -4,14 +4,15 @@
 	</ion-nav-buttons>
 	<ion-content has-header="true">
 		<div class="list">
-			<a class="item item-avatar" href="#/home/account/mysports">
-				<img src="http://span.com.ng/images/basketball1.png" />
-				<h2>My Sports</h2>
-				<p>Select your sports</p>
+			<a class="item item-icon-right" href="#/home/account/mysports">
+				<i class="icon ion-arrow-right-c"></i>
+				My Sports
 			</a>
-
+			<ion-toggle ng-model="keepLocation" ng-model-options="{ getterSetter: true }" toggle-class="toggle-positive">
+			Save Current Location
+			</ion-toggle>
 			<ion-item class="item item-icon-right" ng-click="logout()">
-			<i class="icon ion-log-out"></i>
+				<i class="icon ion-log-out"></i>
 				Logout
 			</ion-item>
 		</div>

@@ -175,9 +175,9 @@
       },
 
       /**
-       * Test if login info presents
+       * Test if login is present
        *
-       * @return {Boolean} - local login presents
+       * @return {Boolean} - local login present
        */
       getLogin: function () {
         if (window.localStorage['email'] !== 'undefined' &&
@@ -189,9 +189,9 @@
       },
 
       /**
-       * Test if login info presents
+       * Test if password is present
        *
-       * @return {Boolean} - local login presents
+       * @return {Boolean} - local password present
        */
       getPassword: function () {
         if (window.localStorage['password'] !== 'undefined' &&
@@ -203,7 +203,7 @@
       },
 
       /**
-       * Test if
+       * Test if token is present
        *
        * @return {String} - a token string used for authenticating
        */
@@ -214,7 +214,38 @@
         } else {
           return null;
         }
-      }
+      },
+
+      /**
+       * Change location
+       *
+       * @param  {Number}   long
+       * @param  {Number}   lat
+       * @return {Promise}
+       */
+      setCurrentLocation: function (long, lat) {
+        var keepLocation;
+        var location;
+        if (long !== undefined && lat !== undefined) {
+          location = [long, lat];
+          keepLocation = true;
+        } else {
+          location = [];
+          keepLocation = false;
+        }
+
+        return User.setLocation({
+          id: currentUser._id
+        }, {
+          keepLocation: keepLocation,
+          location: location
+        }, function (data) {
+          currentUser.keepLocation = data.keepLocation;
+          currentUser.location = data.location;
+        }, function (err) {
+          return safeCb(callback)(err);
+        }).$promise;
+      },
     };
 
     return Auth;
