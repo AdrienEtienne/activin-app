@@ -12,6 +12,12 @@
           controller: 'password'
         }
       },
+      setLocation: {
+        method: 'PUT',
+        params: {
+          controller: 'setLocation'
+        }
+      },
       get: {
         method: 'GET',
         params: {

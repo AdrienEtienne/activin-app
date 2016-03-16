@@ -3,11 +3,15 @@
 angular.module('$cordovaGeolocationMock', [])
 	.factory('$cordovaGeolocation', function ($q) {
 		var data = {
-			lat: 1,
-			long: 1
+			lat: 0,
+			long: 0
 		};
 
 		return {
+			setLongLat: function (long, lat) {
+				data.lat = lat;
+				data.long = long;
+			},
 			data: data,
 			getCurrentPosition: function (options) {
 				return $q(function (resolve, reject) {

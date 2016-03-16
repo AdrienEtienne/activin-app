@@ -3,7 +3,7 @@
 describe('Util: LocationService', function () {
 
 	// load the controller's module
-	beforeEach(module('components.util.location'));
+	beforeEach(module('components.location'));
 	beforeEach(module('$cordovaGeolocationMock'));
 
 	var Location, $rootScope, _$cordovaGeolocation;
@@ -15,9 +15,11 @@ describe('Util: LocationService', function () {
 	}));
 
 	it('should return location', function (done) {
-		Location.getLatLong().then(function (coords) {
-			coords.lat.should.equal(_$cordovaGeolocation.data.lat);
-			coords.long.should.equal(_$cordovaGeolocation.data.long);
+
+		_$cordovaGeolocation.setLongLat(1, 2);
+		Location.getLongLat().then(function (coords) {
+			coords.long.should.equal(1);
+			coords.lat.should.equal(2);
 			done();
 		});
 		$rootScope.$digest();

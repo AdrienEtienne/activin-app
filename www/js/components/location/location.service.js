@@ -17,7 +17,7 @@
 		};
 
 		var Location = {
-			getLatLong: function () {
+			getLongLat: function () {
 				var deferred = $q.defer();
 
 				$cordovaGeolocation
@@ -32,13 +32,13 @@
 					});
 
 				return deferred.promise;
-			}
+			},
 		};
 
 		return Location;
 	}
 
-	angular.module('components.util.location')
+	angular.module('components.location')
 		.factory('Location', LocationService);
 
 })();

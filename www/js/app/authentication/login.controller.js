@@ -1,6 +1,6 @@
-angular.module('auth.controller', ['components.auth'])
+angular.module('auth.controller', ['components.auth', 'components.location'])
 
-.controller('LoginCtrl', function ($scope, Auth, $state) {
+.controller('LoginCtrl', function ($scope, Auth, User, $state, Location, $q) {
 	var that = this;
 
 	$scope.user = {};
@@ -8,6 +8,22 @@ angular.module('auth.controller', ['components.auth'])
 	$scope.user.password = Auth.getPassword();
 	$scope.isLogin = false;
 	$scope.errors = null;
+
+	that.updateLocation = function () {
+		return $q(function (resolve, reject) {
+			if (Auth.getCurrentUser().keepLocation == true) {
+				Location.getLongLat().then(function (loc) {
+					Auth.setCurrentLocation(loc.long, loc.lat)
+						.then(resolve)
+						.catch(reject);
+				}).catch(reject);
+			} else {
+				resolve({
+					message: 'keepLocation disabled'
+				});
+			}
+		});
+	}
 
 	$scope.login = function () {
 		$scope.isLogin = true;
