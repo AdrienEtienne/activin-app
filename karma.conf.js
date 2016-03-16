@@ -28,16 +28,16 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
-      'www/lib/angular/angular.js',
-      'www/lib/angular-resource/angular-resource.js',
-      'www/lib/angular-cookies/angular-cookies.js',
-      'www/lib/ngCordova/dist/ng-cordova.js',
-      'www/lib/angular-animate/angular-animate.js',
-      'www/lib/angular-sanitize/angular-sanitize.js',
-      'www/lib/angular-ui-router/release/angular-ui-router.js',
-      'www/lib/ionic/js/ionic.js',
-      'www/lib/ionic/js/ionic-angular.js',
-      'www/lib/angular-mocks/angular-mocks.js',
+      'app/lib/angular/angular.js',
+      'app/lib/angular-resource/angular-resource.js',
+      'app/lib/angular-cookies/angular-cookies.js',
+      'app/lib/ngCordova/dist/ng-cordova.js',
+      'app/lib/angular-animate/angular-animate.js',
+      'app/lib/angular-sanitize/angular-sanitize.js',
+      'app/lib/angular-ui-router/release/angular-ui-router.js',
+      'app/lib/ionic/js/ionic.js',
+      'app/lib/ionic/js/ionic-angular.js',
+      'app/lib/angular-mocks/angular-mocks.js',
       // endbower
       'www/js/**/*.js',
       'www/js/**/*.spec.js',

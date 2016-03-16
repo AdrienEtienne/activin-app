@@ -8,7 +8,8 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/*.scss'],
+  js: ['./app/js/**/*.js']
 };
 
 gulp.task('default', ['sass']);
@@ -30,49 +31,19 @@ gulp.task('sass', function (done) {
 
 gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.js, ['copy:js']);
 });
 
-gulp.task('install', ['git-check'], function () {
+gulp.task('install', function () {
   return bower.commands.install()
     .on('log', function (data) {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
     });
 });
 
-gulp.task('git-check', function (done) {
-  if (!sh.which('git')) {
-    console.log(
-      '  ' + gutil.colors.red('Git is not installed.'),
-      '\n  Git, the version control system, is required to download Ionic.',
-      '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
-      '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
-    );
-    process.exit(1);
-  }
-  done();
-});
-
-gulp.task('cli-check', ['git-check'], function (done) {
-  if (!sh.which('cordova')) {
-    console.log(
-      '  ' + gutil.colors.red('cordova is not installed.'),
-      '\n  Cordova, the cross-platform dev tool is required.',
-      '\n  Install with command ' + gutil.colors.cyan('npm install -g cordova')
-    );
-    process.exit(1);
-  } else if (!sh.which('ionic')) {
-    console.log(
-      '  ' + gutil.colors.red('ionic is not installed.'),
-      '\n  Ionic, the cordova framework based on AngularJS is required.',
-      '\n  Install with command ' + gutil.colors.cyan('npm install -g ionic')
-    );
-    process.exit(1);
-  }
-  done();
-});
-
 // PERSO
 var runSequence = require('run-sequence');
+var clean = require('gulp-clean');
 var ignore = require('gulp-ignore');
 var wiredep = require('wiredep').stream;
 var KarmaServer = require('karma').Server;
@@ -83,7 +54,48 @@ var env = require('gulp-env');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
+var minify = require('gulp-minify');
 
+// CLEAN
+gulp.task('clean', function () {
+  return gulp.src(['www', '.tmp'], {
+      read: false
+    })
+    .pipe(clean());
+});
+
+// COPY
+gulp.task('copy-dev', cb => {
+  return gulp.src('app/**/*')
+    .pipe(ignore.exclude(/.*\.spec\.js/))
+    .pipe(gulp.dest('www'));
+});
+gulp.task('copy-production', cb => {
+  runSequence('copy:templates', 'copy:lib', 'copy:assets', cb);
+});
+
+gulp.task('copy:templates', function () {
+  gulp.src('app/**/*.html')
+    .pipe(gulp.dest('www'));
+});
+
+gulp.task('copy:lib', function () {
+  gulp.src('app/lib/**/*')
+    .pipe(gulp.dest('www/lib'));
+});
+
+gulp.task('copy:assets', function () {
+  gulp.src('app/assets/**/*')
+    .pipe(gulp.dest('www/assets'));
+});
+
+gulp.task('copy:js', function () {
+  gulp.src('app/js/**/*')
+    .pipe(ignore.exclude(/.*\.spec\.js/))
+    .pipe(gulp.dest('www/js'));
+});
+
+// ENVIRONMENT
 gulp.task('env:dev', () => {
   env({
     vars: {
@@ -103,11 +115,12 @@ gulp.task('wiredep', cb => {
   runSequence('wiredep:client', 'wiredep:test', cb);
 });
 
-// inject bower components
+// INJECT DEPENDANCIES
 gulp.task('wiredep:client', () => {
   return gulp.src('www/index.html')
     .pipe(wiredep({
-      ignorePath: './www'
+      ignorePath: './www',
+      directory: './www/lib/'
     }))
     .pipe(gulp.dest('./www/'));
 });
@@ -120,6 +133,7 @@ gulp.task('wiredep:test', () => {
     .pipe(gulp.dest('./'));
 });
 
+// INJECT APPLICATION FILES
 gulp.task('inject', cb => {
   runSequence('inject:js', 'inject:css', cb);
 });
@@ -147,7 +161,7 @@ gulp.task('inject:css', () => {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src('./www/js/**/*.js')
+  return gulp.src('./app/js/**/*.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(jshint())
@@ -155,7 +169,7 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('jshintTest', function () {
-  return gulp.src('./www/js/**/*.spec.js')
+  return gulp.src('./app/js/**/*.spec.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
@@ -174,6 +188,19 @@ gulp.task('constant', function () {
     .pipe(rename({
       basename: 'app.constant'
     }))
+    .pipe(gulp.dest('app/js'))
+});
+
+gulp.task('concat:script', function () {
+  return gulp.src('app/js/**/*.js')
+    .pipe(ignore.exclude(/\.spec\.js/))
+    .pipe(concat('all.js'))
+    .pipe(gulp.dest('.tmp/js'))
+});
+
+gulp.task('compress:script', function () {
+  return gulp.src('.tmp/js/*.js')
+    .pipe(minify())
     .pipe(gulp.dest('www/js'))
 });
 
@@ -186,11 +213,11 @@ gulp.task('replace-build-version', function () {
 });
 
 gulp.task('sequence:dev', done => {
-  runSequence('cli-check', 'env:dev', 'constant', 'wiredep', 'inject', done);
+  runSequence('env:dev', 'clean', 'copy-dev', 'constant', 'wiredep', 'inject', done);
 });
 
 gulp.task('sequence:production', done => {
-  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', 'jshint', 'replace-build-version', done);
+  runSequence('env:prod', 'constant', 'wiredep', 'inject', 'jshint', 'replace-build-version', done);
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {
