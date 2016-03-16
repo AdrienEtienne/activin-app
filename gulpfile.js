@@ -9,7 +9,9 @@ var sh = require('shelljs');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
-  js: ['./app/js/**/*.js']
+  js: ['./app/js/**/*.js'],
+  html: ['./app/templates/**/*.html'],
+  css: ['./app/css/**/*.css']
 };
 
 gulp.task('default', ['sass']);
@@ -18,20 +20,26 @@ gulp.task('sass', function (done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
     .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
+    .pipe(gulp.dest('./app/css/'))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
     .pipe(rename({
       extname: '.min.css'
     }))
-    .pipe(gulp.dest('./www/css/'))
+    .pipe(gulp.dest('./app/css/'))
     .on('end', done);
 });
 
 gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.js, ['copy:js']);
+  gulp.watch(paths.html, ['copy:html']);
+  gulp.watch(paths.css, ['copy:css']);
+  if (process.env.NODE_ENV === 'development') {
+    gulp.watch(paths.js, ['copy:js']);
+  } else if (process.env.NODE_ENV === 'production') {
+    gulp.watch(paths.js, ['concat:js']);
+  }
 });
 
 gulp.task('install', function () {
@@ -54,7 +62,6 @@ var env = require('gulp-env');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
-var minify = require('gulp-minify');
 
 // CLEAN
 gulp.task('clean', function () {
@@ -71,28 +78,40 @@ gulp.task('copy-dev', cb => {
     .pipe(gulp.dest('www'));
 });
 gulp.task('copy-production', cb => {
-  runSequence('copy:templates', 'copy:lib', 'copy:assets', cb);
+  return runSequence('copy:lib', 'copy:templates', 'copy:assets', 'copy:css', cb);
 });
 
 gulp.task('copy:templates', function () {
-  gulp.src('app/**/*.html')
+  return gulp.src('app/**/*.html')
     .pipe(gulp.dest('www'));
 });
 
 gulp.task('copy:lib', function () {
-  gulp.src('app/lib/**/*')
+  return gulp.src('app/lib/**/*')
     .pipe(gulp.dest('www/lib'));
 });
 
 gulp.task('copy:assets', function () {
-  gulp.src('app/assets/**/*')
+  return gulp.src('app/assets/**/*')
     .pipe(gulp.dest('www/assets'));
 });
 
+gulp.task('copy:css', function () {
+  return gulp.src('app/css/**/*')
+    .pipe(gulp.dest('www/css'));
+});
+
 gulp.task('copy:js', function () {
-  gulp.src('app/js/**/*')
+  return gulp.src('app/js/**/*')
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(gulp.dest('www/js'));
+});
+
+gulp.task('concat:js', function () {
+  return gulp.src('app/js/**/*.js')
+    .pipe(ignore.exclude(/\.spec\.js/))
+    .pipe(concat('all.js'))
+    .pipe(gulp.dest('www/js'))
 });
 
 // ENVIRONMENT
@@ -111,11 +130,11 @@ gulp.task('env:prod', () => {
   });
 });
 
+// INJECT DEPENDANCIES
 gulp.task('wiredep', cb => {
   runSequence('wiredep:client', 'wiredep:test', cb);
 });
 
-// INJECT DEPENDANCIES
 gulp.task('wiredep:client', () => {
   return gulp.src('www/index.html')
     .pipe(wiredep({
@@ -191,19 +210,6 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('app/js'))
 });
 
-gulp.task('concat:script', function () {
-  return gulp.src('app/js/**/*.js')
-    .pipe(ignore.exclude(/\.spec\.js/))
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('.tmp/js'))
-});
-
-gulp.task('compress:script', function () {
-  return gulp.src('.tmp/js/*.js')
-    .pipe(minify())
-    .pipe(gulp.dest('www/js'))
-});
-
 gulp.task('replace-build-version', function () {
   gulp.src('./config.xml')
     .pipe(replace(
@@ -217,7 +223,16 @@ gulp.task('sequence:dev', done => {
 });
 
 gulp.task('sequence:production', done => {
-  runSequence('env:prod', 'constant', 'wiredep', 'inject', 'jshint', 'replace-build-version', done);
+  runSequence(
+    'env:prod',
+    'clean',
+    'copy-production',
+    'constant',
+    'concat:js',
+    'wiredep:client',
+    'inject',
+    'jshint',
+    'replace-build-version', done);
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {
