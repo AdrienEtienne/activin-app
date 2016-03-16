@@ -11,7 +11,7 @@ angular.module('auth.controller', ['components.auth', 'components.location'])
 
 	that.updateLocation = function () {
 		return $q(function (resolve, reject) {
-			if (Auth.getCurrentUser().keepLocation == true) {
+			if (Auth.getCurrentUser().keepLocation === true) {
 				Location.getLongLat().then(function (loc) {
 					Auth.setCurrentLocation(loc.long, loc.lat)
 						.then(resolve)
@@ -23,7 +23,7 @@ angular.module('auth.controller', ['components.auth', 'components.location'])
 				});
 			}
 		});
-	}
+	};
 
 	$scope.login = function () {
 		$scope.isLogin = true;
@@ -44,5 +44,5 @@ angular.module('auth.controller', ['components.auth', 'components.location'])
 					$scope.error = 'Unknown error';
 				}
 			});
-	}
+	};
 });

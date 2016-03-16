@@ -4,5 +4,4 @@ angular.module('dashboard.controller', [
 
 .controller('DashCtrl', function ($scope, Auth) {
 	$scope.user = Auth.getCurrentUser();
-
 });

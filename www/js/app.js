@@ -30,7 +30,7 @@ angular.module('starter', [
       Auth
         .login(Auth.getLogin(), Auth.getPassword())
         .then(function () {
-          if (Auth.getCurrentUser().keepLocation == true) {
+          if (Auth.getCurrentUser().keepLocation === true) {
             Location.getLongLat().then(function (loc) {
               Auth.setCurrentLocation(loc.long, loc.lat);
             });

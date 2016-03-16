@@ -73,6 +73,7 @@ gulp.task('cli-check', ['git-check'], function (done) {
 
 // PERSO
 var runSequence = require('run-sequence');
+var ignore = require('gulp-ignore');
 var wiredep = require('wiredep').stream;
 var KarmaServer = require('karma').Server;
 var inject = require('gulp-inject');
@@ -81,6 +82,7 @@ var ngConstant = require('gulp-ng-constant');
 var env = require('gulp-env');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
+var jshint = require('gulp-jshint');
 
 gulp.task('env:dev', () => {
   env({
@@ -144,6 +146,21 @@ gulp.task('inject:css', () => {
     .pipe(gulp.dest('www'));
 });
 
+gulp.task('jshint', function () {
+  return gulp.src('./www/js/**/*.js')
+    .pipe(ignore.exclude(/app\.constant\.js/))
+    .pipe(ignore.exclude(/.*\.spec\.js/))
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+gulp.task('jshintTest', function () {
+  return gulp.src('./www/js/**/*.spec.js')
+    .pipe(ignore.exclude(/app\.constant\.js/))
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
 gulp.task('constant', function () {
   return ngConstant({
       name: 'activinApp.constants',
@@ -173,7 +190,7 @@ gulp.task('sequence:dev', done => {
 });
 
 gulp.task('sequence:production', done => {
-  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', 'replace-build-version', done);
+  runSequence('cli-check', 'env:prod', 'constant', 'wiredep', 'inject', 'jshint', 'replace-build-version', done);
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {

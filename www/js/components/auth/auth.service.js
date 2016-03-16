@@ -24,9 +24,9 @@
             password: password
           })
           .then(function (res) {
-            window.localStorage['email'] = email;
-            window.localStorage['password'] = password;
-            window.localStorage['token'] = res.data.token;
+            window.localStorage.email = email;
+            window.localStorage.password = password;
+            window.localStorage.token = res.data.token;
             currentUser = User.get();
             return currentUser.$promise;
           })
@@ -45,9 +45,9 @@
        * Delete access token and user info
        */
       logout: function () {
-        window.localStorage['email'] = undefined;
-        window.localStorage['password'] = undefined;
-        window.localStorage['token'] = undefined;
+        window.localStorage.email = undefined;
+        window.localStorage.password = undefined;
+        window.localStorage.token = undefined;
         currentUser = {};
       },
 
@@ -61,7 +61,7 @@
       createUser: function (user, callback) {
         return User.save(user,
           function (data) {
-            window.localStorage['token'] = data.token;
+            window.localStorage.token = data.token;
             currentUser = User.get();
             return safeCb(callback)(null, user);
           },
@@ -180,9 +180,9 @@
        * @return {Boolean} - local login present
        */
       getLogin: function () {
-        if (window.localStorage['email'] !== 'undefined' &&
-          window.localStorage['email'] !== 'null') {
-          return window.localStorage['email']
+        if (window.localStorage.email !== 'undefined' &&
+          window.localStorage.email !== 'null') {
+          return window.localStorage.email;
         } else {
           return null;
         }
@@ -194,9 +194,9 @@
        * @return {Boolean} - local password present
        */
       getPassword: function () {
-        if (window.localStorage['password'] !== 'undefined' &&
-          window.localStorage['password'] !== 'null') {
-          return window.localStorage['password']
+        if (window.localStorage.password !== 'undefined' &&
+          window.localStorage.password !== 'null') {
+          return window.localStorage.password;
         } else {
           return null;
         }
@@ -208,9 +208,9 @@
        * @return {String} - a token string used for authenticating
        */
       getToken: function () {
-        if (window.localStorage['token'] !== 'undefined' &&
-          window.localStorage['token'] !== 'null') {
-          return window.localStorage['token']
+        if (window.localStorage.token !== 'undefined' &&
+          window.localStorage.token !== 'null') {
+          return window.localStorage.token;
         } else {
           return null;
         }
@@ -224,6 +224,8 @@
        * @return {Promise}
        */
       setCurrentLocation: function (long, lat) {
+        var oldKeepLocation = currentUser.keepLocation;
+        var oldLocation = currentUser.location;
         var keepLocation;
         var location;
         if (long !== undefined && lat !== undefined) {
@@ -242,8 +244,9 @@
         }, function (data) {
           currentUser.keepLocation = data.keepLocation;
           currentUser.location = data.location;
-        }, function (err) {
-          return safeCb(callback)(err);
+        }, function () {
+          currentUser.keepLocation = oldKeepLocation;
+          currentUser.location = oldLocation;
         }).$promise;
       },
     };

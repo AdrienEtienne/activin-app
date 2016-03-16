@@ -10,7 +10,7 @@ angular.module('account.controller', [
 
 		$scope.keepLocation = function (newVal) {
 			if (arguments.length) {
-				if (newVal == true) {
+				if (newVal === true) {
 					that.user.keepLocation = true;
 					Location.getLongLat().then(function (loc) {
 						Auth.setCurrentLocation(loc.long, loc.lat);
@@ -27,5 +27,5 @@ angular.module('account.controller', [
 		$scope.logout = function () {
 			Auth.logout();
 			$state.go('login');
-		}
+		};
 	});

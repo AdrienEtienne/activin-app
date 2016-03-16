@@ -1,7 +1,5 @@
 angular.module('account.controller')
 	.controller('MySportsAccountCtrl', function ($scope, MySport) {
-		var that = this;
-
 		$scope.myIsPending = true;
 		$scope.notMyIsPending = true;
 
@@ -22,7 +20,7 @@ angular.module('account.controller')
 				sport.isUpdating = false;
 				$scope.mySports.push(sport);
 			});
-		}
+		};
 
 		$scope.unselect = function (sport, index) {
 			sport.isUpdating = true;
@@ -31,7 +29,7 @@ angular.module('account.controller')
 				sport.isUpdating = false;
 				$scope.notMySports.push(sport);
 			});
-		}
+		};
 
 		$scope.sportIsUpdating = function (sport) {
 			if (sport && sport.isUpdating) {
@@ -39,5 +37,5 @@ angular.module('account.controller')
 			} else {
 				return false;
 			}
-		}
+		};
 	});

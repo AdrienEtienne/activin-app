@@ -11,10 +11,10 @@
 			enableHighAccuracy: false
 		};
 
-		var watchOptions = {
-			timeout: 3000,
-			enableHighAccuracy: false // may cause errors if true
-		};
+		// var watchOptions = {
+		// 	timeout: 3000,
+		// 	enableHighAccuracy: false // may cause errors if true
+		// };
 
 		var Location = {
 			getLongLat: function () {
