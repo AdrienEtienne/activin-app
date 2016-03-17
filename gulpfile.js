@@ -184,6 +184,11 @@ gulp.task('inject:css', () => {
     .pipe(gulp.dest('www'));
 });
 
+// LINT
+gulp.task('lint', cb => {
+  runSequence('jshint', 'jshintTest', cb);
+});
+
 gulp.task('jshint', function () {
   return gulp.src('./app/js/**/*.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
@@ -193,9 +198,11 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('jshintTest', function () {
+  var fs = require('fs');
+  var config = JSON.parse(fs.readFileSync('./.jshintrc-spec', "utf8"));
   return gulp.src('./app/js/**/*.spec.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
-    .pipe(jshint())
+    .pipe(jshint(config))
     .pipe(jshint.reporter('default'));
 });
 

@@ -7,3 +7,4 @@ platforms/
 plugins/
 app/lib/
 www
+npm-debug.log
