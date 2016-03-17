@@ -5,7 +5,6 @@ angular.module('account.controller', [
 	])
 	.controller('AccountCtrl', function ($scope, Auth, $state, Location) {
 		var that = this;
-
 		that.user = Auth.getCurrentUser();
 
 		$scope.keepLocation = function (newVal) {
