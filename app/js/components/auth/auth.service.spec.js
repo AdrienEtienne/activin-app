@@ -11,7 +11,7 @@ describe('Service: Auth', function () {
 	beforeEach(inject(function (_Auth_, _$httpBackend_) {
 		Auth = _Auth_;
 		$httpBackend = _$httpBackend_;
-		window.localStorage['token'] = undefined;
+		window.localStorage.token = undefined;
 	}));
 
 	beforeEach(function () {

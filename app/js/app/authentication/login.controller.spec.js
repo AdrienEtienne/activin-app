@@ -50,7 +50,7 @@ describe('Controller: LoginCtrl', function () {
 
 		beforeEach(inject(function (_$rootScope_, $cordovaGeolocation) {
 			$rootScope = _$rootScope_;
-			_$cordovaGeolocation = $cordovaGeolocation
+			_$cordovaGeolocation = $cordovaGeolocation;
 		}));
 
 		beforeEach('Get current user', function () {
@@ -64,7 +64,7 @@ describe('Controller: LoginCtrl', function () {
 			});
 			Auth.login();
 			$httpBackend.flush();
-		})
+		});
 
 		it('should not call /api/users/:id/setLocation', function (done) {
 			Auth.getCurrentUser().keepLocation = false;

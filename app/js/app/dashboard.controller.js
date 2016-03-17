@@ -1,7 +1,5 @@
-angular.module('dashboard.controller', [
-	'components.auth'
-])
+angular.module('dashboard.controller', [])
 
-.controller('DashCtrl', function ($scope, Auth) {
-	$scope.user = Auth.getCurrentUser();
+.controller('DashCtrl', function () {
+
 });

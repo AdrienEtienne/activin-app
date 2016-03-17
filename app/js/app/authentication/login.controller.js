@@ -32,7 +32,7 @@ angular.module('auth.controller', ['components.auth', 'components.location'])
 			.then(function () {
 				$scope.isLogin = false;
 				that.updateLocation();
-				$state.go('home.dash');
+				$state.go('homemenu.dash');
 			})
 			.catch(function (response) {
 				$scope.isLogin = false;

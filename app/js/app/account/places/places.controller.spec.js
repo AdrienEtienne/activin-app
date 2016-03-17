@@ -1,9 +1,9 @@
 'use strict';
 
-describe('Controller: DashCtrl', function () {
+describe('Controller: PlacesAccountCtrl', function () {
 
 	// load the controller's module
-	beforeEach(module('dashboard.controller'));
+	beforeEach(module('account.module'));
 
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function () {}));
