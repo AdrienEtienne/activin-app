@@ -86,6 +86,11 @@ gulp.task('copy:templates', function () {
     .pipe(gulp.dest('www'));
 });
 
+gulp.task('copy:html', function () {
+  return gulp.src('app/templates/**/*')
+    .pipe(gulp.dest('www/templates'));
+});
+
 gulp.task('copy:lib', function () {
   return gulp.src('app/lib/**/*')
     .pipe(gulp.dest('www/lib'));
