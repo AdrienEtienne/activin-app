@@ -224,7 +224,13 @@ gulp.task('replace-build-version', function () {
 });
 
 gulp.task('sequence:dev', done => {
-  runSequence('env:dev', 'clean', 'copy-dev', 'constant', 'wiredep', 'inject', done);
+  runSequence(
+    'env:dev',
+    'clean',
+    'copy-dev',
+    'constant',
+    'wiredep',
+    'inject', done);
 });
 
 gulp.task('sequence:production', done => {

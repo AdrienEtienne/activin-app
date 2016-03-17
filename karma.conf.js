@@ -22,7 +22,7 @@ module.exports = function (config) {
     },
 
     ngHtml2JsPreprocessor: {
-      stripPrefix: 'www/'
+      stripPrefix: 'app/'
     },
 
     // list of files / patterns to load in the browser
@@ -39,10 +39,10 @@ module.exports = function (config) {
       'app/lib/ionic/js/ionic-angular.js',
       'app/lib/angular-mocks/angular-mocks.js',
       // endbower
-      'www/js/**/*.js',
-      'www/js/**/*.spec.js',
-      'www/js/**/*.mock.js',
-      'www/templates/**/*.html'
+      'app/js/**/*.js',
+      'app/js/**/*.spec.js',
+      'app/js/**/*.mock.js',
+      'app/templates/**/*.html'
     ],
 
     // list of files / patterns to exclude
