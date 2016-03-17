@@ -1,5 +1,10 @@
 <ion-view title="Places">
 	<ion-content class="has-header">
-		<div id="map" data-tap-disabled="true"></div>
+	<div>Google Places Autocomplte integration in Angular</div>
+    <div>To Test, start typing the name of any Indian city</div>
+    <div>selection is: {{newPlace}}</div>
+    <div>location is: {{location}}</div>
+    <div>test: {{gPlace}}</div>
+			<input ng-model="newPlace" location="location" googleplace>
 	</ion-content>
 </ion-view>

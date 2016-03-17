@@ -1,26 +1,33 @@
 angular.module('account.module')
 	.controller('PlacesAccountCtrl', function ($scope, Auth) {
-		var user = Auth.getCurrentUser();
+		var that = this;
 
-		if (user.location) {
-			var latLng = new google.maps.LatLng(user.location[1], user.location[0]);
+		that.user = Auth.getCurrentUser();
 
-			var mapOptions = {
-				center: latLng,
-				zoom: 15,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
+		$scope.newPlace = '';
+		$scope.location = {};
+	})
+	.directive('googleplace', function () {
+		return {
+			require: 'ngModel',
+			scope: {
+				location: '='
+			},
+			link: function (scope, element, attrs, model) {
+				var options = {
+					types: [],
+					componentRestrictions: {}
+				};
+			scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
 
-			$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+				google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
+					scope.location.longitude = scope.gPlace.getPlace().geometry.location.lng();
+					scope.location.latitude = scope.gPlace.getPlace().geometry.location.lat();
 
-			//Wait until the map is loaded
-			google.maps.event.addListenerOnce($scope.map, 'idle', function () {
-				new google.maps.Marker({
-					map: $scope.map,
-					animation: google.maps.Animation.DROP,
-					position: latLng
+					scope.$apply(function () {
+						model.$setViewValue(element.val());
+					});
 				});
-			});
-		}
-
+			}
+		};
 	});
