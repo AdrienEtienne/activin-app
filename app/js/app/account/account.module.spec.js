@@ -5,7 +5,7 @@ describe('Controller: AccountCtrl', function () {
 	var ctrl, scope, Auth, state, $httpBackend;
 
 	// load the controller's module
-	beforeEach(module('account.controller'));
+	beforeEach(module('account.module'));
 	beforeEach(module('$cordovaGeolocationMock'));
 
 	// Initialize the controller and a mock $window
@@ -27,7 +27,7 @@ describe('Controller: AccountCtrl', function () {
 		var tmp;
 		state.go = function (name) {
 			tmp = name;
-		}
+		};
 		scope.logout();
 		assert.equal(tmp, 'login');
 	});

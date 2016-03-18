@@ -5,7 +5,7 @@ describe('Controller: MySportsCtrl', function () {
 	var ctrl, scope, MySport, $httpBackend;
 
 	// load the controller's module
-	beforeEach(module('account.controller'));
+	beforeEach(module('account.module'));
 
 	// Initialize the controller and a mock $window
 	beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _MySport_) {

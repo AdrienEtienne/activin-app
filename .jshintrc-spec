@@ -41,12 +41,14 @@
     "jasmine": true,
     "describe": true,
     "it": true,
+    "xit": true,
     "before": true,
     "beforeEach": true,
     "after": true,
     "afterEach": true,
     "expect": true,
     "assert": true,
-    "sinon": true
+    "sinon": true,
+    "should": true
   }
 }

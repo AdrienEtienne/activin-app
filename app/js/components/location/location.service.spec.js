@@ -11,7 +11,7 @@ describe('Util: LocationService', function () {
 	beforeEach(inject(function (_Location_, _$rootScope_, $cordovaGeolocation) {
 		Location = _Location_;
 		$rootScope = _$rootScope_;
-		_$cordovaGeolocation = $cordovaGeolocation
+		_$cordovaGeolocation = $cordovaGeolocation;
 	}));
 
 	it('should return location', function (done) {

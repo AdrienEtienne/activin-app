@@ -1,4 +1,4 @@
-angular.module('account.controller')
+angular.module('account.module')
 	.controller('MySportsAccountCtrl', function ($scope, MySport) {
 		$scope.myIsPending = true;
 		$scope.notMyIsPending = true;

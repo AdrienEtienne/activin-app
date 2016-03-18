@@ -23,7 +23,6 @@ angular.module('starter', [
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
-
     }
 
     if (Auth.getLogin() && Auth.getPassword()) {
@@ -36,7 +35,7 @@ angular.module('starter', [
             });
           }
 
-          $state.go('home.dash');
+          $state.go('homemenu.dash');
         }).catch(function () {
           $state.go('login');
         });
@@ -63,39 +62,21 @@ angular.module('starter', [
       controller: 'LoginCtrl',
       cache: false
     })
-    .state('home', {
-      url: '/home',
+    .state('homemenu', {
       abstract: true,
       templateUrl: 'templates/menus.html'
     })
-    .state('home.dash', {
+    .state('homemenu.dash', {
       url: '/dash',
       views: {
         'home-dash': {
           templateUrl: 'templates/dash.html',
           controller: 'DashCtrl'
         }
-      }
+      },
+      cache: false
     })
-    .state('home.account', {
-      url: '/account',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/account/list.html',
-          controller: 'AccountCtrl'
-        }
-      }
-    })
-    .state('home.mysports', {
-      url: '/account/mysports',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/account/my-sports.html',
-          controller: 'MySportsAccountCtrl'
-        }
-      }
-    })
-    .state('home.information', {
+    .state('homemenu.information', {
       url: '/information',
       views: {
         'home-dash': {

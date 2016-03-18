@@ -4,9 +4,13 @@
 	</ion-nav-buttons>
 	<ion-content has-header="true">
 		<div class="list">
-			<a class="item item-icon-right" href="#/home/account/mysports">
+			<a class="item item-icon-right" href="#/account/mysports">
 				<i class="icon ion-arrow-right-c"></i>
 				My Sports
+			</a>
+			<a class="item item-icon-right" ui-sref="account.places">
+				<i class="icon ion-arrow-right-c"></i>
+				Places
 			</a>
 			<ion-toggle ng-model="keepLocation" ng-model-options="{ getterSetter: true }" toggle-class="toggle-positive">
 			Save Current Location
