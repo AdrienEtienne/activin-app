@@ -1,4 +1,4 @@
-angular.module('auth.controller', ['components.auth', 'components.location'])
+angular.module('login.controller', ['components.auth', 'components.location'])
 
 .controller('LoginCtrl', function($scope, Auth, User, $state, Location, $q) {
   var that = this;

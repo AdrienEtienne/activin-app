@@ -55,7 +55,7 @@
             })
             .catch(function(err) {
               Auth.logout();
-              reject(err);
+              reject(err.data);
             });
         });
       },

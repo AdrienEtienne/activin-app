@@ -1,9 +1,13 @@
 /* Empty. Add your own CSS if you like */
-.button{
-	line-height: 100%;
-}
 
-#map {
-    width: 100%;
-    height: 100%;
+.authentication {
+  padding: 20%;
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.authentication .scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
 }

@@ -15,7 +15,7 @@
       },
       save: function(user) {
         currentUser = new UserResource(user);
-        return currentUser.$save().$promise;
+        return currentUser.$save();
       },
 
       /**
