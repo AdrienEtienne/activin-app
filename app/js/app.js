@@ -9,11 +9,12 @@ angular.module('starter', [
   'ionic',
   'activinApp.constants',
   'starter.controllers',
-  'starter.services'
+  'starter.services',
+  'components.auth'
 ])
 
-.run(function ($ionicPlatform, Auth, $state, Location) {
-  $ionicPlatform.ready(function () {
+.run(function($ionicPlatform, Auth, User, $state, Location) {
+  $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -25,28 +26,23 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
 
-    if (Auth.getLogin() && Auth.getPassword()) {
-      Auth
-        .login(Auth.getLogin(), Auth.getPassword())
-        .then(function () {
-          if (Auth.getCurrentUser().keepLocation === true) {
-            Location.getLongLat().then(function (loc) {
-              Auth.setCurrentLocation(loc.long, loc.lat);
-            });
-          }
+    Auth
+      .login(Auth.getLogin(), Auth.getPassword())
+      .then(function() {
+        if (User.keepLocation()) {
+          Location.getLongLat().then(function(loc) {
+            User.currentLocation(loc.long, loc.lat);
+          });
+        }
 
-          $state.go('homemenu.dash');
-        }).catch(function () {
-          $state.go('login');
-        });
-    } else {
-      Auth.logout();
-      $state.go('login');
-    }
+        $state.go('homemenu.dash');
+      }).catch(function() {
+        $state.go('login');
+      });
   });
 })
 
-.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
   $httpProvider.defaults.useXDomain = true;
   $httpProvider.defaults.withCredentials = true;

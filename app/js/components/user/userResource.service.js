@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+(function() {
 
   function UserResource($resource, appConfig) {
     return $resource(appConfig.apiUrl + '/api/users/:id/:controller', {
@@ -27,7 +27,7 @@
     });
   }
 
-  angular.module('components.auth')
-    .factory('User', UserResource);
+  angular.module('components.user')
+    .service('UserResource', UserResource);
 
 })();

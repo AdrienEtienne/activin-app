@@ -13,9 +13,11 @@ var paths = {
   css: ['./app/css/**/*.css']
 };
 
-gulp.task('default', ['sass']);
+gulp.task('default', done => {
+  runSequence('lint', 'test', 'build', done);
+});
 
-gulp.task('sass', function (done) {
+gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
     .on('error', sass.logError)
@@ -30,16 +32,16 @@ gulp.task('sass', function (done) {
     .on('end', done);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['copy:html']);
   gulp.watch(paths.css, ['copy:css']);
   gulp.watch(paths.js, ['copy:js']);
 });
 
-gulp.task('install', function () {
+gulp.task('install', function() {
   return bower.commands.install()
-    .on('log', function (data) {
+    .on('log', function(data) {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
     });
 });
@@ -59,7 +61,7 @@ var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
 
 // CLEAN
-gulp.task('clean', function () {
+gulp.task('clean', function() {
   return gulp.src(['www', '.tmp'], {
       read: false
     })
@@ -73,32 +75,32 @@ gulp.task('copy', cb => {
     .pipe(gulp.dest('www'));
 });
 
-gulp.task('copy:templates', function () {
+gulp.task('copy:templates', function() {
   return gulp.src('app/**/*.html')
     .pipe(gulp.dest('www'));
 });
 
-gulp.task('copy:html', function () {
+gulp.task('copy:html', function() {
   return gulp.src('app/templates/**/*')
     .pipe(gulp.dest('www/templates'));
 });
 
-gulp.task('copy:lib', function () {
+gulp.task('copy:lib', function() {
   return gulp.src('app/lib/**/*')
     .pipe(gulp.dest('www/lib'));
 });
 
-gulp.task('copy:assets', function () {
+gulp.task('copy:assets', function() {
   return gulp.src('app/assets/**/*')
     .pipe(gulp.dest('www/assets'));
 });
 
-gulp.task('copy:css', function () {
+gulp.task('copy:css', function() {
   return gulp.src('app/css/**/*')
     .pipe(gulp.dest('www/css'));
 });
 
-gulp.task('copy:js', function () {
+gulp.task('copy:js', function() {
   return gulp.src('app/js/**/*')
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(gulp.dest('www/js'));
@@ -174,7 +176,7 @@ gulp.task('lint', cb => {
   runSequence('jshint', 'jshintTest', cb);
 });
 
-gulp.task('jshint', function () {
+gulp.task('jshint', function() {
   return gulp.src('./app/js/**/*.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(ignore.exclude(/.*\.spec\.js/))
@@ -182,7 +184,7 @@ gulp.task('jshint', function () {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('jshintTest', function () {
+gulp.task('jshintTest', function() {
   var fs = require('fs');
   var config = JSON.parse(fs.readFileSync('./.jshintrc-spec', "utf8"));
   return gulp.src('./app/js/**/*.spec.js')
@@ -191,7 +193,7 @@ gulp.task('jshintTest', function () {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('constant', function () {
+gulp.task('constant', function() {
   return ngConstant({
       name: 'activinApp.constants',
       deps: [],
@@ -207,8 +209,8 @@ gulp.task('constant', function () {
     .pipe(gulp.dest('app/js'))
 });
 
-gulp.task('replace-build-version', function () {
-  gulp.src('./config.xml')
+gulp.task('replace-build-version', function() {
+  return gulp.src('./config.xml')
     .pipe(replace(
       /version=\"[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(-alpha\.[0-9]{1,3})?\"/,
       'version=\"' + require('./package.json').version + '\"'))
@@ -237,7 +239,7 @@ gulp.task('sequence:production', done => {
 });
 
 gulp.task('test', ['sequence:dev'], (done) => {
-  new KarmaServer({
+  return new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
