@@ -17,4 +17,4 @@ angular.module('authentication.module', [
       controller: 'SignupCtrl',
       cache: false
     });
-})
+});

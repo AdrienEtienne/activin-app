@@ -25,14 +25,14 @@ describe('Controller: SignupCtrl', function() {
     });
   }));
 
-  describe('Login', function() {
+  describe('signup(form)', function() {
     it('should not be login', function() {
-      scope.isLogin.should.equal(false);
+      scope.isSignup.should.equal(false);
     });
 
     it('should be login', function() {
       scope.login();
-      scope.isLogin.should.equal(true);
+      scope.isSignup.should.equal(true);
     });
 
     it('should not be login after request', function() {
@@ -43,7 +43,7 @@ describe('Controller: SignupCtrl', function() {
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
       scope.login();
       $httpBackend.flush();
-      scope.isLogin.should.equal(false);
+      scope.isSignup.should.equal(false);
     });
   });
 
