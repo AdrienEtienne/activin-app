@@ -8,6 +8,7 @@ angular.module('account.module', [
 	$stateProvider
 		.state('account', {
 			parent: 'homemenu',
+			cache: false,
 			url: '/account',
 			views: {
 				'home-dash': {

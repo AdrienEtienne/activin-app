@@ -86,7 +86,7 @@ describe('Service: Auth', function () {
 				keepLocation: false
 			});
 			Auth.setCurrentLocation().then(function () {
-				Auth.getCurrentUser().keepLocation.should.be.false;
+				Auth.getCurrentUser().keepLocation.should.equal(false);
 				Auth.getCurrentUser().location.should.deep.equal([]);
 				done();
 			});

@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
-var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
@@ -35,11 +34,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['copy:html']);
   gulp.watch(paths.css, ['copy:css']);
-  if (process.env.NODE_ENV === 'development') {
-    gulp.watch(paths.js, ['copy:js']);
-  } else if (process.env.NODE_ENV === 'production') {
-    gulp.watch(paths.js, ['concat:js']);
-  }
+  gulp.watch(paths.js, ['copy:js']);
 });
 
 gulp.task('install', function () {
@@ -72,13 +67,10 @@ gulp.task('clean', function () {
 });
 
 // COPY
-gulp.task('copy-dev', cb => {
+gulp.task('copy', cb => {
   return gulp.src('app/**/*')
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(gulp.dest('www'));
-});
-gulp.task('copy-production', cb => {
-  return runSequence('copy:lib', 'copy:templates', 'copy:assets', 'copy:css', cb);
 });
 
 gulp.task('copy:templates', function () {
@@ -110,13 +102,6 @@ gulp.task('copy:js', function () {
   return gulp.src('app/js/**/*')
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(gulp.dest('www/js'));
-});
-
-gulp.task('concat:js', function () {
-  return gulp.src('app/js/**/*.js')
-    .pipe(ignore.exclude(/\.spec\.js/))
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('www/js'))
 });
 
 // ENVIRONMENT
@@ -234,8 +219,8 @@ gulp.task('sequence:dev', done => {
   runSequence(
     'env:dev',
     'clean',
-    'copy-dev',
     'constant',
+    'copy',
     'wiredep',
     'inject', done);
 });
@@ -244,12 +229,10 @@ gulp.task('sequence:production', done => {
   runSequence(
     'env:prod',
     'clean',
-    'copy-production',
     'constant',
-    'concat:js',
+    'copy',
     'wiredep:client',
     'inject',
-    'jshint',
     'replace-build-version', done);
 });
 
@@ -270,7 +253,9 @@ gulp.task('serve:dist', ['sequence:production'], (done) => {
   done();
 });
 
-gulp.task('build', ['sequence:production'], (done) => {
+gulp.task('build', [
+  'lint', 'sequence:production'
+], (done) => {
   sh.exec('ionic build');
   done();
 });

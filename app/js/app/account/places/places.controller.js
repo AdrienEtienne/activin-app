@@ -6,7 +6,7 @@ angular.module('account.module')
 
 		$scope.shouldShowDelete = true;
 		$scope.shouldShowReorder = false;
-		$scope.listCanSwipe = true
+		$scope.listCanSwipe = true;
 
 		$scope.items = [];
 		for (var i = 0; i <= 15; i++) {
@@ -15,4 +15,4 @@ angular.module('account.module')
 				description: 'Description'
 			});
 		}
-	})
+	});
