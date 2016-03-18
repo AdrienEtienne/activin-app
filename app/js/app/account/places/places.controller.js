@@ -1,18 +1,14 @@
 angular.module('account.module')
-	.controller('PlacesAccountCtrl', function ($scope, Auth) {
-		var that = this;
+  .controller('PlacesAccountCtrl', function($scope) {
+    $scope.shouldShowDelete = true;
+    $scope.shouldShowReorder = false;
+    $scope.listCanSwipe = true;
 
-		that.user = Auth.getCurrentUser();
-
-		$scope.shouldShowDelete = true;
-		$scope.shouldShowReorder = false;
-		$scope.listCanSwipe = true;
-
-		$scope.items = [];
-		for (var i = 0; i <= 15; i++) {
-			$scope.items.push({
-				title: 'Place ' + (i + 1),
-				description: 'Description'
-			});
-		}
-	});
+    $scope.items = [];
+    for (var i = 0; i <= 5; i++) {
+      $scope.items.push({
+        title: 'Place ' + (i + 1),
+        description: 'Description'
+      });
+    }
+  });
