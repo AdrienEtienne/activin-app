@@ -2,24 +2,30 @@
   <ion-content class="authentication">
     <div class="list padding">
       <label class="item item-input">
-        <input placeholder="Name" ng-disabled="isSignup" type="text" name="name" class="form-control" ng-model="user.name" required>
+        <span class="input-label">Name</span>
+        <input placeholder="Name" ng-disabled="isSignup" type="text" name="name" class="form-control" ng-model="user.name" required />
       </label>
       <label class="item item-input">
-        <input placeholder="E-mail" ng-disabled="isSignup" type="email" name="email" class="form-control" ng-model="user.email" required>
+        <span class="input-label">Email</span>
+        <input placeholder="E-mail" ng-disabled="isSignup" type="email" name="email" class="form-control" ng-model="user.email" required />
       </label>
       <label class="item item-input">
-        <input placeholder="Password" ng-disabled="isSignup" type="password" name="password" class="form-control" ng-model="user.password" required>
+        <span class="input-label">Password</span>
+        <input placeholder="Password" ng-disabled="isSignup" type="password" name="password" class="form-control" ng-model="user.password" required />
       </label>
       <label class="item item-input">
-        <input placeholder="Confirm Password" ng-disabled="isSignup" type="password" name="password" class="form-control" ng-model="user.password2" required>
+        <span class="input-label">Confirm</span>
+        <input placeholder="Password" ng-disabled="isSignup" type="password" name="password" class="form-control" ng-model="user.password2" required />
       </label>
-      <button class="button button-block button-positive" ng-disabled="isSignup" ng-click="signup()" >
+      <button class="button button-block button-balanced" ng-disabled="isSignup" ng-click="signup()" >
       <span ng-show="!isSignup">Sign up</span>
       <ion-spinner class="spinner-light" ng-show="isSignup" icon="spiral">
       </ion-spinner>
       </button>
-      <a class="button button-block button-outline button-positive" ng-disabled="isSignup" ui-sref="login" >
-      <span ng-show="!isSignup">Login</span>
+      <a ui-sref="login">
+        <button class="button button-block button-outline button-positive" ng-disabled="isSignup">
+        <span>Login</span>
+        </button>
       </a>
     </div>
   </ion-content>

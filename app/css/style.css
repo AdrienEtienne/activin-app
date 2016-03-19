@@ -1,7 +1,14 @@
 /* Empty. Add your own CSS if you like */
+.button{
+ line-height: 100%;
+}
+a, a:hover{
+  text-decoration: none;
+}
 
+/* Authentication pages */
 .authentication {
-  padding: 20%;
+  padding: 15%;
   display: table !important;
   width: 100% !important;
   height: 100% !important;

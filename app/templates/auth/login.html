@@ -1,20 +1,25 @@
 <ion-view hide-nav-bar="true">
-  <ion-content class="authentication">
+	<ion-content class="authentication">
 		<div class="list padding">
 			<label class="item item-input">
+				<span class="input-label">Email</span>
 				<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" required>
 			</label>
 			<label class="item item-input">
+				<span class="input-label">Password</span>
 				<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" required>
 			</label>
-				<button class="button button-block button-positive" ng-disabled="isLogin" ng-click="login()" >
-				<span ng-show="!isLogin">Login</span>
-				<ion-spinner class="spinner-light" ng-show="isLogin" icon="spiral">
-				</ion-spinner>
+			
+			<button class="button button-block button-positive" ng-disabled="isLogin" ng-click="login()" >
+			<span ng-show="!isLogin">Login</span>
+			<ion-spinner class="spinner-light" ng-show="isLogin" icon="spiral">
+			</ion-spinner>
+			</button>
+			<a ui-sref="signup">
+				<button class="button button-block button-outline button-balanced" ng-disabled="isLogin">
+				<span>Sign up</span>
 				</button>
-				<a class="button button-block button-outline button-positive" ng-disabled="isLogin" ui-sref="signup" >
-				<span ng-show="!isLogin">Sign up</span>
-				</a>
+			</a>
 		</div>
 	</ion-content>
 	<div class="bar bar-footer bar-assertive" ng-show="error">
