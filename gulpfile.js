@@ -25,142 +25,49 @@ var paths = {
   css: ['./app/css/**/*.css']
 };
 
-gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.html, ['copy:html']);
-  gulp.watch(paths.css, ['copy:css']);
-  gulp.watch(paths.js, ['copy:js']);
+function isTest() {
+  return process.env.NODE_ENV === 'test';
+}
+
+function isProduction() {
+  return process.env.NODE_ENV === 'production';
+}
+
+///////////////////////////////////////
+// ENVIRONMENT
+gulp.task('env:dev', (done) => {
+  process.env.NODE_ENV = 'development';
+  console.log('Environement configuration : development');
+  return done();
+});
+gulp.task('env:test', (done) => {
+  process.env.NODE_ENV = 'test';
+  console.log('Environement configuration : test');
+  return done();
+});
+gulp.task('env:prod', (done) => {
+  process.env.NODE_ENV = 'production';
+  console.log('Environement configuration : production');
+  return done();
 });
 
+///////////////////////////////////////
 // CLEAN
 gulp.task('clean', function() {
-  return gulp.src('www', {
-      read: false
-    })
-    .pipe(clean());
-});
-
-// COPY
-gulp.task('copy', cb => {
-  return gulp.src('app/**/*')
-    .pipe(ignore.exclude(/.*\.spec\.js/))
-    .pipe(gulp.dest('www'));
-});
-
-gulp.task('copy:templates', function() {
-  return gulp.src('app/**/*.html')
-    .pipe(gulp.dest('www'));
-});
-
-gulp.task('copy:html', function() {
-  return gulp.src('app/templates/**/*')
-    .pipe(gulp.dest('www/templates'));
-});
-
-gulp.task('copy:lib', function() {
-  return gulp.src('app/lib/**/*')
-    .pipe(gulp.dest('www/lib'));
-});
-
-gulp.task('copy:assets', function() {
-  return gulp.src('app/assets/**/*')
-    .pipe(gulp.dest('www/assets'));
-});
-
-gulp.task('copy:css', function() {
-  return gulp.src('app/css/**/*')
-    .pipe(gulp.dest('www/css'));
-});
-
-gulp.task('copy:js', function() {
-  return gulp.src('app/js/**/*')
-    .pipe(ignore.exclude(/.*\.spec\.js/))
-    .pipe(gulp.dest('www/js'));
-});
-
-// ENVIRONMENT
-gulp.task('env:dev', () => {
-  env({
-    vars: {
-      NODE_ENV: 'development'
-    }
-  });
-});
-gulp.task('env:prod', () => {
-  env({
-    vars: {
-      NODE_ENV: 'production'
-    }
-  });
-});
-
-// INJECT DEPENDANCIES
-gulp.task('wiredep', cb => {
-  runSequence('wiredep:client', 'wiredep:test', cb);
-});
-
-gulp.task('wiredep:client', () => {
-  return gulp.src('www/index.html')
-    .pipe(wiredep({
-      ignorePath: './www',
-      directory: './www/lib/'
-    }))
-    .pipe(gulp.dest('./www/'));
-});
-
-gulp.task('wiredep:test', () => {
-  return gulp.src('karma.conf.js')
-    .pipe(wiredep({
-      devDependencies: true
-    }))
-    .pipe(gulp.dest('./'));
-});
-
-// INJECT APPLICATION FILES
-gulp.task('inject', cb => {
-  runSequence('inject:js', 'inject:css', cb);
-});
-
-gulp.task('inject:js', () => {
-  return gulp.src('www/index.html')
-    .pipe(inject(
-      gulp.src(['www/js/**/*.js', '!www/js/**/*.{spec,mock}.js'], {
+  if (isProduction()) {
+    return gulp.src('www', {
         read: false
-      }), {
-        transform: (filepath) => '<script src="' + filepath.replace('/www/', '') + '"></script>'
-      }))
-    .pipe(gulp.dest('www'));
+      })
+      .pipe(clean());
+  } else {
+    return;
+  }
 });
 
-gulp.task('inject:css', () => {
-  return gulp.src('www/index.html')
-    .pipe(inject(
-      gulp.src(['www/css/**/*.css', '!www/css/app.min.css'], {
-        read: false
-      }), {
-        transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></script>'
-      }))
-    .pipe(gulp.dest('www'));
-});
-
-gulp.task('sass', function(done) {
-  gulp.src('./scss/app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./app/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({
-      extname: '.min.css'
-    }))
-    .pipe(gulp.dest('./app/css/'))
-    .on('end', done);
-});
-
+///////////////////////////////////////
 // LINT
-gulp.task('lint', cb => {
-  runSequence('jshint', 'jshintTest', cb);
+gulp.task('lint', done => {
+  runSequence('jshint', 'jshintTest', done);
 });
 
 gulp.task('jshint', function() {
@@ -168,7 +75,8 @@ gulp.task('jshint', function() {
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('jshintTest', function() {
@@ -177,9 +85,12 @@ gulp.task('jshintTest', function() {
   return gulp.src('./app/js/**/*.spec.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(jshint(config))
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
 
+///////////////////////////////////////
+// NG CONSTANT
 gulp.task('constant', function() {
   return ngConstant({
       name: 'activinApp.constants',
@@ -187,7 +98,8 @@ gulp.task('constant', function() {
       wrap: true,
       stream: true,
       constants: {
-        appConfig: require('./environment').appConfig
+        appConfig: require('./environment').appConfig,
+        localEnv: require('./environment/local.env.js')
       }
     })
     .pipe(rename({
@@ -196,6 +108,127 @@ gulp.task('constant', function() {
     .pipe(gulp.dest('app/js'))
 });
 
+///////////////////////////////////////
+// SASS
+gulp.task('sass', function(done) {
+  if (isTest()) {
+    done();
+  } else {
+    gulp.src('./scss/app.scss')
+      .pipe(sass())
+      .on('error', sass.logError)
+      .pipe(gulp.dest('./app/css/'))
+      .on('end', done);
+  }
+});
+
+///////////////////////////////////////
+// COPY
+gulp.task('copy', done => {
+  if (isTest()) {
+    done();
+  } else {
+    runSequence(
+      'copy:index',
+      'copy:html',
+      'copy:js',
+      'copy:css',
+      'copy:lib',
+      'copy:assets', done);
+  }
+});
+gulp.task('copy:index', function() {
+  return gulp.src('app/index.html')
+    .pipe(gulp.dest('www'));
+});
+gulp.task('copy:html', function() {
+  return gulp.src('app/**/*.html')
+    .pipe(ignore.exclude(/index\.html/))
+    .pipe(gulp.dest('www'));
+});
+gulp.task('copy:js', function() {
+  return gulp.src('app/js/**/*')
+    .pipe(ignore.exclude(/.*\.spec\.js/))
+    .pipe(ignore.exclude(/.*\.mock\.js/))
+    .pipe(gulp.dest('www/js'));
+});
+gulp.task('copy:css', function(done) {
+  gulp.src('app/css/**/*')
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(rename({
+      extname: '.min.css'
+    }))
+    .pipe(gulp.dest('./www/css/'))
+    .on('end', done);
+});
+gulp.task('copy:lib', function() {
+  return gulp.src('app/lib/**/*')
+    .pipe(gulp.dest('www/lib'));
+});
+gulp.task('copy:assets', function() {
+  return gulp.src('app/assets/**/*')
+    .pipe(gulp.dest('www/assets'));
+});
+
+///////////////////////////////////////
+// WIREDEP
+gulp.task('wiredep', done => {
+  if (isTest()) {
+    runSequence('wiredep:test', done);
+  } else {
+    runSequence('wiredep:client', done);
+  }
+});
+gulp.task('wiredep:client', () => {
+  return gulp.src('www/index.html')
+    .pipe(wiredep({
+      ignorePath: './www',
+      directory: './www/lib/'
+    }))
+    .pipe(gulp.dest('./www/'));
+});
+gulp.task('wiredep:test', () => {
+  return gulp.src('karma.conf.js')
+    .pipe(wiredep({
+      devDependencies: true
+    }))
+    .pipe(gulp.dest('./'));
+});
+
+///////////////////////////////////////
+// INJECT APPLICATION FILES
+gulp.task('inject', done => {
+  if (isTest()) {
+    done();
+  } else {
+    runSequence('inject:js', 'inject:css', done);
+  }
+});
+gulp.task('inject:js', () => {
+  return gulp.src('www/index.html')
+    .pipe(inject(
+      gulp.src('www/js/**/*.js', {
+        read: false
+      }), {
+        transform: (filepath) => '<script src="' + filepath.replace('/www/', '') + '"></script>'
+      }))
+    .pipe(gulp.dest('www'));
+});
+gulp.task('inject:css', () => {
+  return gulp.src('www/index.html')
+    .pipe(inject(
+      gulp.src('www/css/**/*.css', {
+        read: false
+      }), {
+        transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></script>'
+      }))
+    .pipe(gulp.dest('www'));
+});
+
+///////////////////////////////////////
+// BUILD VERSION
 gulp.task('replace-build-version', function() {
   return gulp.src('./config.xml')
     .pipe(replace(
@@ -204,9 +237,10 @@ gulp.task('replace-build-version', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('sequence:dev', done => {
+///////////////////////////////////////
+// SEQUENCE
+gulp.task('sequence', done => {
   runSequence(
-    'env:dev',
     'clean',
     'constant',
     'sass',
@@ -227,25 +261,39 @@ gulp.task('sequence:production', done => {
     'replace-build-version', done);
 });
 
-gulp.task('test', ['sequence:dev'], (done) => {
+///////////////////////////////////////
+// WATCH
+gulp.task('watch', function() {
+  gulp.watch(paths.sass, ['sass', 'copy:css']);
+  gulp.watch(paths.html, ['copy:html']);
+  gulp.watch(paths.css, ['copy:css']);
+  gulp.watch(paths.js, ['copy:js']);
+});
+
+///////////////////////////////////////
+// UNIT TESTING
+gulp.task('test', ['env:test', 'sequence'], (done) => {
   return new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('serve', ['sequence:dev'], (done) => {
+///////////////////////////////////////
+// SERVE
+gulp.task('serve', ['env:dev', 'sequence'], (done) => {
+  sh.exec('ionic serve');
+  done();
+});
+gulp.task('serve:dist', ['env:prod', 'sequence'], (done) => {
   sh.exec('ionic serve');
   done();
 });
 
-gulp.task('serve:dist', ['sequence:production'], (done) => {
-  sh.exec('ionic serve');
-  done();
-});
-
+///////////////////////////////////////
+// BUILD
 gulp.task('build', [
-  'lint', 'sequence:production'
+  'lint', 'env:prod', 'sequence', 'replace-build-version'
 ], (done) => {
   sh.exec('ionic build');
   done();
@@ -256,8 +304,10 @@ gulp.task('build:android', ['sequence:production'], (done) => {
   done();
 });
 
-gulp.task('build:android:release', ['sequence:production'], (done) => {
-  sh.exec('ionic build android --release');
+gulp.task('build:release', [
+  'lint', 'env:prod', 'sequence', 'replace-build-version'
+], (done) => {
+  sh.exec('ionic build --release');
   done();
 });
 

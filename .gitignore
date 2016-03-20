@@ -8,3 +8,4 @@ plugins/
 app/lib/
 www
 npm-debug.log
+/environment/local.env.js

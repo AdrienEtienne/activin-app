@@ -1,6 +1,6 @@
 'use strict';
 
-// Development specific configuration
+// Test specific configuration
 // ==================================
 module.exports = {
 
