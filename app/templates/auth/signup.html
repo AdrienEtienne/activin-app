@@ -12,11 +12,11 @@
         </label>
         <label class="item item-input" ng-class="{'invalid': form.password1.$invalid && !form.password1.$pristine, 'valid': form.password1.$valid && !form.password1.$pristine}">
           <span class="input-label">Password</span>
-          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password1" class="form-control" ng-model="user.password1" ng-model-options="{ debounce: 500 }" required>
+          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password1" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 500 }" required>
         </label>
         <label class="item item-input" ng-class="{'invalid': form.password2.$invalid && !form.password2.$pristine, 'valid': form.password2.$valid && !form.password2.$pristine}">
           <span class="input-label">Confirm</span>
-          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password2" class="form-control" ng-model="user.password2" ng-model-options="{ debounce: 500 }" compare-to="user.password1" required>
+          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password2" class="form-control" ng-model="user.password2" ng-model-options="{ debounce: 500 }" compare-to="user.password" required>
         </label>
         <button class="button button-block button-balanced" ng-disabled="form.$invalid" type="submit">
         <span ng-show="!isSignup">Sign up</span>

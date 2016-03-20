@@ -1,6 +1,7 @@
 /* Empty. Add your own CSS if you like */
-.button{
- line-height: 100%;
+.button svg{
+ display: block;
+ margin:auto;
 }
 a, a:hover{
   text-decoration: none;
@@ -8,7 +9,7 @@ a, a:hover{
 
 /* Authentication pages */
 .authentication {
-  padding: 15%;
+  padding: 10%;
   display: table !important;
   width: 100% !important;
   height: 100% !important;

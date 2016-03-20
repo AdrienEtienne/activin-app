@@ -27,7 +27,7 @@ angular.module('signup.controller', ['components.auth', 'components.location'])
         .createUser({
           name: $scope.user.name,
           email: $scope.user.email,
-          password: $scope.user.password1
+          password: $scope.user.password
         })
         .then(function() {
           $scope.isSignup = false;
@@ -61,22 +61,19 @@ angular.module('signup.controller', ['components.auth', 'components.location'])
     return {
       require: 'ngModel',
       scope: {
-        otherValue: "=compareTo"
+        otherValue: '=compareTo'
       },
       link: function(scope, elm, attrs, ctrl) {
+        console.log('toto', ctrl);
         ctrl.$validators.compareTo = function(modelValue, viewValue) {
           if (ctrl.$isEmpty(modelValue)) {
             return true;
-          }
-
-          if (scope.otherValue === viewValue) {
-            // it is valid
+          } else if (scope.otherValue === viewValue) {
             return true;
+          } else {
+            return false;
           }
-
-          // it is invalid
-          return false;
         };
       }
     };
-  })
+  });

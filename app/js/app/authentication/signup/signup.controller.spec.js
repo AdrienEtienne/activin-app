@@ -46,6 +46,7 @@ describe('Controller: SignupCtrl', function() {
 
     it('should not be signup after request', function() {
       $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+        name: 'name',
         email: 'mail',
         password: 'password'
       })
@@ -54,6 +55,7 @@ describe('Controller: SignupCtrl', function() {
         });
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
       scope.user = {
+        name: 'name',
         email: 'mail',
         password: 'password'
       };
