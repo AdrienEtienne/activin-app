@@ -8,7 +8,7 @@
 				</label>
 				<label class="item item-input" ng-class="{'invalid': form.password.$invalid && !form.password.$pristine, 'valid': form.password.$valid && !form.password.$pristine}">
 					<span class="input-label">Password</span>
-					<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 500 }" ng-minlength="6" required>
+					<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 500 }" ng-minlength="5" required>
 				</label>
 				
 				<button class="button button-block button-positive" ng-disabled="form.$invalid" type="submit">

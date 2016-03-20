@@ -34,7 +34,7 @@ gulp.task('watch', function() {
 
 // CLEAN
 gulp.task('clean', function() {
-  return gulp.src(['www', '.tmp'], {
+  return gulp.src('www', {
       read: false
     })
     .pipe(clean());

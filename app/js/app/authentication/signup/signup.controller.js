@@ -24,7 +24,11 @@ angular.module('signup.controller', ['components.auth', 'components.location'])
       $scope.isSignup = true;
       $scope.error = null;
       Auth
-        .createUser($scope.user)
+        .createUser({
+          name: $scope.user.name,
+          email: $scope.user.email,
+          password: $scope.user.password1
+        })
         .then(function() {
           $scope.isSignup = false;
           that.updateLocation();
