@@ -52,4 +52,27 @@ angular.module('signup.controller', ['components.auth', 'components.location'])
       return;
     }
   };
-});
+})
+  .directive('compareTo', function() {
+    return {
+      require: 'ngModel',
+      scope: {
+        otherValue: "=compareTo"
+      },
+      link: function(scope, elm, attrs, ctrl) {
+        ctrl.$validators.compareTo = function(modelValue, viewValue) {
+          if (ctrl.$isEmpty(modelValue)) {
+            return true;
+          }
+
+          if (scope.otherValue === viewValue) {
+            // it is valid
+            return true;
+          }
+
+          // it is invalid
+          return false;
+        };
+      }
+    };
+  })
