@@ -18,6 +18,14 @@ var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
 
+var localEnv;
+
+try {
+  localEnv = require('./environment/local.env.js');
+} catch (e) {
+  localEnv = {};
+}
+
 var paths = {
   sass: ['./scss/**/*.scss'],
   js: ['./app/js/**/*.js'],
@@ -99,7 +107,7 @@ gulp.task('constant', function() {
       stream: true,
       constants: {
         appConfig: require('./environment').appConfig,
-        localEnv: require('./environment/local.env.js')
+        localEnv: localEnv
       }
     })
     .pipe(rename({

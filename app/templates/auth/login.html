@@ -4,11 +4,11 @@
 			<div class="padding">
 				<label class="item item-input" ng-class="{'invalid': form.email.$invalid && !form.email.$pristine, 'valid': form.email.$valid && !form.email.$pristine}">
 					<span class="input-label">Email</span>
-					<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" ng-model-options="{ debounce: 500 }" required>
+					<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" required>
 				</label>
 				<label class="item item-input" ng-class="{'invalid': form.password.$invalid && !form.password.$pristine, 'valid': form.password.$valid && !form.password.$pristine}">
 					<span class="input-label">Password</span>
-					<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 500 }" ng-minlength="5" required>
+					<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 700 }" ng-minlength="5" required>
 				</label>
 				
 				<button class="button button-block button-positive" ng-disabled="form.$invalid" type="submit">
