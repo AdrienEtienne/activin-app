@@ -19,25 +19,29 @@ angular.module('login.controller', ['components.auth', 'components.location'])
     });
   };
 
-  $scope.login = function() {
-    $scope.isLogin = true;
-    $scope.error = null;
-    Auth
-      .login($scope.user.email, $scope.user.password)
-      .then(function() {
-        $scope.isLogin = false;
-        that.updateLocation();
-        $state.go('homemenu.dash');
-      })
-      .catch(function(response) {
-        $scope.isLogin = false;
-        if (!response) {
-          $scope.error = 'No response';
-        } else if (response.message) {
-          $scope.error = response.message;
-        } else {
-          $scope.error = 'Unknown error';
-        }
-      });
+  $scope.login = function(form) {
+    if (form.$valid) {
+      $scope.isLogin = true;
+      $scope.error = null;
+      Auth
+        .login($scope.user.email, $scope.user.password)
+        .then(function() {
+          $scope.isLogin = false;
+          that.updateLocation();
+          $state.go('homemenu.dash');
+        })
+        .catch(function(response) {
+          $scope.isLogin = false;
+          if (!response) {
+            $scope.error = 'No response';
+          } else if (response.message) {
+            $scope.error = response.message;
+          } else {
+            $scope.error = 'Unknown error';
+          }
+        });
+    } else {
+      return;
+    }
   };
 });

@@ -19,33 +19,37 @@ angular.module('signup.controller', ['components.auth', 'components.location'])
     });
   };
 
-  $scope.signup = function() {
-    $scope.isSignup = true;
-    $scope.error = null;
-    Auth
-      .createUser($scope.user)
-      .then(function() {
-        $scope.isSignup = false;
-        that.updateLocation();
-        $state.go('homemenu.dash');
-      })
-      .catch(function(response) {
-        $scope.isSignup = false;
-        if (!response) {
-          $scope.error = 'No response';
-        } else if (response.errors) {
-          if (response.errors.email) {
-            $scope.error = response.errors.email.message;
-          } else if (response.errors.password) {
-            $scope.error = response.errors.password.message;
-          } else if (response.errors.name) {
-            $scope.error = response.errors.name.message;
+  $scope.signup = function(form) {
+    if (form.$valid) {
+      $scope.isSignup = true;
+      $scope.error = null;
+      Auth
+        .createUser($scope.user)
+        .then(function() {
+          $scope.isSignup = false;
+          that.updateLocation();
+          $state.go('homemenu.dash');
+        })
+        .catch(function(response) {
+          $scope.isSignup = false;
+          if (!response) {
+            $scope.error = 'No response';
+          } else if (response.errors) {
+            if (response.errors.email) {
+              $scope.error = response.errors.email.message;
+            } else if (response.errors.password) {
+              $scope.error = response.errors.password.message;
+            } else if (response.errors.name) {
+              $scope.error = response.errors.name.message;
+            }
+          } else if (response.message) {
+            $scope.error = response.message;
+          } else {
+            $scope.error = 'Unknown error';
           }
-        } else if (response.message) {
-          $scope.error = response.message;
-        } else {
-          $scope.error = 'Unknown error';
-        }
-      });
+        });
+    } else {
+      return;
+    }
   };
 });

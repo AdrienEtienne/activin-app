@@ -26,22 +26,40 @@ describe('Controller: SignupCtrl', function() {
   }));
 
   describe('signup(form)', function() {
-    it('should not be login', function() {
+    it('should not be signup', function() {
       scope.isSignup.should.equal(false);
     });
 
-    it('should be login', function() {
-      scope.login();
+    it('should be signup if form valid', function() {
+      scope.signup({
+        $valid: true
+      });
       scope.isSignup.should.equal(true);
     });
 
-    it('should not be login after request', function() {
-      $httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
-        token: 'mon token'
+    it('should not be signup if form not valid', function() {
+      scope.signup({
+        $valid: false
       });
-      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(200);
+      scope.isSignup.should.equal(false);
+    });
+
+    it('should not be signup after request', function() {
+      $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+        email: 'mail',
+        password: 'password'
+      })
+        .respond({
+          token: 'mon token'
+        });
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
-      scope.login();
+      scope.user = {
+        email: 'mail',
+        password: 'password'
+      };
+      scope.signup({
+        $valid: true
+      });
       $httpBackend.flush();
       scope.isSignup.should.equal(false);
     });

@@ -1,28 +1,37 @@
 <ion-view hide-nav-bar="true">
-	<ion-content class="authentication">
-		<div class="list padding">
-			<label class="item item-input">
-				<span class="input-label">Email</span>
-				<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" required>
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Password</span>
-				<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" required>
-			</label>
-			
-			<button class="button button-block button-positive" ng-disabled="isLogin" ng-click="login()" >
-			<span ng-show="!isLogin">Login</span>
-			<ion-spinner class="spinner-light" ng-show="isLogin" icon="spiral">
-			</ion-spinner>
-			</button>
-			<a ui-sref="signup">
-				<button class="button button-block button-outline button-balanced" ng-disabled="isLogin">
-				<span>Sign up</span>
+	<form name="form" ng-submit="login(form)" novalidate>
+		<ion-content class="authentication">
+			<div class="padding">
+				<label class="item item-input" ng-class="{'invalid': form.email.$invalid && !form.email.$pristine, 'valid': form.email.$valid && !form.email.$pristine}">
+					<span class="input-label">Email</span>
+					<input placeholder="E-mail" ng-disabled="isLogin" type="email" name="email" class="form-control" ng-model="user.email" ng-model-options="{ debounce: 500 }" required>
+				</label>
+				<label class="item item-input" ng-class="{'invalid': form.password.$invalid && !form.password.$pristine, 'valid': form.password.$valid && !form.password.$pristine}">
+					<span class="input-label">Password</span>
+					<input placeholder="Password" ng-disabled="isLogin" type="password" name="password" class="form-control" ng-model="user.password" ng-model-options="{ debounce: 500 }" ng-minlength="6" required>
+				</label>
+				
+				<button class="button button-block button-positive" ng-disabled="form.$invalid" type="submit">
+				<span ng-show="!isLogin">Login</span>
+				<ion-spinner class="spinner-light" ng-show="isLogin" icon="spiral">
+				</ion-spinner>
 				</button>
-			</a>
+				<a ui-sref="signup">
+					<button class="button button-block button-outline button-balanced" ng-disabled="isLogin">
+					<span>Sign up</span>
+					</button>
+				</a>
+			</div>
+		</ion-content>
+		
+		<div class="bar bar-footer bar-assertive" ng-show="form.email.$invalid && !form.email.$pristine">
+			<div class="title">Valid Email required.</div>
 		</div>
-	</ion-content>
-	<div class="bar bar-footer bar-assertive" ng-show="error">
-		<div class="title">{{error}}</div>
-	</div>
+		<div class="bar bar-footer bar-assertive" ng-show="form.password.$error.minlength && !form.password.$pristine">
+			<div class="title">Password is too short.</div>
+		</div>
+		<div class="bar bar-footer bar-assertive" ng-show="error">
+			<div class="title">{{error}}</div>
+		</div>
+	</form>
 </ion-view>

@@ -9729,3 +9729,9 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+.authentication .item-input.invalid {
+  border-bottom-color: #ef473a; }
+
+.authentication .item-input.valid {
+  border-bottom-color: #33cd5f; }
