@@ -50,12 +50,14 @@
         return $q(function(resolve, reject) {
           User.save(user)
             .then(function(data) {
+              window.localStorage.email = user.email;
+              window.localStorage.password = user.password;
               window.localStorage.token = data.token;
               resolve(User.getCurrentUser());
             })
             .catch(function(err) {
               Auth.logout();
-              reject(err);
+              reject(err.data);
             });
         });
       },

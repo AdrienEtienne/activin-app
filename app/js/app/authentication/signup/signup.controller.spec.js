@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: LoginCtrl', function() {
+describe('Controller: SignupCtrl', function() {
 
   var ctrl, scope, $httpBackend, Auth, User, $state;
 
   // load the controller's module
-  beforeEach(module('auth.controller'));
+  beforeEach(module('signup.controller'));
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
@@ -17,7 +17,7 @@ describe('Controller: LoginCtrl', function() {
     $state = {
       go: function() {}
     };
-    ctrl = $controller('LoginCtrl', {
+    ctrl = $controller('SignupCtrl', {
       $scope: scope,
       Auth: Auth,
       User: User,
@@ -25,25 +25,45 @@ describe('Controller: LoginCtrl', function() {
     });
   }));
 
-  describe('Login', function() {
-    it('should not be login', function() {
-      scope.isLogin.should.equal(false);
+  describe('signup(form)', function() {
+    it('should not be signup', function() {
+      scope.isSignup.should.equal(false);
     });
 
-    it('should be login', function() {
-      scope.login();
-      scope.isLogin.should.equal(true);
-    });
-
-    it('should not be login after request', function() {
-      $httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
-        token: 'mon token'
+    it('should be signup if form valid', function() {
+      scope.signup({
+        $valid: true
       });
-      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(200);
+      scope.isSignup.should.equal(true);
+    });
+
+    it('should not be signup if form not valid', function() {
+      scope.signup({
+        $valid: false
+      });
+      scope.isSignup.should.equal(false);
+    });
+
+    it('should not be signup after request', function() {
+      $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+        name: 'name',
+        email: 'mail',
+        password: 'password'
+      })
+        .respond({
+          token: 'mon token'
+        });
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
-      scope.login();
+      scope.user = {
+        name: 'name',
+        email: 'mail',
+        password: 'password'
+      };
+      scope.signup({
+        $valid: true
+      });
       $httpBackend.flush();
-      scope.isLogin.should.equal(false);
+      scope.isSignup.should.equal(false);
     });
   });
 

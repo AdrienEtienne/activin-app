@@ -5,48 +5,6 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-
-var paths = {
-  sass: ['./scss/**/*.scss'],
-  js: ['./app/js/**/*.js'],
-  html: ['./app/templates/**/*.html'],
-  css: ['./app/css/**/*.css']
-};
-
-gulp.task('default', done => {
-  runSequence('lint', 'test', 'build', done);
-});
-
-gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./app/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({
-      extname: '.min.css'
-    }))
-    .pipe(gulp.dest('./app/css/'))
-    .on('end', done);
-});
-
-gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.html, ['copy:html']);
-  gulp.watch(paths.css, ['copy:css']);
-  gulp.watch(paths.js, ['copy:js']);
-});
-
-gulp.task('install', function() {
-  return bower.commands.install()
-    .on('log', function(data) {
-      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-    });
-});
-
-// PERSO
 var runSequence = require('run-sequence');
 var clean = require('gulp-clean');
 var ignore = require('gulp-ignore');
@@ -60,9 +18,23 @@ var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
 
+var paths = {
+  sass: ['./scss/**/*.scss'],
+  js: ['./app/js/**/*.js'],
+  html: ['./app/templates/**/*.html'],
+  css: ['./app/css/**/*.css']
+};
+
+gulp.task('watch', function() {
+  gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.html, ['copy:html']);
+  gulp.watch(paths.css, ['copy:css']);
+  gulp.watch(paths.js, ['copy:js']);
+});
+
 // CLEAN
 gulp.task('clean', function() {
-  return gulp.src(['www', '.tmp'], {
+  return gulp.src('www', {
       read: false
     })
     .pipe(clean());
@@ -163,12 +135,27 @@ gulp.task('inject:js', () => {
 gulp.task('inject:css', () => {
   return gulp.src('www/index.html')
     .pipe(inject(
-      gulp.src(['www/css/**/*.css', '!www/css/ionic.app.min.css'], {
+      gulp.src(['www/css/**/*.css', '!www/css/app.min.css'], {
         read: false
       }), {
         transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></script>'
       }))
     .pipe(gulp.dest('www'));
+});
+
+gulp.task('sass', function(done) {
+  gulp.src('./scss/app.scss')
+    .pipe(sass())
+    .on('error', sass.logError)
+    .pipe(gulp.dest('./app/css/'))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(rename({
+      extname: '.min.css'
+    }))
+    .pipe(gulp.dest('./app/css/'))
+    .on('end', done);
 });
 
 // LINT
@@ -222,6 +209,7 @@ gulp.task('sequence:dev', done => {
     'env:dev',
     'clean',
     'constant',
+    'sass',
     'copy',
     'wiredep',
     'inject', done);
@@ -232,6 +220,7 @@ gulp.task('sequence:production', done => {
     'env:prod',
     'clean',
     'constant',
+    'sass',
     'copy',
     'wiredep:client',
     'inject',
@@ -270,4 +259,8 @@ gulp.task('build:android', ['sequence:production'], (done) => {
 gulp.task('build:android:release', ['sequence:production'], (done) => {
   sh.exec('ionic build android --release');
   done();
+});
+
+gulp.task('default', done => {
+  runSequence('lint', 'test', 'build', done);
 });

@@ -1,5 +1,3 @@
-angular.module('dashboard.controller', [])
+angular.module('dashboard.controller', ['components.user'])
 
-.controller('DashCtrl', function () {
-
-});
+.controller('DashCtrl', function() {});
