@@ -230,7 +230,7 @@ gulp.task('inject:css', () => {
       gulp.src('www/css/**/*.css', {
         read: false
       }), {
-        transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></script>'
+        transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace('/www/', '') + '"></link>'
       }))
     .pipe(gulp.dest('www'));
 });
