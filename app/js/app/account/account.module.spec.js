@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: AccountCtrl', function() {
+describe('Controller: AccountCtrl', function () {
 
   var ctrl, scope, User, state, $httpBackend;
 
@@ -8,7 +8,7 @@ describe('Controller: AccountCtrl', function() {
   beforeEach(module('account.module'));
 
   // Initialize the controller and a mock $window
-  beforeEach(inject(function($controller, $rootScope, _User_, $state, _$httpBackend_) {
+  beforeEach(inject(function ($controller, $rootScope, _User_, $state, _$httpBackend_) {
     scope = $rootScope.$new();
     User = _User_;
     $httpBackend = _$httpBackend_;
@@ -18,12 +18,22 @@ describe('Controller: AccountCtrl', function() {
     });
   }));
 
-  it('should go to auth', function() {
+  it('should go to auth', function () {
     var tmp;
-    state.go = function(name) {
+    state.go = function (name) {
       tmp = name;
     };
     scope.logout();
     assert.equal(tmp, 'login');
+  });
+
+  it('should call keepLocation User function', function (done) {
+    User.keepLocation = function () {
+      done();
+      return {
+        then: angular.noop
+      };
+    };
+    scope.keepLocation(true);
   });
 });
