@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: SignupCtrl', function() {
+describe('Controller: SignupCtrl', function () {
 
   var ctrl, scope, $httpBackend, Auth, User, $state;
 
@@ -9,13 +9,13 @@ describe('Controller: SignupCtrl', function() {
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
-  beforeEach(inject(function($controller, $rootScope, _$httpBackend_, _Auth_, _User_) {
+  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _Auth_, _User_) {
     scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
     Auth = _Auth_;
     User = _User_;
     $state = {
-      go: function() {}
+      go: function () {}
     };
     ctrl = $controller('SignupCtrl', {
       $scope: scope,
@@ -25,31 +25,31 @@ describe('Controller: SignupCtrl', function() {
     });
   }));
 
-  describe('signup(form)', function() {
-    it('should not be signup', function() {
+  describe('signup(form)', function () {
+    it('should not be signup', function () {
       scope.isSignup.should.equal(false);
     });
 
-    it('should be signup if form valid', function() {
+    it('should be signup if form valid', function () {
       scope.signup({
         $valid: true
       });
       scope.isSignup.should.equal(true);
     });
 
-    it('should not be signup if form not valid', function() {
+    it('should not be signup if form not valid', function () {
       scope.signup({
         $valid: false
       });
       scope.isSignup.should.equal(false);
     });
 
-    it('should not be signup after request', function() {
+    it('should not be signup after request', function () {
       $httpBackend.when('POST', 'http://localhost:9000/api/users', {
-        name: 'name',
-        email: 'mail',
-        password: 'password'
-      })
+          name: 'name',
+          email: 'mail',
+          password: 'password'
+        })
         .respond({
           token: 'mon token'
         });
@@ -64,52 +64,6 @@ describe('Controller: SignupCtrl', function() {
       });
       $httpBackend.flush();
       scope.isSignup.should.equal(false);
-    });
-  });
-
-  describe('updateLocation()', function() {
-
-    var $rootScope, _$cordovaGeolocation;
-
-    beforeEach(inject(function(_$rootScope_, $cordovaGeolocation) {
-      $rootScope = _$rootScope_;
-      _$cordovaGeolocation = $cordovaGeolocation;
-    }));
-
-    beforeEach('Get current user', function() {
-      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
-        _id: 'id',
-        location: [1, 2],
-        keepLocation: true
-      });
-      User.get();
-      $httpBackend.flush();
-    });
-
-    it('should not call /api/users/:id/setLocation', function(done) {
-      User.getCurrentUser().keepLocation = false;
-      ctrl.updateLocation().catch(function() {
-        done();
-      });
-      $rootScope.$digest();
-    });
-
-    it('should call /api/users/:id/setLocation', function(done) {
-      _$cordovaGeolocation.setLongLat(1, 2);
-      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/setLocation', {
-        keepLocation: true,
-        location: [1, 2]
-      }).respond({
-        location: [1, 2],
-        keepLocation: true
-      });
-      ctrl.updateLocation().then(function() {
-        User.currentLocation().should.deep.equal([1, 2]);
-        User.keepLocation().should.equal(true);
-        done();
-      });
-      $httpBackend.flush();
-      $rootScope.$digest();
     });
   });
 });

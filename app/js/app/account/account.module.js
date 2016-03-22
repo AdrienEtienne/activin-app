@@ -3,7 +3,7 @@ angular.module('account.module', [
   'starter.services'
 ])
 
-.config(function($stateProvider) {
+.config(function ($stateProvider) {
   $stateProvider
     .state('account', {
       parent: 'homemenu',
@@ -36,16 +36,18 @@ angular.module('account.module', [
     });
 })
 
-.controller('AccountCtrl', function($scope, Auth, User, $state) {
-  $scope.keepLocation = function(newVal) {
+.controller('AccountCtrl', function ($scope, Auth, User, $state) {
+  $scope.keepLocation = function (newVal) {
     if (arguments.length) {
-      User.keepLocation(newVal);
+      User.keepLocation(newVal).then(function () {
+        User.updateLocation();
+      });
     } else {
       return User.keepLocation();
     }
   };
 
-  $scope.logout = function() {
+  $scope.logout = function () {
     Auth.logout();
     $state.go('login');
   };

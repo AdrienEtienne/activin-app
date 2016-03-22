@@ -1,6 +1,6 @@
-angular.module('login.controller', ['components.auth', 'components.location'])
+angular.module('login.controller', ['components.auth'])
 
-.controller('LoginCtrl', function($scope, Auth, User, $state, Location, $q) {
+.controller('LoginCtrl', function ($scope, Auth, User, $state, $q) {
   var that = this;
 
   $scope.user = {};
@@ -9,28 +9,18 @@ angular.module('login.controller', ['components.auth', 'components.location'])
   $scope.isLogin = false;
   $scope.errors = null;
 
-  that.updateLocation = function() {
-    return $q(function(resolve, reject) {
-      Location.getLongLat().then(function(loc) {
-        User.currentLocation(loc.long, loc.lat)
-          .then(resolve)
-          .catch(reject);
-      }).catch(reject);
-    });
-  };
-
-  $scope.login = function(form) {
+  $scope.login = function (form) {
     if (form.$valid) {
       $scope.isLogin = true;
       $scope.error = null;
       Auth
         .login($scope.user.email, $scope.user.password)
-        .then(function() {
+        .then(function () {
           $scope.isLogin = false;
-          that.updateLocation();
+          User.updateLocation();
           $state.go('homemenu.dash');
         })
-        .catch(function(response) {
+        .catch(function (response) {
           $scope.isLogin = false;
           if (!response) {
             $scope.error = 'No response';

@@ -13,8 +13,8 @@ angular.module('starter', [
   'components.auth'
 ])
 
-.run(function($ionicPlatform, Auth, User, $state, Location) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform, Auth, User, $state) {
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -28,21 +28,16 @@ angular.module('starter', [
 
     Auth
       .login(Auth.getLogin(), Auth.getPassword())
-      .then(function() {
-        if (User.keepLocation()) {
-          Location.getLongLat().then(function(loc) {
-            User.currentLocation(loc.long, loc.lat);
-          });
-        }
-
+      .then(function () {
+        User.updateLocation();
         $state.go('homemenu.dash');
-      }).catch(function() {
+      }).catch(function () {
         $state.go('login');
       });
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
   $httpProvider.defaults.useXDomain = true;
   $httpProvider.defaults.withCredentials = true;
