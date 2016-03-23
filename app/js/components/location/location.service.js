@@ -2,10 +2,28 @@
 
 (function () {
 
+	function SearchResource($resource, appConfig) {
+		return $resource(appConfig.apiUrl + '/api/searchs/:method', {}, {
+			predictions: {
+				method: 'GET',
+				isArray: true,
+				params: {
+					method: 'predictions'
+				}
+			},
+			details: {
+				method: 'GET',
+				params: {
+					method: 'details'
+				}
+			}
+		});
+	}
+
 	/**
 	 * The Location service is for thin, globally reusable, utility functions
 	 */
-	function LocationService($cordovaGeolocation, $q) {
+	function LocationService($cordovaGeolocation, $q, Search) {
 		var posOptions = {
 			timeout: 10000,
 			enableHighAccuracy: false
@@ -33,12 +51,41 @@
 
 				return deferred.promise;
 			},
+
+			getPredictions: function (input) {
+				return $q(function (resolve, reject) {
+					if (input && typeof input === 'string') {
+						Search.predictions({
+								input: input
+							}).$promise
+							.then(resolve)
+							.catch(reject);
+					} else {
+						reject('String expected');
+					}
+				});
+			},
+
+			getDetails: function (placeid) {
+				return $q(function (resolve, reject) {
+					if (placeid && typeof placeid === 'string') {
+						Search.details({
+								placeid: placeid
+							}).$promise
+							.then(resolve)
+							.catch(reject);
+					} else {
+						reject('String expected');
+					}
+				});
+			}
 		};
 
 		return Location;
 	}
 
 	angular.module('components.location')
+		.factory('Search', SearchResource)
 		.factory('Location', LocationService);
 
 })();
