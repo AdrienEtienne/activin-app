@@ -30,7 +30,8 @@ angular.module('account.module', [
       views: {
         'home-dash@homemenu': {
           templateUrl: 'templates/account/places.html',
-          controller: 'PlacesAccountCtrl'
+          controller: 'PlacesAccountCtrl',
+          controllerAs: 'vm'
         }
       }
     });

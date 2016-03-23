@@ -2,28 +2,10 @@
 
 (function () {
 
-	function SearchResource($resource, appConfig) {
-		return $resource(appConfig.apiUrl + '/api/searchs/:method', {}, {
-			predictions: {
-				method: 'GET',
-				isArray: true,
-				params: {
-					method: 'predictions'
-				}
-			},
-			details: {
-				method: 'GET',
-				params: {
-					method: 'details'
-				}
-			}
-		});
-	}
-
 	/**
 	 * The Location service is for thin, globally reusable, utility functions
 	 */
-	function LocationService($cordovaGeolocation, $q, Search) {
+	function LocationService($cordovaGeolocation, $q, Search, Place) {
 		var posOptions = {
 			timeout: 10000,
 			enableHighAccuracy: false
@@ -85,7 +67,6 @@
 	}
 
 	angular.module('components.location')
-		.factory('Search', SearchResource)
 		.factory('Location', LocationService);
 
 })();
