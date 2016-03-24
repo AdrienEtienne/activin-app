@@ -29,10 +29,23 @@ angular.module('account.module', [
       url: '/places',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/account/places.html',
+          templateUrl: 'templates/place/places.html',
           controller: 'PlacesAccountCtrl',
           controllerAs: 'vm'
         }
+      }
+    })
+    .state('account.place', {
+      url: '/place',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/place/edit-place.html',
+          controller: 'EditPlaceCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      params: {
+        place: null
       }
     });
 })

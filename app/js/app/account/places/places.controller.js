@@ -1,5 +1,5 @@
 angular.module('account.module')
-  .controller('PlacesAccountCtrl', function (Place) {
+  .controller('PlacesAccountCtrl', function (Place, $state) {
     var that = this;
 
     var places = [];
@@ -15,9 +15,19 @@ angular.module('account.module')
       }
     }
 
+    that.goPlace = function (place) {
+      $state.go('account.place', {
+        place: place
+      });
+    }
+
     Place.query().$promise
       .then(function (data) {
         places = data;
+        places.push({
+          placeid: 'id',
+          description: 'description'
+        });
       })
       .catch(function () {
         places = [];
