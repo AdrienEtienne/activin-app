@@ -15,12 +15,6 @@ angular.module('account.module')
       }
     }
 
-    that.goPlace = function (place) {
-      $state.go('account.place', {
-        place: place
-      });
-    }
-
     Place.query().$promise
       .then(function (data) {
         places = data;
