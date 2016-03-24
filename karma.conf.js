@@ -18,12 +18,15 @@ module.exports = function (config) {
     ],
 
     preprocessors: {
-      '**/*.html': 'ng-html2js'
+      '**/*.html': 'ng-html2js',
+      'app/js/**/*.js': ['coverage']
     },
 
     ngHtml2JsPreprocessor: {
       stripPrefix: 'app/'
     },
+
+    reporters: ['progress', 'coverage'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -70,8 +73,14 @@ module.exports = function (config) {
       'karma-phantomjs-launcher',
       'karma-mocha',
       'karma-chai',
-      'karma-ng-html2js-preprocessor'
+      'karma-ng-html2js-preprocessor',
+      'karma-coverage'
     ],
+
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'coverage/'
+    },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
