@@ -17,6 +17,7 @@ var env = require('gulp-env');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var jshint = require('gulp-jshint');
+var coveralls = require('gulp-coveralls');
 
 var localEnv;
 
@@ -61,7 +62,7 @@ gulp.task('env:prod', (done) => {
 
 ///////////////////////////////////////
 // CLEAN
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   if (isProduction()) {
     return gulp.src('www', {
         read: false
@@ -78,7 +79,7 @@ gulp.task('lint', done => {
   runSequence('jshint', 'jshintTest', done);
 });
 
-gulp.task('jshint', function() {
+gulp.task('jshint', function () {
   return gulp.src('./app/js/**/*.js')
     .pipe(ignore.exclude(/app\.constant\.js/))
     .pipe(ignore.exclude(/.*\.spec\.js/))
@@ -87,7 +88,7 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('jshintTest', function() {
+gulp.task('jshintTest', function () {
   var fs = require('fs');
   var config = JSON.parse(fs.readFileSync('./.jshintrc-spec', "utf8"));
   return gulp.src('./app/js/**/*.spec.js')
@@ -99,7 +100,7 @@ gulp.task('jshintTest', function() {
 
 ///////////////////////////////////////
 // NG CONSTANT
-gulp.task('constant', function() {
+gulp.task('constant', function () {
   return ngConstant({
       name: 'activinApp.constants',
       deps: [],
@@ -118,7 +119,7 @@ gulp.task('constant', function() {
 
 ///////////////////////////////////////
 // SASS
-gulp.task('sass', function(done) {
+gulp.task('sass', function (done) {
   if (isTest()) {
     done();
   } else {
@@ -145,22 +146,22 @@ gulp.task('copy', done => {
       'copy:assets', done);
   }
 });
-gulp.task('copy:index', function() {
+gulp.task('copy:index', function () {
   return gulp.src('app/index.html')
     .pipe(gulp.dest('www'));
 });
-gulp.task('copy:html', function() {
+gulp.task('copy:html', function () {
   return gulp.src('app/**/*.html')
     .pipe(ignore.exclude(/index\.html/))
     .pipe(gulp.dest('www'));
 });
-gulp.task('copy:js', function() {
+gulp.task('copy:js', function () {
   return gulp.src('app/js/**/*')
     .pipe(ignore.exclude(/.*\.spec\.js/))
     .pipe(ignore.exclude(/.*\.mock\.js/))
     .pipe(gulp.dest('www/js'));
 });
-gulp.task('copy:css', function(done) {
+gulp.task('copy:css', function (done) {
   gulp.src('app/css/**/*')
     .pipe(minifyCss({
       keepSpecialComments: 0
@@ -171,11 +172,11 @@ gulp.task('copy:css', function(done) {
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
-gulp.task('copy:lib', function() {
+gulp.task('copy:lib', function () {
   return gulp.src('app/lib/**/*')
     .pipe(gulp.dest('www/lib'));
 });
-gulp.task('copy:assets', function() {
+gulp.task('copy:assets', function () {
   return gulp.src('app/assets/**/*')
     .pipe(gulp.dest('www/assets'));
 });
@@ -237,7 +238,7 @@ gulp.task('inject:css', () => {
 
 ///////////////////////////////////////
 // BUILD VERSION
-gulp.task('replace-build-version', function() {
+gulp.task('replace-build-version', function () {
   return gulp.src('./config.xml')
     .pipe(replace(
       /version=\"[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}(-alpha\.[0-9]{1,3})?\"/,
@@ -271,7 +272,7 @@ gulp.task('sequence:production', done => {
 
 ///////////////////////////////////////
 // WATCH
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass', 'copy:css']);
   gulp.watch(paths.html, ['copy:html']);
   gulp.watch(paths.css, ['copy:css']);
@@ -279,12 +280,19 @@ gulp.task('watch', function() {
 });
 
 ///////////////////////////////////////
-// UNIT TESTING
+// UNIT TESTING / COVERAGE
 gulp.task('test', ['env:test', 'sequence'], (done) => {
   return new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
+});
+
+///////////////////////////////////////
+// COVERALLS
+gulp.task('coveralls', () => {
+  return gulp.src('coverage/**/lcov.info')
+    .pipe(coveralls());
 });
 
 ///////////////////////////////////////

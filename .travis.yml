@@ -6,10 +6,11 @@ matrix:
   allow_failures:
     - node_js: 5.1.1
 before_script:
-  - npm install -g bower cordova ionic
+  - npm install -g bower cordova ionic gulp
   - npm install
   - bower install
-
+after_script:
+  - gulp coveralls
 branches:
   only:
     - master

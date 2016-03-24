@@ -6,6 +6,7 @@ node_modules/
 platforms/
 plugins/
 app/lib/
+coverage/
 www
 npm-debug.log
 /environment/local.env.js
