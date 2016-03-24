@@ -5,7 +5,7 @@
 	/**
 	 * The Location service is for thin, globally reusable, utility functions
 	 */
-	function LocationService($cordovaGeolocation, $q, Search, Place) {
+	function LocationService($cordovaGeolocation, $q, Search) {
 		var posOptions = {
 			timeout: 10000,
 			enableHighAccuracy: false

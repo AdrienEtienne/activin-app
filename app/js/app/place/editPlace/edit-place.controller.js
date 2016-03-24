@@ -1,16 +1,16 @@
-angular.module('account.module')
-	.controller('EditPlaceCtrl', function ($stateParams, $ionicHistory) {
+angular.module('place.module')
+	.controller('EditPlaceCtrl', function (Place, Search, $stateParams, $ionicHistory) {
 		var that = this;
 
-		var isNew = null;
-		var place = null;
+		that.isNew = null;
+		that.place = null;
 
 		if ($stateParams.place) {
-			place = $stateParams.place;
-			isNew = false;
+			that.place = $stateParams.place;
+			that.isNew = false;
 		} else {
-			place = {};
-			isNew = true;
+			that.place = {};
+			that.isNew = true;
 		}
 
 		that.title = function () {
@@ -19,10 +19,6 @@ angular.module('account.module')
 			} else {
 				return 'Edit Place';
 			}
-		};
-
-		that.isNew = function () {
-			return isNew;
 		};
 
 		that.save = function () {

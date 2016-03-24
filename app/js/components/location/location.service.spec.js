@@ -44,7 +44,7 @@ describe('Util: LocationService', function () {
 
 		it('should return error if request fail', function (done) {
 			$httpBackend.when('GET', 'http://localhost:9000/api/searchs/predictions?input=Paris').respond(400);
-			Location.getPredictions('Paris').catch(function (err) {
+			Location.getPredictions('Paris').catch(function () {
 				done();
 			});
 			$rootScope.$digest();
@@ -52,14 +52,14 @@ describe('Util: LocationService', function () {
 		});
 
 		it('should return error if no input', function (done) {
-			Location.getPredictions().catch(function (err) {
+			Location.getPredictions().catch(function () {
 				done();
 			});
 			$rootScope.$digest();
 		});
 
 		it('should return error if input empty', function (done) {
-			Location.getPredictions('').catch(function (err) {
+			Location.getPredictions('').catch(function () {
 				done();
 			});
 			$rootScope.$digest();
@@ -83,7 +83,7 @@ describe('Util: LocationService', function () {
 
 		it('should return error if request fail', function (done) {
 			$httpBackend.when('GET', 'http://localhost:9000/api/searchs/details?placeid=id').respond(400);
-			Location.getDetails('id').catch(function (err) {
+			Location.getDetails('id').catch(function () {
 				done();
 			});
 			$rootScope.$digest();
@@ -91,7 +91,7 @@ describe('Util: LocationService', function () {
 		});
 
 		it('should return error if no input', function (done) {
-			Location.getDetails().catch(function (err) {
+			Location.getDetails().catch(function () {
 				done();
 			});
 			$rootScope.$digest();

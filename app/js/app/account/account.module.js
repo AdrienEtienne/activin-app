@@ -1,6 +1,7 @@
 angular.module('account.module', [
   'components.auth',
-  'starter.services'
+  'starter.services',
+  'place.module'
 ])
 
 .config(function ($stateProvider) {
@@ -20,7 +21,7 @@ angular.module('account.module', [
       url: '/mysports',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/account/my-sports.html',
+          templateUrl: 'templates/account/sports/my-sports.html',
           controller: 'MySportsAccountCtrl'
         }
       }
@@ -45,7 +46,7 @@ angular.module('account.module', [
         }
       },
       params: {
-        place: null
+        place: {}
       }
     });
 })

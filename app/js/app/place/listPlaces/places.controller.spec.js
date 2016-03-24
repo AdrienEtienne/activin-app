@@ -4,7 +4,7 @@ describe('Controller: PlacesAccountCtrl', function () {
 	var ctrl, $rootScope, Place, $httpBackend;
 
 	// load the controller's module
-	beforeEach(module('account.module'));
+	beforeEach(module('place.module'));
 
 	// Initialize the controller and a mock scope
 	beforeEach(inject(function ($controller, _$rootScope_, _$httpBackend_, _Place_) {
@@ -17,7 +17,7 @@ describe('Controller: PlacesAccountCtrl', function () {
 	}));
 
 	it('should not have places', function () {
-		ctrl.getPlaces().should.have.length(0);
+		ctrl.places.should.have.length(0);
 	});
 
 	it('should have places', function () {
@@ -25,7 +25,7 @@ describe('Controller: PlacesAccountCtrl', function () {
 			.when('GET', 'http://localhost:9000/api/places')
 			.respond(['toto']);
 		$httpBackend.flush();
-		ctrl.getPlaces().should.have.length(1);
+		ctrl.places.should.have.length(1);
 	});
 
 	describe('removePlace(index)', function () {
@@ -42,12 +42,12 @@ describe('Controller: PlacesAccountCtrl', function () {
 
 		it('should remove place from array', function () {
 			ctrl.removePlace(0);
-			ctrl.getPlaces().should.have.length(0);
+			ctrl.places.should.have.length(0);
 		});
 
 		it('should not remove place when not in array', function () {
 			ctrl.removePlace(1);
-			ctrl.getPlaces().should.have.length(1);
+			ctrl.places.should.have.length(1);
 		});
 
 		it('should request delete the place', function () {

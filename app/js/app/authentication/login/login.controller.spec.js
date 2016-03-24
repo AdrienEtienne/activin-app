@@ -2,15 +2,14 @@
 
 describe('Controller: LoginCtrl', function () {
 
-  var ctrl, scope, $httpBackend, Auth, User, $state;
+  var ctrl, $httpBackend, Auth, User, $state;
 
   // load the controller's module
   beforeEach(module('login.controller'));
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
-  beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _Auth_, _User_) {
-    scope = $rootScope.$new();
+  beforeEach(inject(function ($controller, _$httpBackend_, _Auth_, _User_) {
     $httpBackend = _$httpBackend_;
     Auth = _Auth_;
     User = _User_;
@@ -18,7 +17,6 @@ describe('Controller: LoginCtrl', function () {
       go: function () {}
     };
     ctrl = $controller('LoginCtrl', {
-      $scope: scope,
       Auth: Auth,
       User: User,
       $state: $state
@@ -27,21 +25,21 @@ describe('Controller: LoginCtrl', function () {
 
   describe('Login(form)', function () {
     it('should not be login', function () {
-      scope.isLogin.should.equal(false);
+      ctrl.isLogin.should.equal(false);
     });
 
     it('should be login if form valid', function () {
-      scope.login({
+      ctrl.login({
         $valid: true
       });
-      scope.isLogin.should.equal(true);
+      ctrl.isLogin.should.equal(true);
     });
 
     it('should not be login if form not valid', function () {
-      scope.login({
+      ctrl.login({
         $valid: false
       });
-      scope.isLogin.should.equal(false);
+      ctrl.isLogin.should.equal(false);
     });
 
     it('should not be login after request', function () {
@@ -50,11 +48,11 @@ describe('Controller: LoginCtrl', function () {
       });
       $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(200);
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
-      scope.login({
+      ctrl.login({
         $valid: true
       });
       $httpBackend.flush();
-      scope.isLogin.should.equal(false);
+      ctrl.isLogin.should.equal(false);
     });
   });
 });
