@@ -1,0 +1,7 @@
+.authentication .item-input.invalid{
+  border-bottom-color: $assertive;
+}
+
+.authentication .item-input.valid{
+  border-bottom-color: $balanced;
+}

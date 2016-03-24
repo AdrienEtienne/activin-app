@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/AdrienEtienne/activin-app.svg?branch=master)](https://travis-ci.org/AdrienEtienne/activin-app)
+[![Coverage Status](https://coveralls.io/repos/github/AdrienEtienne/activin-app/badge.svg?branch=master)](https://coveralls.io/github/AdrienEtienne/activin-app?branch=master)
+
 # ActivIn-App
 
 Mobile Application for ActivIn.
@@ -13,15 +16,25 @@ Mobile Application for ActivIn.
 
 ### Developing
 
-1. Run `npm install` to install server dependencies.
+1. Run `npm install -g gulp cordova ionic` to install global tools.
+ 
+2. Run `npm install` to install server dependencies.
 
-2. Run `bower install` to install front-end dependencies.
+3. Run `bower install` to install front-end dependencies.
 
-3. Run `ionic serve` to start the development server. It should automatically open the client in your browser when ready.
+4. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
 ## Build & development
 
+    // Dev
+    gulp serve
+
+    // Build for platforms setted
+    gulp build
+
 ## Testing
+
+    gulp test
 
 ## Ionic command
 

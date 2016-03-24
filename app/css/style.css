@@ -1,0 +1,27 @@
+/* Empty. Add your own CSS if you like */
+.button svg{
+ display: block;
+ margin:auto;
+}
+a, a:hover{
+  text-decoration: none;
+}
+
+/* Authentication pages */
+.authentication {
+  padding: 10%;
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.authentication .scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.authentication .item-input{
+  margin-bottom: 10px;
+  border-bottom-width: 5px;
+  border-radius: 4px;
+}
