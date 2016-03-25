@@ -59,7 +59,11 @@ angular.module('place.module')
 		};
 
 		that.save = function () {
-			place.$save();
+			if (place._id) {
+				place.$update();
+			} else {
+				place.$save();
+			}
 			$ionicHistory.goBack();
 		};
 

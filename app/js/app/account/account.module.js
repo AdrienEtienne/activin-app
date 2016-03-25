@@ -34,7 +34,8 @@ angular.module('account.module', [
           controller: 'PlacesAccountCtrl',
           controllerAs: 'vm'
         }
-      }
+      },
+      cache: false
     })
     .state('account.place', {
       url: '/place',

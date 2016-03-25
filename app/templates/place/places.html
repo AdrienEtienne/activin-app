@@ -8,11 +8,11 @@
 	<ion-content class="has-header">
 		<ion-list
 			show-delete="vm.showDelete">
-			<ion-item ui-sref="account.place({place: place})" ng-class="item-icon-right" ng-repeat="place in vm.places track by $index">
-				<i class="icon ion-arrow-right-c"></i>
-				<p ng-bind="place.name"></p>
+			<ion-item ui-sref="account.place({place: place})" class="item-icon-right"  ng-repeat="place in vm.places track by $index">
 				<ion-delete-button ng-click="vm.removePlace($index)" class="ion-minus-circled">
 				</ion-delete-button>
+				<span ng-bind="place.name"></span>
+				<i class="icon ion-arrow-right-c"></i>
 			</ion-item>
 		</ion-list>
 	</ion-content>

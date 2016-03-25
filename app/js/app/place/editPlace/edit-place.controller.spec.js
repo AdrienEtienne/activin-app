@@ -218,17 +218,30 @@ describe('Controller: EditPlaceCtrl', function () {
 			$httpBackend.flush();
 		});
 
+		it('should update an existing place', function () {
+			$stateParams.place = place;
+			ctrl = $controller('EditPlaceCtrl', {
+				Place: Place,
+				Location: Location,
+				$stateParams: $stateParams,
+				$ionicHistory: $ionicHistory
+			});
+			$httpBackend
+				.when('PUT', 'http://localhost:9000/api/places/id', {
+					_id: place._id,
+					name: place.name,
+					location: place.location
+				})
+				.respond(200);
+			ctrl.save();
+			$httpBackend.flush();
+		});
+
 		it('should call goBack() after save', function (done) {
 			$ionicHistory.goBack = function () {
 				done();
 			}
 			ctrl.save();
-			$httpBackend
-				.when('POST', 'http://localhost:9000/api/places', {
-					name: prediction.description,
-					location: details.location
-				})
-				.respond(200);
 			$httpBackend.flush();
 		});
 	});
