@@ -19,7 +19,7 @@ module.exports = function (config) {
 
     preprocessors: {
       '**/*.html': 'ng-html2js',
-      'app/js/**/*.js': ['coverage']
+      'app/js/**/!(*spec|*mock).js': ['coverage']
     },
 
     ngHtml2JsPreprocessor: {
@@ -44,10 +44,11 @@ module.exports = function (config) {
       'app/lib/ionic/js/ionic-angular.js',
       'app/lib/angular-mocks/angular-mocks.js',
       // endbower
-      'app/js/**/*.module.js',
-      'app/js/**/*.js',
-      'app/js/**/*.spec.js',
-      'app/js/**/*.mock.js',
+      'app/js/app.constant.js',
+      'app/js/{app,components}/**/*.module.js',
+      'app/js/{app,components}/**/*.js',
+      'app/js/{app,components}/**/*.spec.js',
+      'app/js/{app,components}/**/*.mock.js',
       'app/templates/**/*.html'
     ],
 

@@ -46,7 +46,7 @@ angular.module('account.module', [
         }
       },
       params: {
-        place: {}
+        place: null
       }
     });
 })

@@ -7,9 +7,11 @@
 		"user",
 		"admin"
 	],
-	"version": "1.0.0-alpha.1",
+	"version": "1.0.0-alpha.2",
 	"apiUrl": "http://localhost:9000"
 })
+
+.constant("localEnv", {})
 
 ;
 })(angular);

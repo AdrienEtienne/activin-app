@@ -1,22 +1,25 @@
-<ion-view title="{{vm.title()}}">
+<ion-view title="{{vm.title}}">
 	<ion-content class="has-header">
+		<label class="item item-input">
+			<span class="input-label">Name</span>
+			<input type="text" placeholder="Place name" ng-model="vm.placeName" ng-model-options="{ getterSetter: true }">
+		</label>
 		<label class="item item-input item-stacked-label">
 			<span class="input-label">Search</span>
-			<input type="text" placeholder="Address, place, interest point">
+			<input type="text" placeholder="Address, place, interest point" ng-model="vm.search" ng-model-options="{ getterSetter: true }">
 		</label>
-		<ion-list ng-show="vm.hasPredictions()">
-			<ion-item ng-click="vm.setResult($index)" ng-repeat="prediction in vm.getPredictions() track by $index">
-				<p>{{prediction.description}}</p>
+		<ion-list>
+			<ion-item ng-click="vm.setCurrentPrediction(prediction)" ng-repeat="prediction in vm.predictions track by $index">
+				<p ng-bind="prediction.description"></p>
 			</ion-item>
 		</ion-list>
 		<div class="padding">
 			<button ng-click="vm.save()" class="button button-block button-positive">
 			Save
 			</button>
-			<button ng-show="!vm.isNew()" ng-click="vm.remove()" class="button button-block button-assertive">
+			<button ng-hide="vm.isNew" ng-click="vm.remove()" class="button button-block button-assertive">
 			Remove
 			</button>
 		</div>
-
 	</ion-content>
 </ion-view>
