@@ -2,7 +2,7 @@
 	<ion-content class="has-header">
 		<label class="item item-input">
 			<span class="input-label">Name</span>
-			<input type="text" placeholder="Place name" ng-model="vm.placeName" ng-model-options="{ getterSetter: true }">
+			<input type="text" placeholder="Place name" ng-model="vm.placeName" ng-model-options="{ debounce: { 'default': 500, 'blur': 0 }, getterSetter: true }">
 		</label>
 		<label class="item item-input item-stacked-label">
 			<span class="input-label">Search</span>
@@ -14,7 +14,7 @@
 			</ion-item>
 		</ion-list>
 		<div class="padding">
-			<button ng-click="vm.save()" class="button button-block button-positive">
+			<button ng-click="vm.save()" class="button button-block button-positive" ng-disabled="!vm.isValidPlace()">
 			Save
 			</button>
 			<button ng-hide="vm.isNew" ng-click="vm.remove()" class="button button-block button-assertive">

@@ -21,7 +21,7 @@ angular.module('account.module', [
       url: '/mysports',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/account/sports/my-sports.html',
+          templateUrl: 'templates/account/my-sports.html',
           controller: 'MySportsAccountCtrl'
         }
       }
