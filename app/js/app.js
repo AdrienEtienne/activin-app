@@ -30,7 +30,9 @@ angular.module('starter', [
       .login(Auth.getLogin(), Auth.getPassword())
       .then(function () {
         User.updateLocation();
-        $state.go('homemenu.dash');
+        if ($state.current.name === 'login') {
+          $state.go('homemenu.dash');
+        }
       }).catch(function () {
         $state.go('login');
       });
