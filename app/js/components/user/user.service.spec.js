@@ -31,6 +31,33 @@ describe('Service: User', function () {
     });
   });
 
+  describe('changeSports(sportIds)', function () {
+    beforeEach(function () {
+      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
+        _id: 'id',
+        sports: []
+      });
+      User.get();
+      $httpBackend.flush();
+    });
+
+    it('should call /api/users/:id/sports with empty array', function (done) {
+      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', []).respond(204);
+      User.changeSports().then(function () {
+        done();
+      });
+      $httpBackend.flush();
+    });
+
+    it('should call /api/users/:id/sports with ids', function (done) {
+      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', ['id']).respond(204);
+      User.changeSports(['id']).then(function () {
+        done();
+      });
+      $httpBackend.flush();
+    });
+  });
+
   describe('Location', function () {
     beforeEach(function () {
       $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({

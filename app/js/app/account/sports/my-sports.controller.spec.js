@@ -14,7 +14,9 @@ describe('Controller: MySportsCtrl', function () {
 		$httpBackend = _$httpBackend_;
 		Sport = _Sport_;
 		User = _User_;
-		$ionicHistory = {};
+		$ionicHistory = {
+			goBack: angular.noop
+		};
 		ctrl = $controller('MySportsCtrl', {
 			Sport: Sport,
 			User: User,
@@ -98,8 +100,18 @@ describe('Controller: MySportsCtrl', function () {
 			$httpBackend.flush();
 		});
 
-		it('should request user sports update', function () {
-			ctrl.isSelected(sport).should.be.false;
+		it('should request user sports update with empty array', function () {
+			$httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', [])
+				.respond(204);
+			ctrl.save();
+			$httpBackend.flush();
+		});
+
+		it('should call $ionicHistory.goBack()', function (done) {
+			$ionicHistory.goBack = function () {
+				done();
+			};
+			ctrl.save();
 		});
 	});
 });

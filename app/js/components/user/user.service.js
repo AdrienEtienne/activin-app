@@ -81,6 +81,16 @@
       },
 
       /**
+       * Change sports
+       * @return {Promise}       request result
+       */
+      changeSports: function (sportIds) {
+        return UserResource.changeSports({
+          id: currentUser._id
+        }, sportIds || []).$promise;
+      },
+
+      /**
        * Change location
        *
        * @param  {Number}   long

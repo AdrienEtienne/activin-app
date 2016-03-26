@@ -1,5 +1,5 @@
 angular.module('account.module')
-	.controller('MySportsCtrl', function (User, Sport) {
+	.controller('MySportsCtrl', function (User, Sport, $ionicHistory) {
 		var that = this;
 
 		var selectedSports = User.getSportsId();
@@ -24,6 +24,11 @@ angular.module('account.module')
 						return false;
 					}
 				}
-			}
+			};
+		};
+
+		that.save = function () {
+			User.changeSports(selectedSports);
+			$ionicHistory.goBack();
 		};
 	});
