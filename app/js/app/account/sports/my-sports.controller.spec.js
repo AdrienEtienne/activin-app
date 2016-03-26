@@ -2,88 +2,116 @@
 
 describe('Controller: MySportsCtrl', function () {
 
-	var ctrl, scope, MySport, $httpBackend;
+	var ctrl, Sport, User, $httpBackend, $ionicHistory;
+
+	var sport;
 
 	// load the controller's module
 	beforeEach(module('account.module'));
 
 	// Initialize the controller and a mock $window
-	beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _MySport_) {
-		scope = $rootScope.$new();
+	beforeEach(inject(function ($controller, _$httpBackend_, _Sport_, _User_) {
 		$httpBackend = _$httpBackend_;
-		MySport = _MySport_;
-		ctrl = $controller('MySportsAccountCtrl', {
-			$scope: scope,
-			MySport: MySport
+		Sport = _Sport_;
+		User = _User_;
+		$ionicHistory = {
+			goBack: angular.noop
+		};
+		ctrl = $controller('MySportsCtrl', {
+			Sport: Sport,
+			User: User,
+			$ionicHistory: $ionicHistory
 		});
+
+		sport = {
+			_id: 'id',
+			name: 'running'
+		};
 	}));
 
+	it('should not have sports', function () {
+		ctrl.sports.should.have.length(0);
+	});
+
 	it('should have request pending', function () {
-		scope.myIsPending.should.equal(true);
-		scope.notMyIsPending.should.equal(true);
-	});
-
-	it('should have request not pending', function () {
 		$httpBackend
-			.when('GET', 'http://localhost:9000/api/mySports/mine')
-			.respond(['toto', 'titi']);
-		$httpBackend
-			.when('GET', 'http://localhost:9000/api/mySports/noneMine')
-			.respond(['toto', 'titi']);
+			.when('GET', 'http://localhost:9000/api/sports')
+			.respond([sport]);
 		$httpBackend.flush();
-
-		scope.myIsPending.should.equal(false);
-		scope.notMyIsPending.should.equal(false);
+		ctrl.sports.should.have.length(1);
 	});
 
-	describe('Test selection', function () {
+	describe('selected(sport)', function () {
 		beforeEach(function () {
 			$httpBackend
-				.when('GET', 'http://localhost:9000/api/mySports/mine')
-				.respond([{
-					_id: 'id1',
-					name: 'sport1'
-				}]);
-			$httpBackend
-				.when('GET', 'http://localhost:9000/api/mySports/noneMine')
-				.respond([{
-					_id: 'id2',
-					name: 'sport2'
-				}]);
+				.when('GET', 'http://localhost:9000/api/sports')
+				.respond([sport]);
 			$httpBackend.flush();
 		});
 
-		it('should not be updating', function () {
-			scope.sportIsUpdating(scope.mySports[0]).should.equal(false);
-			scope.sportIsUpdating(scope.notMySports[0]).should.equal(false);
+		it('should return false if no user', function () {
+			ctrl.selected(sport)().should.be.false;
 		});
 
-		it('should be updating after select', function () {
-			scope.select(scope.notMySports[0]);
-			scope.sportIsUpdating(scope.notMySports[0]).should.equal(true);
+		it('should return true after sport selection', function () {
+			ctrl.selected(sport)(true);
+			ctrl.selected(sport)().should.be.true;
 		});
 
-		it('should be updating after unselect', function () {
-			scope.unselect(scope.mySports[0]);
-			scope.sportIsUpdating(scope.mySports[0]).should.equal(true);
+		it('should return false after sport unselection', function () {
+			ctrl.selected(sport)(true);
+			ctrl.selected(sport)().should.be.true;
+			ctrl.selected(sport)(false);
+			ctrl.selected(sport)().should.be.false;
 		});
 
-		it('should not be updating after select and response', function () {
-			scope.select(scope.notMySports[0]);
-			$httpBackend
-				.when('POST', 'http://localhost:9000/api/mySports/select/id2')
-				.respond(200);
+		it('should return false if no sports for user', function () {
+			$httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
+				_id: 'id',
+				sports: []
+			});
+			User.get();
 			$httpBackend.flush();
-			scope.sportIsUpdating(scope.notMySports[0]).should.equal(false);
+			ctrl.selected(sport)().should.be.false;
 		});
 
-		it('should not be updating after unselect and response', function () {
-			scope.unselect(scope.mySports[0]);
-			$httpBackend
-				.when('POST', 'http://localhost:9000/api/mySports/unselect/id1')
-				.respond(200);
+		it('should return true if sport in array', function () {
+			$httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
+				_id: 'id',
+				sports: [sport._id]
+			});
+			User.get();
 			$httpBackend.flush();
-			scope.sportIsUpdating(scope.mySports[0]).should.equal(false);
+			ctrl.selected(sport._id)().should.be.false;
+		});
+
+	});
+
+	describe('save()', function () {
+		beforeEach(function () {
+			$httpBackend
+				.when('GET', 'http://localhost:9000/api/sports')
+				.respond([sport]);
+			$httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
+				_id: 'id',
+				sports: []
+			});
+			User.get();
+			$httpBackend.flush();
+		});
+
+		it('should request user sports update with empty array', function () {
+			$httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', [])
+				.respond(204);
+			ctrl.save();
+			$httpBackend.flush();
+		});
+
+		it('should call $ionicHistory.goBack()', function (done) {
+			$ionicHistory.goBack = function () {
+				done();
+			};
+			ctrl.save();
 		});
 	});
 });

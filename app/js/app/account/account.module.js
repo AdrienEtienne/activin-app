@@ -22,7 +22,8 @@ angular.module('account.module', [
       views: {
         'home-dash@homemenu': {
           templateUrl: 'templates/account/my-sports.html',
-          controller: 'MySportsAccountCtrl'
+          controller: 'MySportsCtrl',
+          controllerAs: 'vm'
         }
       }
     })

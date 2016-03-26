@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
   function UserResource($resource, appConfig) {
     return $resource(appConfig.apiUrl + '/api/users/:id/:controller', {
@@ -10,6 +10,12 @@
         method: 'PUT',
         params: {
           controller: 'password'
+        }
+      },
+      changeSports: {
+        method: 'PUT',
+        params: {
+          controller: 'sports'
         }
       },
       setLocation: {
