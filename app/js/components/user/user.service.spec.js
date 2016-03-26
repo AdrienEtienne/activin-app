@@ -52,6 +52,7 @@ describe('Service: User', function () {
     it('should call /api/users/:id/sports with ids', function (done) {
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', ['id']).respond(204);
       User.changeSports(['id']).then(function () {
+        User.getSportIds().should.deep.equal(['id']);
         done();
       });
       $httpBackend.flush();

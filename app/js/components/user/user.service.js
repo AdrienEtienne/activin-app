@@ -76,7 +76,7 @@
        * Get sports
        * @return {Array}         sport ids
        */
-      getSportsId: function () {
+      getSportIds: function () {
         return currentUser.sports || [];
       },
 
@@ -85,6 +85,7 @@
        * @return {Promise}       request result
        */
       changeSports: function (sportIds) {
+        currentUser.sports = sportIds;
         return UserResource.changeSports({
           id: currentUser._id
         }, sportIds || []).$promise;

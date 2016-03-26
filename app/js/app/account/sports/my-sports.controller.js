@@ -2,7 +2,10 @@ angular.module('account.module')
 	.controller('MySportsCtrl', function (User, Sport, $ionicHistory) {
 		var that = this;
 
-		var selectedSports = User.getSportsId();
+		var selectedSports = [];
+		for (var i = 0; i < User.getSportIds().length; i++) {
+			selectedSports.push(User.getSportIds()[i]);
+		}
 
 		that.sports = Sport.query();
 
