@@ -39,6 +39,8 @@ angular.module('signup.controller', [
               that.error = response.errors.password.message;
             } else if (response.errors.name) {
               that.error = response.errors.name.message;
+            } else {
+              that.error = 'Unknown error';
             }
           } else if (response.message) {
             that.error = response.message;

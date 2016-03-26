@@ -137,6 +137,22 @@ describe('Controller: SignupCtrl', function () {
           $httpBackend.flush();
           ctrl.error.should.equal('password');
         });
+
+        it('should set error of response.errors.Unknown', function () {
+          $httpBackend.when('POST', 'http://localhost:9000/api/users', ctrl.user)
+            .respond(400, {
+              errors: {
+                Unknown: {
+                  message: 'Unknown'
+                }
+              }
+            });
+          ctrl.signup({
+            $valid: true
+          });
+          $httpBackend.flush();
+          ctrl.error.should.equal('Unknown error');
+        });
       });
 
       it('should set default error', function () {
