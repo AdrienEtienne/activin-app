@@ -11,7 +11,7 @@ describe('Service: User', function () {
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
-  beforeEach('Injection', inject(function (_User_, _$httpBackend_, _$rootScope_, $cordovaGeolocation) {
+  beforeEach(inject(function (_User_, _$httpBackend_, _$rootScope_, $cordovaGeolocation) {
     User = _User_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;

@@ -1,41 +1,29 @@
 angular.module('account.module')
-	.controller('MySportsAccountCtrl', function ($scope, MySport) {
-		$scope.myIsPending = true;
-		$scope.notMyIsPending = true;
+	.controller('MySportsCtrl', function (User, Sport) {
+		var that = this;
 
-		MySport.mine().$promise.then(function (data) {
-			$scope.mySports = data;
-			$scope.myIsPending = false;
-		});
+		var selectedSports = User.getSportsId();
 
-		MySport.noneMine().$promise.then(function (data) {
-			$scope.notMySports = data;
-			$scope.notMyIsPending = false;
-		});
+		that.sports = Sport.query();
 
-		$scope.select = function (sport, index) {
-			sport.isUpdating = true;
-			sport.$select().then(function () {
-				$scope.notMySports.splice(index, 1);
-				sport.isUpdating = false;
-				$scope.mySports.push(sport);
-			});
-		};
-
-		$scope.unselect = function (sport, index) {
-			sport.isUpdating = true;
-			sport.$unselect().then(function () {
-				$scope.mySports.splice(index, 1);
-				sport.isUpdating = false;
-				$scope.notMySports.push(sport);
-			});
-		};
-
-		$scope.sportIsUpdating = function (sport) {
-			if (sport && sport.isUpdating) {
-				return true;
-			} else {
-				return false;
+		that.selected = function (sport) {
+			return function (newValue) {
+				if (angular.isDefined(newValue)) {
+					if (newValue) {
+						selectedSports.push(sport._id);
+					} else {
+						var i = selectedSports.indexOf(sport._id);
+						if (i !== -1) {
+							selectedSports.splice(i, 1);
+						}
+					}
+				} else {
+					if (selectedSports.indexOf(sport._id) !== -1) {
+						return true;
+					} else {
+						return false;
+					}
+				}
 			}
 		};
 	});

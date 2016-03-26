@@ -73,6 +73,14 @@
       },
 
       /**
+       * Get sports
+       * @return {Array}         sport ids
+       */
+      getSportsId: function () {
+        return currentUser.sports || [];
+      },
+
+      /**
        * Change location
        *
        * @param  {Number}   long
