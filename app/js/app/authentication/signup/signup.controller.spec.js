@@ -63,5 +63,125 @@ describe('Controller: SignupCtrl', function () {
       $httpBackend.flush();
       ctrl.isSignup.should.equal(false);
     });
+
+    describe('Error', function () {
+      beforeEach(function () {
+        ctrl.user = {
+          name: 'name',
+          email: 'mail',
+          password: 'password'
+        };
+      });
+
+      it('should set error of response.message', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+            name: 'name',
+            email: 'mail',
+            password: 'password'
+          })
+          .respond(400, {
+            message: 'error'
+          });
+        ctrl.signup({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('error');
+      });
+
+      describe('response.errors', function () {
+        it('should set error of response.errors.email', function () {
+          $httpBackend.when('POST', 'http://localhost:9000/api/users', ctrl.user)
+            .respond(400, {
+              errors: {
+                email: {
+                  message: 'email'
+                }
+              }
+            });
+          ctrl.signup({
+            $valid: true
+          });
+          $httpBackend.flush();
+          ctrl.error.should.equal('email');
+        });
+
+        it('should set error of response.errors.name', function () {
+          $httpBackend.when('POST', 'http://localhost:9000/api/users', ctrl.user)
+            .respond(400, {
+              errors: {
+                name: {
+                  message: 'name'
+                }
+              }
+            });
+          ctrl.signup({
+            $valid: true
+          });
+          $httpBackend.flush();
+          ctrl.error.should.equal('name');
+        });
+
+        it('should set error of response.errors.password', function () {
+          $httpBackend.when('POST', 'http://localhost:9000/api/users', ctrl.user)
+            .respond(400, {
+              errors: {
+                password: {
+                  message: 'password'
+                }
+              }
+            });
+          ctrl.signup({
+            $valid: true
+          });
+          $httpBackend.flush();
+          ctrl.error.should.equal('password');
+        });
+
+        it('should set error of response.errors.Unknown', function () {
+          $httpBackend.when('POST', 'http://localhost:9000/api/users', ctrl.user)
+            .respond(400, {
+              errors: {
+                Unknown: {
+                  message: 'Unknown'
+                }
+              }
+            });
+          ctrl.signup({
+            $valid: true
+          });
+          $httpBackend.flush();
+          ctrl.error.should.equal('Unknown error');
+        });
+      });
+
+      it('should set default error', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+          name: 'name',
+          email: 'mail',
+          password: 'password'
+        }).respond(400);
+        ctrl.signup({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('No response');
+      });
+
+      it('should set Unknown error', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/api/users', {
+          name: 'name',
+          email: 'mail',
+          password: 'password'
+        }).respond(400, {
+          truc: 'truc'
+        });
+        ctrl.signup({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('Unknown error');
+      });
+    });
   });
 });

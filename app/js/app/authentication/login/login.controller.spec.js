@@ -54,5 +54,47 @@ describe('Controller: LoginCtrl', function () {
       $httpBackend.flush();
       ctrl.isLogin.should.equal(false);
     });
+
+    describe('Error', function () {
+      it('should set error of response.message', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
+          token: 'mon token'
+        });
+        $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(400, {
+          message: 'error'
+        });
+        ctrl.login({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('error');
+      });
+
+      it('should set default error', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
+          token: 'mon token'
+        });
+        $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(400);
+        ctrl.login({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('No response');
+      });
+
+      it('should set Unknown error', function () {
+        $httpBackend.when('POST', 'http://localhost:9000/auth/local').respond({
+          token: 'mon token'
+        });
+        $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(400, {
+          truc: 'truc'
+        });
+        ctrl.login({
+          $valid: true
+        });
+        $httpBackend.flush();
+        ctrl.error.should.equal('Unknown error');
+      });
+    });
   });
 });
