@@ -8,7 +8,7 @@
 		"admin"
 	],
 	"version": "1.0.0-alpha.2",
-	"apiUrl": "http://localhost:9000"
+	"apiUrl": "http://activin-aenode.rhcloud.com"
 })
 
 .constant("localEnv", {})

@@ -240,7 +240,7 @@ describe('Controller: EditPlaceCtrl', function () {
 		it('should call goBack() after save', function (done) {
 			$ionicHistory.goBack = function () {
 				done();
-			}
+			};
 			ctrl.save();
 			$httpBackend.flush();
 		});

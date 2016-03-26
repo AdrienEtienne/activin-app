@@ -5,7 +5,7 @@
   /**
    * The Util service is for thin, globally reusable, utility functions
    */
-  function UtilService($window) {
+  function UtilService() {
     var Util = {
       /**
        * Return a callback or noop function
