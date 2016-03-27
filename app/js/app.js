@@ -52,25 +52,6 @@ angular.module('starter', [
     .state('homemenu', {
       abstract: true,
       templateUrl: 'templates/menus.html'
-    })
-    .state('homemenu.dash', {
-      url: '/dash',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/dash.html',
-          controller: 'DashCtrl'
-        }
-      },
-      cache: false
-    })
-    .state('homemenu.information', {
-      url: '/information',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/information.html',
-          controller: 'InformationCtrl'
-        }
-      }
     });
 
   // if none of the above states are matched, use this as the fallback
