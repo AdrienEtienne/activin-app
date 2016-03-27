@@ -11,5 +11,15 @@ angular.module('dashboard.module', [])
         }
       },
       cache: false
+    })
+    .state('partners', {
+      url: '/partners',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/partners/list.html'
+        }
+      },
+      cache: false
     });
 });
