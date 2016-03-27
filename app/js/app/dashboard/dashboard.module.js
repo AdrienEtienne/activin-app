@@ -1,5 +1,6 @@
 angular.module('dashboard.module', [
   'ui.router',
+  'ionic',
   'search.service',
   'components.util'
 ])
