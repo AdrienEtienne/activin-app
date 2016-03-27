@@ -1,0 +1,23 @@
+.main-menu{
+  .bar{
+    height: $bar-height + 40px;
+    display: block;
+
+
+    .title{
+      position: initial;
+      text-align: left;
+      margin: 0 10px;
+    }
+
+    p{
+      font-size: 15px;
+      text-align: left;
+      margin: 0 10px;
+    }
+  }
+
+  .has-header{
+    top: $bar-height + 40px;
+  }
+}

@@ -9,7 +9,7 @@ describe('Controller: MainMenuCtrl', function () {
 
   // Initialize the controller and a mock $window
   beforeEach(inject(function ($controller, _User_, $httpBackend) {
-    var User = _User_;
+    User = _User_;
 
     $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
       _id: 'id',
@@ -24,8 +24,11 @@ describe('Controller: MainMenuCtrl', function () {
     });
   }));
 
-  it('should have a user properties', function () {
-    ctrl.user.name.should.equal('name');
-    ctrl.user.email.should.equal('email');
+  it('should return the name', function () {
+    ctrl.name.should.equal('name');
+  });
+
+  it('should return the mail', function () {
+    ctrl.email.should.equal('email');
   });
 });

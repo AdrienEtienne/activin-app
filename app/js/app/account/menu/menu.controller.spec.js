@@ -35,7 +35,7 @@ describe('Controller: AccountCtrl', function () {
   });
 
   it('should call keepLocation with empty arguments', function (done) {
-    User.keepLocation = function (arg) {
+    User.keepLocation = function () {
       arguments.length.should.equal(0);
       done();
     };
@@ -51,7 +51,7 @@ describe('Controller: AccountCtrl', function () {
         then: function (cb) {
           cb();
         }
-      }
+      };
     };
     ctrl.keepLocation(true);
   });

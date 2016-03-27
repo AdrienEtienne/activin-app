@@ -9739,6 +9739,21 @@ a.button {
 .authentication .item-input.valid {
   border-bottom-color: #33cd5f; }
 
+.main-menu .bar {
+  height: 84px;
+  display: block; }
+  .main-menu .bar .title {
+    position: initial;
+    text-align: left;
+    margin: 0 10px; }
+  .main-menu .bar p {
+    font-size: 15px;
+    text-align: left;
+    margin: 0 10px; }
+
+.main-menu .has-header {
+  top: 84px; }
+
 .button svg {
   display: block;
   margin: auto; }
