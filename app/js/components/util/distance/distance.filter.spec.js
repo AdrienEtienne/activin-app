@@ -5,14 +5,12 @@ describe('Filter: distance', function () {
   // load the directive's module and view
   beforeEach(module('components.util'));
 
-  var filter;
-
   it('should exist', inject(function ($filter) {
     should.exist($filter('distance'));
   }));
 
   it('should return result in meters', inject(function (distanceFilter) {
-    distanceFilter(0.5).should.equal('500m');
+    distanceFilter(0.511).should.equal('500m');
   }));
 
   it('should return result in kilometers', inject(function (distanceFilter) {

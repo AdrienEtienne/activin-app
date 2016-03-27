@@ -51,8 +51,8 @@ describe('Controller: SearchPartnersCtrl', function () {
   });
 
   describe('scope.params.distance()', function () {
-    it('should not exist', function () {
-      should.not.exist(scope.modal.params.distance());
+    it('should be equal to default value 2 ', function () {
+      scope.modal.params.distance().should.equal(2);
     });
 
     it('should be equal to 3', function () {

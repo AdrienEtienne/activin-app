@@ -7,6 +7,12 @@ angular.module('dashboard.module')
 
     that.modal = null;
 
+    function search() {
+      that.partners = Search.partners({
+        distance: distance
+      });
+    }
+
     $scope.modal = {
       title: 'Filter',
       params: {
@@ -34,11 +40,6 @@ angular.module('dashboard.module')
       that.modal = result;
     });
 
-    function search() {
-      that.partners = Search.partners({
-        distance: distance
-      });
-    };
 
     search();
   });

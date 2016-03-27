@@ -8,5 +8,5 @@ angular.module('components.util')
       } else {
         return input * 1000 + 'm';
       }
-    }
+    };
   });
