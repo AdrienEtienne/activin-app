@@ -3,12 +3,11 @@
     <button class="button">Filter</button>
   </ion-nav-buttons>
   <ion-content class="has-header padding">
-    <div class="card">
-      <div class="item item-divider">
-        User
-      </div>
-      <div class="item item-text-wrap">
-        Other info
+    <div class="card" ng-repeat="partner in vm.partners">
+      <div class="item item-text-wrap item-icon-right">
+        <h2 ng-bind="partner.name"></h2>
+        <p ng-bind="vm.distance(partner.distance)"></p>
+        <i class="icon ion-navicon"></i>
       </div>
     </div>
   </ion-content>
