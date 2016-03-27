@@ -16,11 +16,21 @@
 				params: {
 					method: 'details'
 				}
+			},
+			partners: {
+				method: 'POST',
+				isArray: true,
+				params: {
+					method: 'partners'
+				}
 			}
 		});
 	}
 
-	angular.module('components.location')
+	angular.module('search.service', [
+			'ngResource',
+			'activinApp.constants'
+		])
 		.factory('Search', Search);
 
 })();

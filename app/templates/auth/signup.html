@@ -1,7 +1,7 @@
 <ion-view hide-nav-bar="true">
   <form name="form" ng-submit="vm.signup(form)" novalidate>
-    <ion-content class="authentication">
-      <div class="list padding">
+    <ion-content class="center authentication">
+      <div class="list">
         <label class="item item-input" ng-class="{'invalid': form.name.$invalid && !form.name.$pristine, 'valid': form.name.$valid && !form.name.$pristine}">
           <span class="input-label">Name</span>
           <input placeholder="Name" ng-disabled="isSignup" type="text" name="name" class="form-control" ng-model="vm.user.name" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" required>
