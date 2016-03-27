@@ -2,43 +2,43 @@ angular.module('dashboard.module')
   .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope) {
     var that = this;
 
-    var modal = null;
+    var distance = 2;
+    var filterChanged = false;
+
+    that.modal = null;
+
     $scope.modal = {
       title: 'Filter',
       params: {
-        distance: 2
+        distance: function (newVal) {
+          if (arguments.length) {
+            distance = newVal;
+            filterChanged = true;
+          } else {
+            return distance;
+          }
+        }
       },
       close: function () {
-        modal.hide();
+        that.modal.hide();
+        if (filterChanged) {
+          search();
+        }
       }
     };
 
-    that.partners = Search.partners();
-
     $ionicModal.fromTemplateUrl('templates/modal/searchPartners.html', {
       animation: 'slide-in-up',
-      scope: $scope,
-      backdropClickToClose: true,
-      hardwareBackButtonClose: true
+      scope: $scope
     }).then(function (result) {
-      console.log(result);
-      modal = result;
+      that.modal = result;
     });
 
-    that.filter = function () {
-      modal.show();
+    function search() {
+      that.partners = Search.partners({
+        distance: distance
+      });
     };
 
-    //Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function () {
-      modal.remove();
-    });
-    // Execute action on hide modal
-    $scope.$on('modal.hidden', function () {
-      console.log('modal.hidden');
-    });
-    // Execute action on remove modal
-    $scope.$on('modal.removed', function () {
-      console.log('modal.removed');
-    });
+    search();
   });
