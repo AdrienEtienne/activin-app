@@ -51,7 +51,9 @@ angular.module('starter', [
   $stateProvider
     .state('homemenu', {
       abstract: true,
-      templateUrl: 'templates/menus.html'
+      templateUrl: 'templates/menus.html',
+      controller: 'MainMenuCtrl',
+      controllerAs: 'vm'
     });
 
   // if none of the above states are matched, use this as the fallback

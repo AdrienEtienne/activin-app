@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('starter.controllers', [
+  'menu.controller',
   'authentication.module',
   'account.module',
   'dashboard.module',
