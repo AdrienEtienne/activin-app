@@ -6,7 +6,7 @@
     <div class="card" ng-repeat="partner in vm.partners">
       <div class="item item-text-wrap item-icon-right">
         <h2 ng-bind="partner.name"></h2>
-        <p ng-bind="vm.distance(partner.distance)"></p>
+        <p ng-bind="partner.distance | distance"></p>
         <i class="icon ion-navicon"></i>
       </div>
     </div>

@@ -1,3 +1,5 @@
 angular.module('starter.services', [
-	'components.location'
+  'components.location',
+  'sport.service',
+  'search.service'
 ]);

@@ -44,7 +44,7 @@ module.exports = function (config) {
       'app/lib/ionic/js/ionic-angular.js',
       'app/lib/angular-mocks/angular-mocks.js',
       // endbower
-      'app/js/app.constant.js',
+      'app/js/*.js',
       'app/js/{app,components}/**/*.module.js',
       'app/js/{app,components}/**/*.js',
       'app/js/{app,components}/**/*.spec.js',

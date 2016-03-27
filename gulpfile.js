@@ -38,10 +38,6 @@ function isTest() {
   return process.env.NODE_ENV === 'test';
 }
 
-function isProduction() {
-  return process.env.NODE_ENV === 'production';
-}
-
 ///////////////////////////////////////
 // ENVIRONMENT
 gulp.task('env:dev', (done) => {
@@ -63,14 +59,10 @@ gulp.task('env:prod', (done) => {
 ///////////////////////////////////////
 // CLEAN
 gulp.task('clean', function () {
-  if (isProduction()) {
-    return gulp.src('www', {
-        read: false
-      })
-      .pipe(clean());
-  } else {
-    return;
-  }
+  return gulp.src('www', {
+      read: false
+    })
+    .pipe(clean());
 });
 
 ///////////////////////////////////////

@@ -1,4 +1,8 @@
-angular.module('dashboard.module', [])
+angular.module('dashboard.module', [
+  'ui.router',
+  'search.service',
+  'components.util'
+])
 
 .config(function ($stateProvider) {
 
@@ -17,7 +21,9 @@ angular.module('dashboard.module', [])
       parent: 'homemenu.dash',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/partners/list.html'
+          templateUrl: 'templates/partners/list.html',
+          controller: 'SearchPartnersCtrl',
+          controllerAs: 'vm'
         }
       },
       cache: false

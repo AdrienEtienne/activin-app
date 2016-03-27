@@ -10,7 +10,7 @@ angular.module('starter', [
   'activinApp.constants',
   'starter.controllers',
   'starter.services',
-  'components.auth'
+  'components.auth',
 ])
 
 .run(function ($ionicPlatform, Auth, User, $state) {
