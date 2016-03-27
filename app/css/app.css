@@ -9741,15 +9741,16 @@ a.button {
 
 .main-menu .bar {
   height: 84px;
-  display: block; }
+  display: block;
+  padding: 5px 10px; }
   .main-menu .bar .title {
     position: initial;
     text-align: left;
-    margin: 0 10px; }
+    margin: 0; }
   .main-menu .bar p {
     font-size: 15px;
     text-align: left;
-    margin: 0 10px; }
+    margin: 0; }
 
 .main-menu .has-header {
   top: 84px; }

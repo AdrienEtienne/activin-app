@@ -51,6 +51,7 @@ angular.module('starter', [
   $stateProvider
     .state('homemenu', {
       abstract: true,
+      cache: false,
       templateUrl: 'templates/menus.html',
       controller: 'MainMenuCtrl',
       controllerAs: 'vm'
