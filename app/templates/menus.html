@@ -10,9 +10,10 @@
 		</ion-nav-view>
 	</ion-side-menu-content>
 	<!-- Left Side Menu -->
-	<ion-side-menu side="left">
-		<header class="bar bar-header bar-assertive">
-			<h1 class="title">Home</h1>
+	<ion-side-menu side="left" class="main-menu">
+		<header class="bar bar-assertive">
+			<h2 class="title" ng-bind="vm.name"></h2>
+			<p ng-bind="vm.email"></p>
 		</header>
 		<ion-content class="has-header">
 			<ion-list>

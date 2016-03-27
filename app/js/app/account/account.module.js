@@ -13,7 +13,8 @@ angular.module('account.module', [
       views: {
         'home-dash': {
           templateUrl: 'templates/account/list.html',
-          controller: 'AccountCtrl'
+          controller: 'AccountCtrl',
+          controllerAs: 'vm'
         }
       }
     })
@@ -51,21 +52,4 @@ angular.module('account.module', [
         place: null
       }
     });
-})
-
-.controller('AccountCtrl', function ($scope, Auth, User, $state) {
-  $scope.keepLocation = function (newVal) {
-    if (arguments.length) {
-      User.keepLocation(newVal).then(function () {
-        User.updateLocation();
-      });
-    } else {
-      return User.keepLocation();
-    }
-  };
-
-  $scope.logout = function () {
-    Auth.logout();
-    $state.go('login');
-  };
 });
