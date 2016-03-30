@@ -31,5 +31,25 @@ angular.module('dashboard.module', [
         }
       },
       cache: false
+    })
+    .state('sessions', {
+      url: '/session',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/session/sessions.html'
+        }
+      },
+      cache: false
+    })
+    .state('sessions.edit', {
+      url: '/session/edit',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/session/edit.html'
+        }
+      },
+      cache: false
     });
 });
