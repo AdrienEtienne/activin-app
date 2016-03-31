@@ -51,6 +51,7 @@ describe('Controller: SignupCtrl', function () {
         .respond({
           token: 'mon token'
         });
+      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond(200);
       $httpBackend.when('PUT', 'http://localhost:9000/api/users/setLocation').respond(200);
       ctrl.user = {
         name: 'name',

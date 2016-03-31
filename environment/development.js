@@ -4,7 +4,7 @@
 // ==================================
 module.exports = {
 
-  appConfig: {
-    apiUrl: 'http://localhost:9000'
-  }
+	appConfig: {
+		apiUrl: 'http://localhost:40000'
+	}
 };
