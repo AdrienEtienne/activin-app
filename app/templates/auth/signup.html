@@ -1,22 +1,22 @@
 <ion-view hide-nav-bar="true">
-  <form name="form" ng-submit="signup(form)" novalidate>
-    <ion-content class="authentication">
-      <div class="list padding">
+  <form name="form" ng-submit="vm.signup(form)" novalidate>
+    <ion-content class="center authentication">
+      <div class="list">
         <label class="item item-input" ng-class="{'invalid': form.name.$invalid && !form.name.$pristine, 'valid': form.name.$valid && !form.name.$pristine}">
           <span class="input-label">Name</span>
-          <input placeholder="Name" ng-disabled="isSignup" type="text" name="name" class="form-control" ng-model="user.name" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" required>
+          <input placeholder="Name" ng-disabled="isSignup" type="text" name="name" class="form-control" ng-model="vm.user.name" ng-model-options="{ updateOn: 'blur' }" ng-minlength="3" required>
         </label>
         <label class="item item-input" ng-class="{'invalid': form.email.$invalid && !form.email.$pristine, 'valid': form.email.$valid && !form.email.$pristine}">
           <span class="input-label">Email</span>
-          <input placeholder="E-mail" ng-disabled="isSignup" type="email" name="email" class="form-control" ng-model="user.email" ng-model-options="{ updateOn: 'blur' }" required>
+          <input placeholder="E-mail" ng-disabled="isSignup" type="email" name="email" class="form-control" ng-model="vm.user.email" ng-model-options="{ updateOn: 'blur' }" required>
         </label>
         <label class="item item-input" ng-class="{'invalid': form.password1.$invalid && !form.password1.$pristine, 'valid': form.password1.$valid && !form.password1.$pristine}">
           <span class="input-label">Password</span>
-          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password1" class="form-control" ng-model="user.password" ng-model-options="{ updateOn: 'blur' }" required>
+          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password1" class="form-control" ng-model="vm.user.password" ng-model-options="{ updateOn: 'blur' }" required>
         </label>
         <label class="item item-input" ng-class="{'invalid': form.password2.$invalid && !form.password2.$pristine, 'valid': form.password2.$valid && !form.password2.$pristine}">
           <span class="input-label">Confirm</span>
-          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password2" class="form-control" ng-model="user.password2" ng-model-options="{ debounce: 700 }" compare-to="user.password" required>
+          <input placeholder="Password" ng-disabled="isSignup" type="password" name="password2" class="form-control" ng-model="vm.user.password2" ng-model-options="{ debounce: 700 }" compare-to="vm.user.password" required>
         </label>
         <button class="button button-block button-balanced" ng-disabled="form.$invalid" type="submit">
         <span ng-show="!isSignup">Sign up</span>
@@ -28,6 +28,7 @@
           <span>Login</span>
           </button>
         </a>
+        <oauth-buttons></oauth-buttons>
       </div>
     </ion-content>
     <div class="bar bar-footer bar-assertive" ng-show="form.name.$error.minlength && !form.name.$pristine">

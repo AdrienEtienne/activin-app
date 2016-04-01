@@ -1,6 +1,9 @@
 angular.module('account.module', [
+  'ui.router',
+  'sport.controller',
   'components.auth',
-  'starter.services'
+  'starter.services',
+  'place.module'
 ])
 
 .config(function ($stateProvider) {
@@ -12,7 +15,8 @@ angular.module('account.module', [
       views: {
         'home-dash': {
           templateUrl: 'templates/account/list.html',
-          controller: 'AccountCtrl'
+          controller: 'AccountCtrl',
+          controllerAs: 'vm'
         }
       }
     })
@@ -21,7 +25,8 @@ angular.module('account.module', [
       views: {
         'home-dash@homemenu': {
           templateUrl: 'templates/account/my-sports.html',
-          controller: 'MySportsAccountCtrl'
+          controller: 'MySportsCtrl',
+          controllerAs: 'vm'
         }
       }
     })
@@ -29,26 +34,24 @@ angular.module('account.module', [
       url: '/places',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/account/places.html',
-          controller: 'PlacesAccountCtrl'
+          templateUrl: 'templates/place/places.html',
+          controller: 'PlacesAccountCtrl',
+          controllerAs: 'vm'
         }
+      },
+      cache: false
+    })
+    .state('account.place', {
+      url: '/place',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/place/edit-place.html',
+          controller: 'EditPlaceCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      params: {
+        place: null
       }
     });
-})
-
-.controller('AccountCtrl', function ($scope, Auth, User, $state) {
-  $scope.keepLocation = function (newVal) {
-    if (arguments.length) {
-      User.keepLocation(newVal).then(function () {
-        User.updateLocation();
-      });
-    } else {
-      return User.keepLocation();
-    }
-  };
-
-  $scope.logout = function () {
-    Auth.logout();
-    $state.go('login');
-  };
 });

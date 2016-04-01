@@ -38,10 +38,6 @@ function isTest() {
   return process.env.NODE_ENV === 'test';
 }
 
-function isProduction() {
-  return process.env.NODE_ENV === 'production';
-}
-
 ///////////////////////////////////////
 // ENVIRONMENT
 gulp.task('env:dev', (done) => {
@@ -63,14 +59,10 @@ gulp.task('env:prod', (done) => {
 ///////////////////////////////////////
 // CLEAN
 gulp.task('clean', function () {
-  if (isProduction()) {
-    return gulp.src('www', {
-        read: false
-      })
-      .pipe(clean());
-  } else {
-    return;
-  }
+  return gulp.src('www', {
+      read: false
+    })
+    .pipe(clean());
 });
 
 ///////////////////////////////////////
@@ -309,7 +301,7 @@ gulp.task('serve:dist', ['env:prod', 'sequence'], (done) => {
 ///////////////////////////////////////
 // BUILD
 gulp.task('build', [
-  'lint', 'env:prod', 'sequence', 'replace-build-version'
+  'sequence:production', 'replace-build-version'
 ], (done) => {
   sh.exec('ionic build');
   done();
@@ -321,7 +313,7 @@ gulp.task('build:android', ['sequence:production'], (done) => {
 });
 
 gulp.task('build:release', [
-  'lint', 'env:prod', 'sequence', 'replace-build-version'
+  'env:prod', 'sequence', 'replace-build-version'
 ], (done) => {
   sh.exec('ionic build --release');
   done();

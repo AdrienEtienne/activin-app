@@ -10,7 +10,7 @@ angular.module('starter', [
   'activinApp.constants',
   'starter.controllers',
   'starter.services',
-  'components.auth'
+  'components.auth',
 ])
 
 .run(function ($ionicPlatform, Auth, User, $state) {
@@ -26,14 +26,17 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
 
-    Auth
-      .login(Auth.getLogin(), Auth.getPassword())
-      .then(function () {
-        User.updateLocation();
-        $state.go('homemenu.dash');
-      }).catch(function () {
-        $state.go('login');
-      });
+    if (Auth.getToken()) {
+      User.get()
+        .then(function () {
+          User.updateLocation();
+          if ($state.current.name === 'login') {
+            $state.go('homemenu.dash');
+          }
+        }).catch(function () {
+          $state.go('login');
+        });
+    }
   });
 })
 
@@ -49,26 +52,10 @@ angular.module('starter', [
   $stateProvider
     .state('homemenu', {
       abstract: true,
-      templateUrl: 'templates/menus.html'
-    })
-    .state('homemenu.dash', {
-      url: '/dash',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/dash.html',
-          controller: 'DashCtrl'
-        }
-      },
-      cache: false
-    })
-    .state('homemenu.information', {
-      url: '/information',
-      views: {
-        'home-dash': {
-          templateUrl: 'templates/information.html',
-          controller: 'InformationCtrl'
-        }
-      }
+      cache: false,
+      templateUrl: 'templates/menus.html',
+      controller: 'MainMenuCtrl',
+      controllerAs: 'vm'
     });
 
   // if none of the above states are matched, use this as the fallback

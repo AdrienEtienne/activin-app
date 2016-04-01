@@ -2,20 +2,17 @@
 
 describe('Controller: AccountCtrl', function () {
 
-  var ctrl, scope, User, state, $httpBackend;
+  var ctrl, User, state, $httpBackend;
 
   // load the controller's module
   beforeEach(module('account.module'));
 
   // Initialize the controller and a mock $window
   beforeEach(inject(function ($controller, $rootScope, _User_, $state, _$httpBackend_) {
-    scope = $rootScope.$new();
     User = _User_;
     $httpBackend = _$httpBackend_;
     state = $state;
-    ctrl = $controller('AccountCtrl', {
-      $scope: scope
-    });
+    ctrl = $controller('AccountCtrl', {});
   }));
 
   it('should go to auth', function () {
@@ -23,7 +20,7 @@ describe('Controller: AccountCtrl', function () {
     state.go = function (name) {
       tmp = name;
     };
-    scope.logout();
+    ctrl.logout();
     assert.equal(tmp, 'login');
   });
 
@@ -34,6 +31,28 @@ describe('Controller: AccountCtrl', function () {
         then: angular.noop
       };
     };
-    scope.keepLocation(true);
+    ctrl.keepLocation(true);
+  });
+
+  it('should call keepLocation with empty arguments', function (done) {
+    User.keepLocation = function () {
+      arguments.length.should.equal(0);
+      done();
+    };
+    ctrl.keepLocation();
+  });
+
+  it('should call User.updateLocation()', function (done) {
+    User.updateLocation = function () {
+      done();
+    };
+    User.keepLocation = function () {
+      return {
+        then: function (cb) {
+          cb();
+        }
+      };
+    };
+    ctrl.keepLocation(true);
   });
 });

@@ -5,7 +5,7 @@
 	/**
 	 * The Location service is for thin, globally reusable, utility functions
 	 */
-	function LocationService($cordovaGeolocation, $q) {
+	function LocationService($cordovaGeolocation, $q, Search) {
 		var posOptions = {
 			timeout: 10000,
 			enableHighAccuracy: false
@@ -27,12 +27,39 @@
 							lat: position.coords.latitude,
 							long: position.coords.longitude
 						});
-					}, function (err) {
-						deferred.reject(err);
-					});
+					})
+					.catch(deferred.reject);
 
 				return deferred.promise;
 			},
+
+			getPredictions: function (input) {
+				return $q(function (resolve, reject) {
+					if (input && typeof input === 'string') {
+						Search.predictions({
+								input: input
+							}).$promise
+							.then(resolve)
+							.catch(reject);
+					} else {
+						reject('String expected');
+					}
+				});
+			},
+
+			getDetails: function (placeid) {
+				return $q(function (resolve, reject) {
+					if (placeid && typeof placeid === 'string') {
+						Search.details({
+								placeid: placeid
+							}).$promise
+							.then(resolve)
+							.catch(reject);
+					} else {
+						reject('String expected');
+					}
+				});
+			}
 		};
 
 		return Location;

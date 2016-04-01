@@ -54,4 +54,28 @@ describe('Service: Auth', function () {
       should.not.exist(Auth.getToken());
     });
   });
+
+  describe('oauth(provider, accessToken, refreshToken)', function () {
+    it('should send request', function () {
+      $httpBackend.when('GET', 'http://localhost:9000/auth/google/client?access_token=mytoken')
+        .respond(200, {
+          data: {
+            token: 'token'
+          }
+        });
+      Auth.oauth('google', 'mytoken');
+      $httpBackend.flush();
+    });
+
+    it('should update token when success', function () {
+      window.localStorage.accessToken = undefined;
+      $httpBackend.when('GET', 'http://localhost:9000/auth/google/client?access_token=mytoken')
+        .respond(200, {
+          token: 'token'
+        });
+      Auth.oauth('google', 'mytoken');
+      $httpBackend.flush();
+      Auth.getToken().should.equal('token');
+    });
+  });
 });

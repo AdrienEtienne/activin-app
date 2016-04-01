@@ -3,7 +3,7 @@
 
 # ActivIn-App
 
-Mobile Application for ActivIn.
+Mobile Application for ActivIn, powered by Ionic.
 
 ## Features
 

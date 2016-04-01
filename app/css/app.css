@@ -9730,8 +9730,49 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.authentication {
+  padding: 10%; }
+
 .authentication .item-input.invalid {
   border-bottom-color: #ef473a; }
 
 .authentication .item-input.valid {
   border-bottom-color: #33cd5f; }
+
+.main-menu .bar {
+  height: 84px;
+  display: block;
+  padding: 5px 10px; }
+  .main-menu .bar .title {
+    position: initial;
+    text-align: left;
+    margin: 0; }
+  .main-menu .bar p {
+    font-size: 15px;
+    text-align: left;
+    margin: 0; }
+
+.main-menu .has-header {
+  top: 84px; }
+
+.button svg {
+  display: block;
+  margin: auto; }
+
+a, a:hover {
+  text-decoration: none; }
+
+.center {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important; }
+
+.center .scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center; }
+
+.center .item-input {
+  margin-bottom: 10px;
+  border-bottom-width: 5px;
+  border-radius: 4px; }

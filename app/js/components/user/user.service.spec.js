@@ -11,7 +11,7 @@ describe('Service: User', function () {
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
-  beforeEach('Injection', inject(function (_User_, _$httpBackend_, _$rootScope_, $cordovaGeolocation) {
+  beforeEach(inject(function (_User_, _$httpBackend_, _$rootScope_, $cordovaGeolocation) {
     User = _User_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
@@ -25,6 +25,34 @@ describe('Service: User', function () {
         keepLocation: true
       });
       User.get().then(function () {
+        done();
+      });
+      $httpBackend.flush();
+    });
+  });
+
+  describe('changeSports(sportIds)', function () {
+    beforeEach(function () {
+      $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
+        _id: 'id',
+        sports: []
+      });
+      User.get();
+      $httpBackend.flush();
+    });
+
+    it('should call /api/users/:id/sports with empty array', function (done) {
+      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', []).respond(204);
+      User.changeSports().then(function () {
+        done();
+      });
+      $httpBackend.flush();
+    });
+
+    it('should call /api/users/:id/sports with ids', function (done) {
+      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/sports', ['id']).respond(204);
+      User.changeSports(['id']).then(function () {
+        User.getSportIds().should.deep.equal(['id']);
         done();
       });
       $httpBackend.flush();

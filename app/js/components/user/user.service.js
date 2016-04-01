@@ -73,6 +73,25 @@
       },
 
       /**
+       * Get sports
+       * @return {Array}         sport ids
+       */
+      getSportIds: function () {
+        return currentUser.sports || [];
+      },
+
+      /**
+       * Change sports
+       * @return {Promise}       request result
+       */
+      changeSports: function (sportIds) {
+        currentUser.sports = sportIds;
+        return UserResource.changeSports({
+          id: currentUser._id
+        }, sportIds || []).$promise;
+      },
+
+      /**
        * Change location
        *
        * @param  {Number}   long

@@ -1,33 +1,33 @@
-angular.module('login.controller', ['components.auth'])
+angular.module('authentication.module')
 
-.controller('LoginCtrl', function ($scope, Auth, User, $state, $q) {
+.controller('LoginCtrl', function (Auth, User, $state) {
   var that = this;
 
-  $scope.user = {};
-  $scope.user.email = Auth.getLogin();
-  $scope.user.password = Auth.getPassword();
-  $scope.isLogin = false;
-  $scope.errors = null;
+  that.user = {};
+  that.user.email = Auth.getLogin();
+  that.user.password = Auth.getPassword();
+  that.isLogin = false;
+  that.errors = null;
 
-  $scope.login = function (form) {
+  that.login = function (form) {
     if (form.$valid) {
-      $scope.isLogin = true;
-      $scope.error = null;
+      that.isLogin = true;
+      that.error = null;
       Auth
-        .login($scope.user.email, $scope.user.password)
+        .login(that.user.email, that.user.password)
         .then(function () {
-          $scope.isLogin = false;
+          that.isLogin = false;
           User.updateLocation();
           $state.go('homemenu.dash');
         })
         .catch(function (response) {
-          $scope.isLogin = false;
+          that.isLogin = false;
           if (!response) {
-            $scope.error = 'No response';
+            that.error = 'No response';
           } else if (response.message) {
-            $scope.error = response.message;
+            that.error = response.message;
           } else {
-            $scope.error = 'Unknown error';
+            that.error = 'Unknown error';
           }
         });
     } else {
