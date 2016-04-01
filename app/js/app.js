@@ -26,16 +26,17 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
 
-    Auth
-      .login(Auth.getLogin(), Auth.getPassword())
-      .then(function () {
-        User.updateLocation();
-        if ($state.current.name === 'login') {
-          $state.go('homemenu.dash');
-        }
-      }).catch(function () {
-        $state.go('login');
-      });
+    if (Auth.getToken()) {
+      User.get()
+        .then(function () {
+          User.updateLocation();
+          if ($state.current.name === 'login') {
+            $state.go('homemenu.dash');
+          }
+        }).catch(function () {
+          $state.go('login');
+        });
+    }
   });
 })
 

@@ -3,8 +3,7 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-
-	appConfig: {
-		apiUrl: 'http://localhost:40000'
-	}
+  appConfig: {
+    apiUrl: 'http://localhost:40000'
+  }
 };

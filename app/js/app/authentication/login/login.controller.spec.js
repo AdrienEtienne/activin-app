@@ -5,7 +5,7 @@ describe('Controller: LoginCtrl', function () {
   var ctrl, $httpBackend, Auth, User, $state;
 
   // load the controller's module
-  beforeEach(module('login.controller'));
+  beforeEach(module('authentication.module'));
   beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window

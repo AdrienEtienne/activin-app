@@ -1,8 +1,4 @@
-angular.module('signup.controller', [
-  'components.auth',
-  'components.location',
-  'components.util'
-])
+angular.module('authentication.module')
 
 .controller('SignupCtrl', function (Auth, User, $state) {
   var that = this;

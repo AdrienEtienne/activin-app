@@ -6,9 +6,6 @@ angular.module('components.oauth')
       templateUrl: 'templates/oauth-buttons/oauth-buttons.html',
       restrict: 'EA',
       controller: 'OauthButtonsCtrl',
-      controllerAs: 'OauthButtons',
-      scope: {
-        classes: '@'
-      }
+      controllerAs: 'OauthButtons'
     };
   });

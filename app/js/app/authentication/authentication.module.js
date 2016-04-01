@@ -1,6 +1,9 @@
 angular.module('authentication.module', [
-  'login.controller',
-  'signup.controller'
+  'ui.router',
+  'components.oauth',
+  'components.auth',
+  'components.location',
+  'components.util'
 ])
 
 .config(function ($stateProvider) {

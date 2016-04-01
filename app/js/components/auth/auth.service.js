@@ -2,7 +2,7 @@
 
 (function () {
 
-  function AuthService($http, $q, appConfig, Util, User) {
+  function AuthService($http, $q, appConfig, Util, User, OAuth) {
 
     var Auth = {
 
@@ -27,6 +27,30 @@
             Auth.logout();
             return $q.reject(err.data);
           });
+      },
+
+      /**
+       * Authenticate user and save token
+       *
+       * @param  {Object}   user     - login info
+       * @return {Promise}
+       */
+      oauth: function (provider, accessToken, refreshToken) {
+        return $q(function (resolve, reject) {
+          OAuth.get({
+              provider: provider,
+              access_token: accessToken,
+              refresh_token: refreshToken
+            })
+            .$promise
+            .then(function (res) {
+              window.localStorage.token = res.token;
+              User.get()
+                .then(resolve)
+                .catch(reject);
+            })
+            .catch(reject);
+        });
       },
 
       /**
