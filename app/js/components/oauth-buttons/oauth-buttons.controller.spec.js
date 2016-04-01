@@ -3,7 +3,6 @@
 describe('Controller: OauthButtonsCtrl', function () {
 
   var ctrl, state, $httpBackend;
-
   var route;
 
   // load the controller's module
@@ -51,6 +50,14 @@ describe('Controller: OauthButtonsCtrl', function () {
       $httpBackend.flush();
       route.should.equal('homemenu.dash');
     });
+
+    it('should catch the error', function () {
+      reqOauth.respond(400);
+      ctrl.isLogin = true;
+      ctrl.sendToken('mytoken');
+      $httpBackend.flush();
+      ctrl.isLogin.should.be.false;
+    });
   });
 
   describe('loginOauth(provider)', function () {
@@ -60,20 +67,25 @@ describe('Controller: OauthButtonsCtrl', function () {
 
     describe('Google', function () {
       var cordovaOauth;
+      var rootScope;
       var access, refresh;
+      var valid = true;
 
       // Initialize the controller and a mock $window
-      beforeEach(inject(function ($controller) {
+      beforeEach(inject(function ($rootScope, $controller, $q) {
+        rootScope = $rootScope;
         cordovaOauth = {
           google: function () {
-            return {
-              then: function (cb) {
-                cb({
+            return $q(function (resolve, reject) {
+              if (valid) {
+                resolve({
                   access_token: access,
                   refresh_token: refresh
                 });
+              } else {
+                reject();
               }
-            };
+            });
           }
         };
         ctrl = $controller('OauthButtonsCtrl', {
@@ -84,11 +96,22 @@ describe('Controller: OauthButtonsCtrl', function () {
       it('should send request', function (done) {
         access = 'toto';
         refresh = 'tata';
+        valid = true;
         ctrl.sendToken = function (arg1) {
           arg1.should.equal(access);
+          ctrl.isLogin.should.be.true;
           done();
         };
         ctrl.loginOauth('google');
+        rootScope.$digest();
+      });
+
+      it('should catch error', function () {
+        valid = false;
+        ctrl.loginOauth('google');
+        ctrl.isLogin.should.be.true;
+        rootScope.$digest();
+        ctrl.isLogin.should.be.false;
       });
     });
   });

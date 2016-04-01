@@ -1,4 +1,6 @@
 angular.module('account.module', [
+  'ui.router',
+  'sport.controller',
   'components.auth',
   'starter.services',
   'place.module'

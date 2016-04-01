@@ -27,9 +27,8 @@
 							lat: position.coords.latitude,
 							long: position.coords.longitude
 						});
-					}, function (err) {
-						deferred.reject(err);
-					});
+					})
+					.catch(deferred.reject);
 
 				return deferred.promise;
 			},

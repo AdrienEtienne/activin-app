@@ -45,10 +45,10 @@ module.exports = function (config) {
       'app/lib/angular-mocks/angular-mocks.js',
       // endbower
       'app/js/*.js',
+      'app/js/mocks/*.js',
       'app/js/{app,components}/**/*.module.js',
+      'app/js/{app,components}/*.js',
       'app/js/{app,components}/**/*.js',
-      'app/js/{app,components}/**/*.spec.js',
-      'app/js/{app,components}/**/*.mock.js',
       'app/templates/**/*.html'
     ],
 

@@ -1,37 +1,41 @@
-angular.module('account.module')
-	.controller('MySportsCtrl', function (User, Sport, $ionicHistory) {
-		var that = this;
+angular.module('sport.controller', [
+	'components.user',
+	'sport.service'
+])
 
-		var selectedSports = [];
-		for (var i = 0; i < User.getSportIds().length; i++) {
-			selectedSports.push(User.getSportIds()[i]);
-		}
+.controller('MySportsCtrl', function (User, Sport, $ionicHistory) {
+	var that = this;
 
-		that.sports = Sport.query();
+	var selectedSports = [];
+	for (var i = 0; i < User.getSportIds().length; i++) {
+		selectedSports.push(User.getSportIds()[i]);
+	}
 
-		that.selected = function (sport) {
-			return function (newValue) {
-				if (angular.isDefined(newValue)) {
-					if (newValue) {
-						selectedSports.push(sport._id);
-					} else {
-						var i = selectedSports.indexOf(sport._id);
-						if (i !== -1) {
-							selectedSports.splice(i, 1);
-						}
-					}
+	that.sports = Sport.query();
+
+	that.selected = function (sport) {
+		return function (newValue) {
+			if (angular.isDefined(newValue)) {
+				if (newValue) {
+					selectedSports.push(sport._id);
 				} else {
-					if (selectedSports.indexOf(sport._id) !== -1) {
-						return true;
-					} else {
-						return false;
+					var i = selectedSports.indexOf(sport._id);
+					if (i !== -1) {
+						selectedSports.splice(i, 1);
 					}
 				}
-			};
+			} else {
+				if (selectedSports.indexOf(sport._id) !== -1) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 		};
+	};
 
-		that.save = function () {
-			User.changeSports(selectedSports);
-			$ionicHistory.goBack();
-		};
-	});
+	that.save = function () {
+		User.changeSports(selectedSports);
+		$ionicHistory.goBack();
+	};
+});
