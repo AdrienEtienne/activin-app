@@ -1,6 +1,7 @@
 angular.module('dashboard.module', [
   'ui.router',
   'ionic',
+  'dashboard.controller',
   'search.service',
   'components.util'
 ])
@@ -12,7 +13,9 @@ angular.module('dashboard.module', [
       url: '/dash',
       views: {
         'home-dash': {
-          templateUrl: 'templates/dash.html'
+          templateUrl: 'templates/dash.html',
+          controller: 'DashboardCtrl',
+          controllerAs: 'vm'
         }
       },
       cache: false

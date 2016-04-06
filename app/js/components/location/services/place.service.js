@@ -8,7 +8,7 @@
     }, {
       update: {
         method: 'PUT'
-      },
+      }
     });
   }
 
