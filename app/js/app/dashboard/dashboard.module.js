@@ -2,6 +2,7 @@ angular.module('dashboard.module', [
   'ui.router',
   'ionic',
   'dashboard.controller',
+  'partners.controller',
   'workouts.controller',
   'search.service',
   'components.util'
@@ -45,8 +46,8 @@ angular.module('dashboard.module', [
       },
       cache: false
     })
-    .state('sessions.edit', {
-      url: '/session/edit',
+    .state('workouts.edit', {
+      url: '/workout/edit',
       parent: 'homemenu.dash',
       views: {
         'home-dash@homemenu': {

@@ -1,17 +1,48 @@
 <ion-view title="Sessions">
   <ion-nav-buttons side="right">
-    <a ui-sref="sessions.edit">
+    <a ui-sref="workouts.edit">
       <button class="button button-icon icon ion-plus-circled"></button>
     </a>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <a ui-sref="sessions.edit">
-      <div class="card" ng-repeat="workout in vm.workouts">
-
-        <div class="item item-text-wrap">
-          {{workout}}
+    <div class="card" ng-repeat="workout in vm.workouts">
+      <div class="item item-divider">
+        <h2 ng-bind="workout.name"></h2>
+        <span class="badge badge-calm" >
+          people invited ->
+          <span ng-bind="workout.invitations.length"></span>
+        </span>
+      </div>
+      <div class="item">
+        <p>
+          For what? <b ng-bind="workout.sport.name | uppercase"></b>
+        </p>
+        <p>
+          When? <b ng-bind="workout.dateStart | date:'@h:mma, MM/dd/yy'"></b>
+        </p>
+        <p>
+          Created by <b ng-bind="workout.createdBy.name"></b>
+        </p>
+      </div>
+      <div class="item radio">
+        <div class="row">
+          <div class="col">
+            <ion-radio ng-model="vm.invitation" ng-model-options="{ getterSetter: true }" ng-value="'IN'">
+              Accept
+            </ion-radio>
+          </div>
+          <div class="col">
+            <ion-radio ng-model="vm.invitation" ng-model-options="{ getterSetter: true }" ng-value="'MAYBE'">
+              Maybe
+            </ion-radio>
+          </div>
+          <div class="col">
+            <ion-radio ng-model="vm.invitation" ng-model-options="{ getterSetter: true }" ng-value="'OUT'">
+              Refuse
+            </ion-radio>
+          </div>
         </div>
       </div>
-    </a>
+    </div>
   </ion-content>
 </ion-view>

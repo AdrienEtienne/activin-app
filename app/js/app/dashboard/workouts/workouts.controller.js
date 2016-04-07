@@ -6,6 +6,7 @@ angular.module('workouts.controller', [
 
 		that.workouts = Workout.query({
 			next: 'true',
+			scope: 'user,sport',
 			filter: 'accepted,refused,unknown'
 		});
 	});

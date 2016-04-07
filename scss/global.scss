@@ -23,3 +23,15 @@ a, a:hover{
   border-bottom-width: 5px;
   border-radius: 4px;
 }
+
+.item.radio{
+  padding: 0px;
+
+  .row{
+    padding: 0px;
+
+    .col{
+      padding: 0px;
+    }
+  }
+}

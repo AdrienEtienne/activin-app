@@ -1,4 +1,7 @@
-angular.module('dashboard.module')
+angular.module('partners.controller', [
+    'ionic',
+    'search.service'
+  ])
   .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope) {
     var that = this;
 
@@ -39,7 +42,6 @@ angular.module('dashboard.module')
     }).then(function (result) {
       that.modal = result;
     });
-
 
     search();
   });

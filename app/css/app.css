@@ -9776,3 +9776,10 @@ a, a:hover {
   margin-bottom: 10px;
   border-bottom-width: 5px;
   border-radius: 4px; }
+
+.item.radio {
+  padding: 0px; }
+  .item.radio .row {
+    padding: 0px; }
+    .item.radio .row .col {
+      padding: 0px; }
