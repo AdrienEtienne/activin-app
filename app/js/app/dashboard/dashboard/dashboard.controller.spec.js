@@ -12,6 +12,19 @@ describe('Controller: DashboardCtrl', function () {
 		$httpBackend = _$httpBackend_;
 
 		ctrl = $controller('DashboardCtrl', {});
+
+		$httpBackend.when('GET', 'http://localhost:9000/api/workouts?filter=accepted&next=true&scope=id')
+			.respond([{
+				_id: 'id'
+			}]);
+		$httpBackend.when('GET', 'http://localhost:9000/api/workouts?filter=unknown&next=true&scope=id')
+			.respond([{
+				_id: 'id'
+			}]);
+		$httpBackend.when('GET', 'http://localhost:9000/api/workouts?filter=refused&next=true&scope=id')
+			.respond([{
+				_id: 'id'
+			}]);
 	}));
 
 	describe('countNextWorkout()', function () {
@@ -19,13 +32,31 @@ describe('Controller: DashboardCtrl', function () {
 			ctrl.countNextWorkout().should.equal(0);
 		});
 
-		it('should return 0', function () {
-			$httpBackend.when('GET', 'http://localhost:9000/api/workouts?filter=accepted,refused,unknown&next=true')
-				.respond([{
-					_id: 'id'
-				}]);
+		it('should return 1', function () {
 			$httpBackend.flush();
 			ctrl.countNextWorkout().should.equal(1);
+		});
+	});
+
+	describe('countUnknownWorkout()', function () {
+		it('should return 0', function () {
+			ctrl.countUnknownWorkout().should.equal(0);
+		});
+
+		it('should return 1', function () {
+			$httpBackend.flush();
+			ctrl.countUnknownWorkout().should.equal(1);
+		});
+	});
+
+	describe('countRefusedWorkout()', function () {
+		it('should return 0', function () {
+			ctrl.countRefusedWorkout().should.equal(0);
+		});
+
+		it('should return 1', function () {
+			$httpBackend.flush();
+			ctrl.countRefusedWorkout().should.equal(1);
 		});
 	});
 });
