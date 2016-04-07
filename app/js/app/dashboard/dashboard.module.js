@@ -2,6 +2,7 @@ angular.module('dashboard.module', [
   'ui.router',
   'ionic',
   'dashboard.controller',
+  'workouts.controller',
   'search.service',
   'components.util'
 ])
@@ -32,12 +33,14 @@ angular.module('dashboard.module', [
       },
       cache: false
     })
-    .state('sessions', {
-      url: '/session',
+    .state('workouts', {
+      url: '/workouts',
       parent: 'homemenu.dash',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/session/sessions.html'
+          templateUrl: 'templates/workout/workouts.html',
+          controller: 'WorkoutsCtrl',
+          controllerAs: 'vm'
         }
       },
       cache: false
@@ -47,7 +50,7 @@ angular.module('dashboard.module', [
       parent: 'homemenu.dash',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/session/edit.html'
+          templateUrl: 'templates/workout/edit.html'
         }
       },
       cache: false

@@ -1,0 +1,17 @@
+<ion-view title="Sessions">
+  <ion-nav-buttons side="right">
+    <a ui-sref="sessions.edit">
+      <button class="button button-icon icon ion-plus-circled"></button>
+    </a>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <a ui-sref="sessions.edit">
+      <div class="card" ng-repeat="workout in vm.workouts">
+
+        <div class="item item-text-wrap">
+          {{workout}}
+        </div>
+      </div>
+    </a>
+  </ion-content>
+</ion-view>
