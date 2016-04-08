@@ -3,7 +3,7 @@ angular.module('workouts.controller', [
 		'components.workout',
 		'components.user',
 	])
-	.controller('WorkoutsCtrl', function ($q, User, Workout, Invitation) {
+	.controller('WorkoutsCtrl', function (User, Workout, Invitation) {
 		var that = this;
 		that.workouts = [];
 		that.invitations = [];

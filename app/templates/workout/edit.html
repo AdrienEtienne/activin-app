@@ -1,23 +1,55 @@
 <ion-view title="Edit">
-	<ion-content class="has-header">
-		<label class="item item-input">
-			<span class="input-label">Name</span>
-			<input type="text" placeholder="Name">
-		</label>
-		<label class="item item-input item-select">
-			<div class="input-label">
-				Sport
+	<!--<ion-content class="has-header">
+				<label class="item item-input">
+							<span class="input-label">Name</span>
+							<input type="text" placeholder="Name">
+				</label>
+				<label class="item item-input item-select">
+							<div class="input-label">
+										Sport
+							</div>
+							<select>
+										<option>Cycling</option>
+										<option>Running</option>
+										<option>Soccer</option>
+							</select>
+				</label>
+				<div class="padding">
+							<button ng-click="vm.save()" class="button button-block button-positive" ng-disabled="!vm.isValidPlace()">
+							Save
+							</button>
+		</div>-->
+		<form name="form" ng-submit="vm.create(form)" novalidate>
+			<ion-content class="has-header">
+				<label class="item item-input" ng-class="{'invalid': form.name.$invalid && !form.name.$pristine, 'valid': form.name.$valid && !form.name.$pristine}">
+					<span class="input-label">Name</span>
+					<input placeholder="Name" ng-disabled="vm.isCreating" type="text" name="name" class="form-control" ng-model="vm.workout.name" ng-model-options="{ debounce: 700 }" ng-minlength="5" required>
+				</label>
+				<label class="item item-input item-select">
+					<span class="input-label">Choose in your Sports</span>
+					<select name="sport" ng-model="vm.workout.sport" required>
+						<option ng-repeat="sport in vm.sports" ng-bind="sport.name | uppercase" value="{{sport._id}}"></option>
+					</select>
+				</label>
+
+				<label class="item item-input item-select">
+					<span class="input-label">When?</span>
+					<select name="dateStart" ng-model="vm.workout.dateStart" required>
+						<option ng-repeat="date in vm.dates" ng-bind="date.name" value="{{date.value}}"></option>
+					</select>
+				</label>
+				<button class="button button-block button-positive" ng-disabled="form.$invalid" type="submit">
+				<span ng-show="!vm.isCreating">Create</span>
+				<ion-spinner class="spinner-light" ng-show="vm.isCreating" icon="spiral">
+				</ion-spinner>
+				</button>
+			</ion-content>
+			<div class="bar bar-footer bar-assertive" ng-show="form.name.$error.minlength && !form.name.$pristine">
+				<div class="title">Name is too short.</div>
 			</div>
-			<select>
-				<option>Cycling</option>
-				<option selected>Running</option>
-				<option>Soccer</option>
-			</select>
-		</label>
-		<div class="padding">
-			<button ng-click="vm.save()" class="button button-block button-positive" ng-disabled="!vm.isValidPlace()">
-			Save
-			</button>
-		</div>
+			<div class="bar bar-footer bar-assertive" ng-show="error">
+				<div class="title">{{error}}</div>
+			</div>
+		</form>
 	</ion-content>
 </ion-view>

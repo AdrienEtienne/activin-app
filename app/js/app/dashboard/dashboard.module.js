@@ -4,6 +4,7 @@ angular.module('dashboard.module', [
   'dashboard.controller',
   'partners.controller',
   'workouts.controller',
+  'workoutEdit.controller',
   'search.service',
   'components.util'
 ])
@@ -51,7 +52,9 @@ angular.module('dashboard.module', [
       parent: 'homemenu.dash',
       views: {
         'home-dash@homemenu': {
-          templateUrl: 'templates/workout/edit.html'
+          templateUrl: 'templates/workout/edit.html',
+          controller: 'WorkoutEditCtrl',
+          controllerAs: 'vm'
         }
       },
       cache: false

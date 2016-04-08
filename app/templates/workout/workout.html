@@ -8,13 +8,13 @@
 	</div>
 	<div class="item workout-info">
 		<p>
-			For what? <b ng-bind="vm.sportName() | uppercase"></b>
+			What? <b ng-bind="vm.sportName() | uppercase"></b>
 		</p>
 		<p>
 			When? <b ng-bind="vm.dateStart() | date:'@h:mma, MM/dd/yy'"></b>
 		</p>
 		<p>
-			Created by <b ng-bind="vm.createdBy()"></b>
+			By? <b ng-bind="vm.createdBy()"></b>
 		</p>
 	</div>
 	<div class="item radio" ng-show="vm.hasInvitation()">

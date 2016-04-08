@@ -1,10 +1,13 @@
 <ion-view title="Sessions">
   <ion-nav-buttons side="right">
     <a ui-sref="workouts.edit">
-      <button class="button button-icon icon ion-plus-circled"></button>
+      <button class="button">Add</button>
     </a>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <workout ng-model="workout" on-selection="vm.invitResponse(choice, workout)" ng-repeat="workout in vm.workouts"></workout>
+  <div ng-repeat="workout in vm.workouts">
+  	<workout ng-model="workout" on-selection="vm.invitResponse(choice, workout)" ></workout>
+  </div>
+
   </ion-content>
 </ion-view>

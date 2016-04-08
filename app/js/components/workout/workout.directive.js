@@ -4,7 +4,7 @@ angular.module('components.workout', ['ionic'])
 	.directive('workout', function ($parse) {
 		return {
 			templateUrl: 'templates/workout/workout.html',
-			restrict: 'EA',
+			restrict: 'E',
 			require: 'ngModel',
 			replace: true,
 			scope: {

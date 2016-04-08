@@ -1,8 +1,10 @@
 <ion-view title="Places" ng-init="vm.showDelete = false">
 	<ion-nav-buttons side="right">
-		<button ng-click="vm.showDelete = !vm.showDelete" class="button button-icon icon ion-minus-circled"></button>
+		<button ng-click="vm.showDelete = !vm.showDelete" class="button">
+			Remove
+		</button>
 		<a ui-sref="account.place">
-			<button class="button button-icon icon ion-plus-circled"></button>
+			<button class="button">Add</button>
 		</a>
 	</ion-nav-buttons>
 	<ion-content class="has-header">
