@@ -83,16 +83,27 @@ describe('Directive: workout', function () {
 	});
 
 	describe('select', function () {
-		it('should hide radio if no onSelection', function () {
+		it('should have invitation state at 0', function () {
 			compileDirective('<workout ng-model="wo"></workout>');
-			element = angular.element(element[0].querySelector('.item.radio'));
-			element.should.be.empty;
+			element = angular.element(element[0].querySelector('.workout-info p:nth-child(3)'));
+			elementScope.vm.getInvitationState().should.equal(0);
 		});
 
-		it('should display radio if onSelection', function () {
+		it('should hide radio if no invitation', function () {
+			compileDirective('<workout ng-model="wo"></workout>');
+			element = angular.element(element[0].querySelector('.radio.ng-hide'));
+			element.should.have.length(1);
+		});
+
+		it('should display radio if invitation', function () {
+			parentScope.wo = {
+				invitation: {
+					state: 0
+				}
+			};
 			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
-			element = angular.element(element[0].querySelector('.item.radio'));
-			element.should.not.be.empty;
+			element = angular.element(element[0].querySelector('.radio.ng-hide'));
+			element.should.have.length(0);
 		});
 
 		it('should call onSelection function', function (done) {
@@ -109,24 +120,21 @@ describe('Directive: workout', function () {
 				done();
 			};
 			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
-			elementScope.vm.choice().should.equal('MAYBE');
+			elementScope.vm.choice().should.equal('0');
 		});
 
-		it('should modify the choice value', function () {
-			parentScope.fn = angular.noop;
-			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
-			element = angular.element(element[0].querySelector('.item-radio'));
-			element[0].click();
-			elementScope.vm.choice().should.equal('IN');
-		});
-
-		it('should return radio value', function (done) {
-			parentScope.fn = function (choice, test) {
-				choice.should.equal('IN');
-				test.should.equal('titi');
+		it('should modify the choice value', function (done) {
+			parentScope.wo = {
+				invitation: {
+					state: 0
+				}
+			};
+			parentScope.fn = function (choice) {
+				parentScope.wo.invitation.state = choice;
+				elementScope.vm.choice().should.equal('1');
 				done();
 			};
-			compileDirective('<workout ng-model="wo" on-selection="fn(choice, \'titi\')"></workout>');
+			compileDirective('<workout ng-model="wo" on-selection="fn(choice)"></workout>');
 			element = angular.element(element[0].querySelector('.item-radio'));
 			element[0].click();
 		});

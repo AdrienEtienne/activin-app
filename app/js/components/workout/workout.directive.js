@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('components.workout', ['ionic'])
-	.directive('workout', function () {
+	.directive('workout', function ($parse) {
 		return {
 			templateUrl: 'templates/workout/workout.html',
 			restrict: 'EA',
@@ -11,24 +11,25 @@ angular.module('components.workout', ['ionic'])
 				onSelection: '&'
 			},
 			link: function (scope, iElement, iAttrs, ngModelCtrl) {
-				var choice;
-
-				if (iAttrs.onSelection) {
-					choice = ngModelCtrl.$modelValue._choice || 'MAYBE';
-				} else {
-					choice = null;
-				}
-
 				scope.vm = {
+					hasInvitation: function () {
+						return ngModelCtrl.$viewValue && ngModelCtrl.$viewValue.invitation ?
+							true : false;
+					},
+
+					getInvitationState: function () {
+						return ngModelCtrl.$viewValue && ngModelCtrl.$viewValue.invitation ?
+							ngModelCtrl.$viewValue.invitation.state :
+							0;
+					},
+
 					choice: function (newVal) {
 						if (arguments.length) {
-							choice = newVal;
-							ngModelCtrl.$viewValue._choice = choice;
 							scope.onSelection({
-								'choice': choice
+								'choice': parseInt(newVal)
 							});
 						} else {
-							return choice;
+							return '' + scope.vm.getInvitationState();
 						}
 					},
 

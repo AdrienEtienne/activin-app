@@ -8,22 +8,7 @@
 		}, {
 			update: {
 				method: 'PUT'
-			},
-			getNext: {
-				method: 'GET',
-				isArray: true,
-				params: {
-					next: 'true',
-					filter: 'accepted,refused,unknown'
-				}
-			},
-			getUnknown: {
-				method: 'GET',
-				isArray: true,
-				params: {
-					filter: 'unknown'
-				}
-			},
+			}
 		});
 	}
 
