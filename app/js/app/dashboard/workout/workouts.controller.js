@@ -5,8 +5,10 @@ angular.module('workouts.controller', [
 	])
 	.controller('WorkoutsCtrl', function (Workout, Invitation, $state) {
 		var that = this;
+		that.title = 'Sessions';
 		that.workouts = [];
 		that.invitations = [];
+
 		Workout.query({
 				next: 'true',
 				scope: 'user,sport',

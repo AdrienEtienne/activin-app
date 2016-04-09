@@ -20,17 +20,17 @@
 	<div class="item radio" ng-show="vm.hasInvitation()">
 		<div class="row">
 			<div class="col">
-				<ion-radio ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'1'">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'1'">
 					Accept
 				</ion-radio>
 			</div>
 			<div class="col">
-				<ion-radio ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'0'">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'0'">
 					Maybe
 				</ion-radio>
 			</div>
 			<div class="col">
-				<ion-radio ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'2'">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'2'">
 					Refuse
 				</ion-radio>
 			</div>
