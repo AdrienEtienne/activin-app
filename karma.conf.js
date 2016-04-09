@@ -36,6 +36,7 @@ module.exports = function (config) {
       'app/lib/angular-cookies/angular-cookies.js',
       'app/lib/ngCordova/dist/ng-cordova.js',
       'app/lib/ng-cordova-oauth/dist/ng-cordova-oauth.js',
+      'app/lib/ng-cordova-oauth/dist/ng-cordova-oauth.min.js',
       'app/lib/angular-animate/angular-animate.js',
       'app/lib/angular-sanitize/angular-sanitize.js',
       'app/lib/angular-ui-router/release/angular-ui-router.js',

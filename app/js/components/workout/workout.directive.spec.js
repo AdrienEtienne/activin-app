@@ -26,7 +26,7 @@ describe('Directive: workout', function () {
 			name: 'name'
 		};
 		compileDirective('<workout ng-model="wo"></workout>');
-		element = angular.element(element[0].querySelector('.item-divider h2'))
+		element = angular.element(element[0].querySelector('.item-divider h2'));
 		element.text().should.equal('name');
 	});
 
@@ -71,7 +71,6 @@ describe('Directive: workout', function () {
 	});
 
 	it('should have a user name', function () {
-		var date = new Date();
 		parentScope.wo = {
 			createdBy: {
 				name: 'user'
@@ -116,9 +115,6 @@ describe('Directive: workout', function () {
 		});
 
 		it('should have MAYBE by default', function () {
-			parentScope.fn = function () {
-				done();
-			};
 			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
 			elementScope.vm.choice().should.equal('0');
 		});

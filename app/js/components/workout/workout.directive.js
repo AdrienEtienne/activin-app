@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('components.workout', ['ionic'])
-	.directive('workout', function ($parse) {
+	.directive('workout', function () {
 		return {
 			templateUrl: 'templates/workout/workout.html',
 			restrict: 'E',

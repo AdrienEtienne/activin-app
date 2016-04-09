@@ -1,5 +1,6 @@
 angular.module('partners.controller', [
     'ionic',
+    'ui.router',
     'search.service'
   ])
   .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope) {

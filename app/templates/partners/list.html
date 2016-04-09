@@ -4,10 +4,12 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <div class="card" ng-repeat="partner in vm.partners">
-      <div class="item item-text-wrap item-icon-right">
-        <h2 ng-bind="partner.name"></h2>
-        <p ng-bind="partner.distance | distance"></p>
-        <i class="icon ion-navicon"></i>
+      <div class="item item-text-wrap item-button-right">
+        <span ng-bind="partner.name"></span>,
+        <span ng-bind="partner.distance | distance"></span>
+        <button class="button button-outline button-positive">
+        Invite
+        </button>
       </div>
     </div>
   </ion-content>

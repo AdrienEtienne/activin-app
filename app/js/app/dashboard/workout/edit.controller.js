@@ -1,13 +1,14 @@
 angular.module('workoutEdit.controller', [
 		'workout.service',
 		'components.workout',
-		'components.user',
 		'sport.service',
 	])
-	.controller('WorkoutEditCtrl', function (User, Workout, Sport) {
+	.controller('WorkoutEditCtrl', function (Workout, Sport, $ionicHistory) {
 		var that = this;
+		that.isCreating = false;
 		that.workout = {};
 		that.sports = Sport.query();
+		that.error = null;
 
 		that.dates = [{
 			name: 'In one day?',
@@ -24,8 +25,21 @@ angular.module('workoutEdit.controller', [
 		}];
 
 		that.create = function () {
+			that.error = null;
+			that.isCreating = true;
 			var workout = new Workout(that.workout);
-			workout.createdBy = User.getCurrentUser()._id;
-			workout.$save();
+			workout.$save()
+				.then(function () {
+					$ionicHistory.goBack();
+					that.isCreating = false;
+				})
+				.catch(function (response) {
+					that.isCreating = false;
+					if (response.data && response.data.message) {
+						that.error = response.data.message;
+					} else {
+						that.error = 'Unknown error';
+					}
+				});
 		};
 	});

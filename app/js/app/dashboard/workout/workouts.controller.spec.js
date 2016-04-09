@@ -46,4 +46,45 @@ describe('Controller: WorkoutsCtrl', function () {
 			ctrl.workouts[0].invitation._id.should.equal('invitationId');
 		});
 	});
+
+	describe('add()', function () {
+		it('should call go(workouts.edit)', function (done) {
+			ctrl = $controller('WorkoutsCtrl', {
+				$state: {
+					go: function (state) {
+						state.should.equal('workouts.edit');
+						done();
+					}
+				}
+			});
+			ctrl.add();
+		});
+	});
+
+	describe('invitResponse(choice, workout)', function () {
+		it('should update a workout', function () {
+			var wo = {
+				_id: 'workoutId',
+				invitation: {
+					state: 1
+				}
+			};
+			ctrl.invitResponse(0, wo);
+			wo.invitation.state.should.equal(0);
+		});
+
+		it('should request an update', function () {
+			$httpBackend.when('PUT', 'http://localhost:9000/api/workouts/workoutId/invitation/invitationId')
+				.respond(200);
+			var wo = {
+				_id: 'workoutId',
+				invitation: {
+					_id: 'invitationId',
+					state: 1
+				}
+			};
+			ctrl.invitResponse(0, wo);
+			$httpBackend.flush();
+		});
+	});
 });

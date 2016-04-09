@@ -1,9 +1,9 @@
 angular.module('workouts.controller', [
+		'ui.router',
 		'workout.service',
 		'components.workout',
-		'components.user',
 	])
-	.controller('WorkoutsCtrl', function (User, Workout, Invitation) {
+	.controller('WorkoutsCtrl', function (Workout, Invitation, $state) {
 		var that = this;
 		that.workouts = [];
 		that.invitations = [];
@@ -14,7 +14,7 @@ angular.module('workouts.controller', [
 			}).$promise
 			.then(function (data) {
 				that.workouts = data;
-				that.workouts.forEach(function (workout, i) {
+				that.workouts.forEach(function (workout) {
 					workout.invitation = Workout.get({
 						id: workout._id,
 						controller: 'invitation'
@@ -30,5 +30,9 @@ angular.module('workouts.controller', [
 			}, {
 				state: choice
 			});
+		};
+
+		that.add = function () {
+			$state.go('workouts.edit');
 		};
 	});
