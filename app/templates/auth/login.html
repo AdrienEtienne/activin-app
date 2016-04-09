@@ -29,8 +29,8 @@
 		<div class="bar bar-footer bar-assertive" ng-show="form.password.$error.minlength && !form.password.$pristine">
 			<div class="title">Password is too short.</div>
 		</div>
-		<div class="bar bar-footer bar-assertive" ng-show="error">
-			<div class="title">{{error}}</div>
+		<div class="bar bar-footer bar-assertive" ng-show="vm.error">
+			<div class="title">{{vm.error}}</div>
 		</div>
 	</form>
 </ion-view>

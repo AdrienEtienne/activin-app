@@ -3,88 +3,114 @@
 describe('Controller: WorkoutsCtrl', function () {
 	var ctrl;
 	var $httpBackend, $controller;
-	var res, resInvitation;
+	var partner, $state, state;
 
 	// load the controller's module
-	beforeEach(module('workouts.controller'));
+	beforeEach(module('myWorkouts.controller'));
+
+	beforeEach(function () {
+		partner = {
+			_id: 'id',
+			sports: ['idsport1', {
+				_id: 'idsport2'
+			}]
+		};
+	});
+
+	beforeEach(function () {
+		state = null;
+		$state = {
+			go: function (_state) {
+				state = _state;
+			}
+		};
+	});
 
 	beforeEach(inject(function (_$controller_, _$httpBackend_) {
 		$controller = _$controller_;
 		$httpBackend = _$httpBackend_;
 
-		ctrl = $controller('WorkoutsCtrl', {});
-
-		res = $httpBackend
-			.when('GET', 'http://localhost:9000/api/workouts' +
-				'?filter=accepted,refused,unknown' +
-				'&next=true' +
-				'&scope=user,sport')
-			.respond([{
-				_id: 'id'
-			}]);
-		resInvitation = $httpBackend
-			.when('GET', 'http://localhost:9000/api/workouts/id/invitation')
-			.respond({
-				_id: 'invitationId'
-			});
+		ctrl = $controller('MyWorkoutsCtrl', {
+			$state: $state,
+			$stateParams: {
+				partner: partner
+			}
+		});
 	}));
 
-	describe('workouts', function () {
-		it('should have 0 workout', function () {
-			ctrl.workouts.should.have.length(0);
+	describe('params.partner', function () {
+		it('should return if no partner', function () {
+			ctrl = $controller('MyWorkoutsCtrl', {
+				$state: $state
+			});
+			state.should.equal('homemenu.dash');
 		});
 
-		it('should have 1 workout', function () {
+		it('should continue if partner', function () {
+			should.not.exist(state);
+		});
+	});
+
+	describe('Workout query', function () {
+		it('should not request if no sports', function (done) {
+			partner.sports = null;
+			ctrl = $controller('MyWorkoutsCtrl', {
+				$state: $state,
+				$stateParams: {
+					partner: partner
+				}
+			});
+
+			try {
+				$httpBackend.flush();
+			} catch (e) {
+				done();
+			}
+		});
+
+		it('should request if sports', function () {
+			$httpBackend.when('GET', /http:\/\/localhost:9000\/api\/workouts.*/)
+				.respond([{
+					_id: 'id'
+				}]);
+
 			$httpBackend.flush();
 			ctrl.workouts.should.have.length(1);
 		});
 	});
 
-	describe('workouts.invitation', function () {
-		it('should have invitation', function () {
+	describe('select(workout)', function () {
+		beforeEach(function () {
+			$httpBackend.when('GET', /http:\/\/localhost:9000\/api\/workouts.*/)
+				.respond([{
+					_id: 'id'
+				}]);
 			$httpBackend.flush();
-			ctrl.workouts[0].invitation._id.should.equal('invitationId');
-		});
-	});
-
-	describe('add()', function () {
-		it('should call go(workouts.edit)', function (done) {
-			ctrl = $controller('WorkoutsCtrl', {
-				$state: {
-					go: function (state) {
-						state.should.equal('workouts.edit');
-						done();
-					}
-				}
-			});
-			ctrl.add();
-		});
-	});
-
-	describe('invitResponse(choice, workout)', function () {
-		it('should update a workout', function () {
-			var wo = {
-				_id: 'workoutId',
-				invitation: {
-					state: 1
-				}
-			};
-			ctrl.invitResponse(0, wo);
-			wo.invitation.state.should.equal(0);
 		});
 
-		it('should request an update', function () {
-			$httpBackend.when('PUT', 'http://localhost:9000/api/workouts/workoutId/invitation/invitationId')
+		it('should request for invitation creation', function () {
+			$httpBackend.when('POST', 'http://localhost:9000/api/workouts/workoutId/invitation', {
+					userInvited: partner._id
+				})
 				.respond(200);
-			var wo = {
-				_id: 'workoutId',
-				invitation: {
-					_id: 'invitationId',
-					state: 1
-				}
-			};
-			ctrl.invitResponse(0, wo);
+
+			ctrl.select({
+				_id: 'workoutId'
+			});
+			$httpBackend.flush();
+		});
+
+		it('should catch request error', function () {
+			$httpBackend.when('POST', 'http://localhost:9000/api/workouts/workoutId/invitation', {
+					userInvited: partner._id
+				})
+				.respond(400);
+
+			ctrl.select({
+				_id: 'workoutId'
+			});
 			$httpBackend.flush();
 		});
 	});
+
 });

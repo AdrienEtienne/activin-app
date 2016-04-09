@@ -81,7 +81,7 @@ describe('Directive: workout', function () {
 		element.text().should.contains('user');
 	});
 
-	describe('select', function () {
+	describe('radioSelect', function () {
 		it('should have invitation state at 0', function () {
 			compileDirective('<workout ng-model="wo"></workout>');
 			element = angular.element(element[0].querySelector('.workout-info p:nth-child(3)'));
@@ -100,22 +100,22 @@ describe('Directive: workout', function () {
 					state: 0
 				}
 			};
-			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
+			compileDirective('<workout ng-model="wo" on-radio-selection="fn()"></workout>');
 			element = angular.element(element[0].querySelector('.radio.ng-hide'));
 			element.should.have.length(0);
 		});
 
-		it('should call onSelection function', function (done) {
+		it('should call onRadioSelection function', function (done) {
 			parentScope.fn = function () {
 				done();
 			};
-			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
+			compileDirective('<workout ng-model="wo" on-radio-selection="fn()"></workout>');
 			element = angular.element(element[0].querySelector('.item-radio'));
 			element[0].click();
 		});
 
 		it('should have MAYBE by default', function () {
-			compileDirective('<workout ng-model="wo" on-selection="fn()"></workout>');
+			compileDirective('<workout ng-model="wo" on-radio-selection="fn()"></workout>');
 			elementScope.vm.choice().should.equal('0');
 		});
 
@@ -130,9 +130,22 @@ describe('Directive: workout', function () {
 				elementScope.vm.choice().should.equal('1');
 				done();
 			};
-			compileDirective('<workout ng-model="wo" on-selection="fn(choice)"></workout>');
+			compileDirective('<workout ng-model="wo" on-radio-selection="fn(choice)"></workout>');
 			element = angular.element(element[0].querySelector('.item-radio'));
 			element[0].click();
+		});
+	});
+
+	describe('select', function () {
+		it('should set select function', function () {
+			compileDirective('<workout ng-model="wo" on-selection="select()"></workout>');
+			should.exist(elementScope.vm.select);
+		});
+
+		it('should call select function', function (done) {
+			parentScope.select = done;
+			compileDirective('<workout ng-model="wo" on-selection="select()"></workout>');
+			elementScope.vm.select();
 		});
 	});
 });

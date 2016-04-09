@@ -1,9 +1,10 @@
 angular.module('myWorkouts.controller', [
+		'ionic',
 		'ui.router',
 		'workout.service',
 		'components.workout',
 	])
-	.controller('MyWorkoutsCtrl', function (Workout, Invitation, $stateParams, $state, $ionicHistory) {
+	.controller('MyWorkoutsCtrl', function (Workout, Invitation, $stateParams, $state, $ionicHistory, $ionicPopup) {
 		var that = this;
 
 		if (!$stateParams.partner) {
@@ -24,30 +25,33 @@ angular.module('myWorkouts.controller', [
 					sports.push(that.partner.sports[i]);
 				}
 			}
-		}
 
-		Workout.query({
-				next: 'true',
-				scope: 'user,sport',
-				sports: sports
-			}).$promise
-			.then(function (data) {
-				that.workouts = data;
-			});
+			Workout.query({
+					next: 'true',
+					scope: 'user,sport',
+					sports: sports
+				}).$promise
+				.then(function (data) {
+					that.workouts = data;
+				});
+		}
 
 		that.select = function (workout) {
 			var invitation = new Invitation({
 				userInvited: that.partner._id
 			});
+
 			invitation.$save({
 					workoutId: workout._id
 				})
 				.then(function () {
-					console.log('PASS')
 					$ionicHistory.goBack();
 				})
-				.catch(function (err) {
-					console.log(err);
+				.catch(function () {
+					$ionicPopup.alert({
+						title: 'Alert! Alert!',
+						template: 'User already invited!'
+					});
 				});
-		}
+		};
 	});
