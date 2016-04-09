@@ -3,7 +3,7 @@ angular.module('partners.controller', [
     'ui.router',
     'search.service'
   ])
-  .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope) {
+  .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope, $state) {
     var that = this;
 
     var distance = 2;
@@ -43,6 +43,12 @@ angular.module('partners.controller', [
     }).then(function (result) {
       that.modal = result;
     });
+
+    that.addToWorkout = function (partner) {
+      $state.go('partners.add', {
+        partner: partner
+      });
+    };
 
     search();
   });

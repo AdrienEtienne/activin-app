@@ -5,9 +5,14 @@
   <ion-content class="has-header">
     <div class="card" ng-repeat="partner in vm.partners">
       <div class="item item-text-wrap item-button-right">
+        <h2>
         <span ng-bind="partner.name"></span>,
         <span ng-bind="partner.distance | distance"></span>
-        <button class="button button-outline button-positive">
+        </h2>
+        <p>
+          <span ng-repeat="sport in partner.sports" ng-bind="sport.name + ', '"></span>
+        </p>
+        <button class="button button-outline button-positive" ng-click="vm.addToWorkout(partner)">
         Invite
         </button>
       </div>

@@ -5,6 +5,7 @@ angular.module('dashboard.module', [
   'partners.controller',
   'workouts.controller',
   'workoutEdit.controller',
+  'myWorkouts.controller',
   'search.service',
   'components.util'
 ])
@@ -34,6 +35,20 @@ angular.module('dashboard.module', [
         }
       },
       cache: false
+    })
+    .state('partners.add', {
+      url: '/partners/add',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/workout/workouts.html',
+          controller: 'MyWorkoutsCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      params: {
+        partner: null
+      }
     })
     .state('workouts', {
       url: '/workouts',

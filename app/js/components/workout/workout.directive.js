@@ -8,10 +8,11 @@ angular.module('components.workout', ['ionic'])
 			require: 'ngModel',
 			replace: true,
 			scope: {
+				onRadioSelection: '&',
 				onSelection: '&'
 			},
 			link: function (scope, iElement, iAttrs, ngModelCtrl) {
-				scope.vm = {
+				var vm = {
 					hasInvitation: function () {
 						return ngModelCtrl.$viewValue && ngModelCtrl.$viewValue.invitation ?
 							true : false;
@@ -25,7 +26,7 @@ angular.module('components.workout', ['ionic'])
 
 					choice: function (newVal) {
 						if (arguments.length) {
-							scope.onSelection({
+							scope.onRadioSelection({
 								'choice': parseInt(newVal)
 							});
 						} else {
@@ -53,6 +54,14 @@ angular.module('components.workout', ['ionic'])
 							ngModelCtrl.$viewValue.createdBy.name : 'Error';
 					}
 				};
+
+				if (iAttrs.onSelection) {
+					vm.select = function () {
+						scope.onSelection();
+					};
+				}
+
+				scope.vm = vm;
 			}
 		};
 	});
