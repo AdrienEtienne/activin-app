@@ -10,5 +10,24 @@
         <i class="icon ion-flag"></i>
       </a>
     </div>
+    <div class="card">
+      <a ui-sref="workouts">
+        <div class="item item-divider">
+          Sessions
+        </div>
+        <div class="item">
+          Next coming!
+          <span class="badge badge-balanced" ng-bind="vm.countNextWorkout()"></span>
+        </div>
+        <div class="item">
+          You have to respond!
+          <span class="badge badge-dark"  ng-bind="vm.countUnknownWorkout()"></span>
+        </div>
+        <div class="item">
+          Refused? Why?!
+          <span class="badge badge-assertive"  ng-bind="vm.countRefusedWorkout()"></span>
+        </div>
+      </a>
+    </div>
   </ion-content>
 </ion-view>

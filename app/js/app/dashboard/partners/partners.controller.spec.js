@@ -8,10 +8,7 @@ describe('Controller: SearchPartnersCtrl', function () {
   var partners;
 
   // load the controller's module
-  beforeEach(module('dashboard.module'));
-
-  beforeEach(module('templates/dash.html'));
-  beforeEach(module('templates/partners/list.html'));
+  beforeEach(module('partners.controller'));
   beforeEach(module('templates/modal/searchPartners.html'));
 
   beforeEach(inject(function (

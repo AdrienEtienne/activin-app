@@ -11,7 +11,13 @@
 	"apiUrl": "http://localhost:9000"
 })
 
-.constant("localEnv", {})
+.constant("localEnv", {
+	"FACEBOOK_ID": "app-id",
+	"FACEBOOK_SECRET": "secret",
+	"GOOGLE_ID": "397115917765-pvc61d0mrvq412ie8ldt3cj219170cbd.apps.googleusercontent.com",
+	"GOOGLE_SECRET": "3YdxjbyAiRMPoQqm8Nl3r6CX",
+	"DEBUG": ""
+})
 
 ;
 })(angular);

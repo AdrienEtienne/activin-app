@@ -4,9 +4,9 @@ angular.module('components.util')
       input = parseFloat(input);
       input = parseFloat(input.toFixed(1));
       if (input >= 1) {
-        return input + 'km';
+        return input + ' kilometers';
       } else {
-        return input * 1000 + 'm';
+        return input * 1000 + ' meters';
       }
     };
   });

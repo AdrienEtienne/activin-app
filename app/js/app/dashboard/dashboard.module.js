@@ -1,6 +1,11 @@
 angular.module('dashboard.module', [
   'ui.router',
   'ionic',
+  'dashboard.controller',
+  'partners.controller',
+  'workouts.controller',
+  'workoutEdit.controller',
+  'myWorkouts.controller',
   'search.service',
   'components.util'
 ])
@@ -12,7 +17,9 @@ angular.module('dashboard.module', [
       url: '/dash',
       views: {
         'home-dash': {
-          templateUrl: 'templates/dash.html'
+          templateUrl: 'templates/dash.html',
+          controller: 'DashboardCtrl',
+          controllerAs: 'vm'
         }
       },
       cache: false
@@ -24,6 +31,44 @@ angular.module('dashboard.module', [
         'home-dash@homemenu': {
           templateUrl: 'templates/partners/list.html',
           controller: 'SearchPartnersCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      cache: false
+    })
+    .state('partners.add', {
+      url: '/partners/add',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/workout/workouts.html',
+          controller: 'MyWorkoutsCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      params: {
+        partner: null
+      }
+    })
+    .state('workouts', {
+      url: '/workouts',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/workout/workouts.html',
+          controller: 'WorkoutsCtrl',
+          controllerAs: 'vm'
+        }
+      },
+      cache: false
+    })
+    .state('workouts.edit', {
+      url: '/workout/edit',
+      parent: 'homemenu.dash',
+      views: {
+        'home-dash@homemenu': {
+          templateUrl: 'templates/workout/edit.html',
+          controller: 'WorkoutEditCtrl',
           controllerAs: 'vm'
         }
       },
