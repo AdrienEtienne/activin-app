@@ -1,0 +1,42 @@
+<div class="card">
+	<div class="item item-divider">
+		<h2 ng-bind="vm.getName()"></h2>
+		<span class="badge badge-calm" >
+			people invited ->
+			<span ng-bind="vm.countInvitations()"></span>
+		</span>
+	</div>
+	<div class="item workout-info">
+		<p>
+			What? <b ng-bind="vm.sportName() | uppercase"></b>
+		</p>
+		<p>
+			When? <b ng-bind="vm.dateStart() | date:'@h:mma, MM/dd/yy'"></b>
+		</p>
+		<p>
+			By? <b ng-bind="vm.createdBy()"></b>
+		</p>
+	</div>
+	<div class="item radio" ng-show="vm.hasInvitation()">
+		<div class="row">
+			<div class="col">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'1'">
+					Accept
+				</ion-radio>
+			</div>
+			<div class="col">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'0'">
+					Maybe
+				</ion-radio>
+			</div>
+			<div class="col">
+				<ion-radio name="{{vm.id}}" ng-model="vm.choice" ng-model-options="{ getterSetter: true }" ng-value="'2'">
+					Refuse
+				</ion-radio>
+			</div>
+		</div>
+	</div>
+	<div class="item no-padding" ng-show="vm.select">
+		<button ng-click="vm.select()" class="button button-full button-small button-calm no-margin">Select</button>
+	</div>
+</div>

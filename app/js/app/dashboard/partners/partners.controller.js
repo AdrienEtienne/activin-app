@@ -1,5 +1,9 @@
-angular.module('dashboard.module')
-  .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope) {
+angular.module('partners.controller', [
+    'ionic',
+    'ui.router',
+    'search.service'
+  ])
+  .controller('SearchPartnersCtrl', function (Search, $ionicModal, $scope, $state) {
     var that = this;
 
     var distance = 2;
@@ -40,6 +44,11 @@ angular.module('dashboard.module')
       that.modal = result;
     });
 
+    that.addToWorkout = function (partner) {
+      $state.go('partners.add', {
+        partner: partner
+      });
+    };
 
     search();
   });

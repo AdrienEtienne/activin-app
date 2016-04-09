@@ -7,7 +7,7 @@ angular.module('authentication.module')
   that.user.email = Auth.getLogin();
   that.user.password = Auth.getPassword();
   that.isSignup = false;
-  that.errors = null;
+  that.error = null;
 
   that.signup = function (form) {
     if (form.$valid) {
