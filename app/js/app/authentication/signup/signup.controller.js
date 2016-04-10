@@ -21,7 +21,6 @@ angular.module('authentication.module')
         })
         .then(function () {
           that.isSignup = false;
-          User.updateLocation();
           $state.go('homemenu.dash');
         })
         .catch(function (response) {

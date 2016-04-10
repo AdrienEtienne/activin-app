@@ -6,6 +6,7 @@ describe('Service: Auth', function () {
 
   // load the controller's module
   beforeEach(module('components.auth'));
+  beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
   beforeEach(inject(function (_Auth_, _$httpBackend_) {
@@ -22,6 +23,7 @@ describe('Service: Auth', function () {
       _id: 'id',
       keepLocation: true
     });
+    $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/setLocation').respond(200);
     Auth.login('email', 'password');
     $httpBackend.flush();
   });
