@@ -7,6 +7,7 @@ describe('Controller: OauthButtonsCtrl', function () {
 
   // load the controller's module
   beforeEach(module('components.oauth'));
+  beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
   beforeEach(inject(function ($controller, _$httpBackend_) {

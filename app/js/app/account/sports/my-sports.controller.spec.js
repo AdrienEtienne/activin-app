@@ -8,6 +8,7 @@ describe('Controller: MySportsCtrl', function () {
 
 	// load the controller's module
 	beforeEach(module('sport.controller'));
+	beforeEach(module('$cordovaGeolocationMock'));
 
 	// Initialize the controller and a mock $window
 	beforeEach(inject(function ($controller, _$httpBackend_, _Sport_, _User_) {

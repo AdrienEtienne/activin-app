@@ -6,6 +6,7 @@ describe('Controller: MainMenuCtrl', function () {
   var User;
 
   beforeEach(module('menu.controller'));
+  beforeEach(module('$cordovaGeolocationMock'));
 
   // Initialize the controller and a mock $window
   beforeEach(inject(function ($controller, _User_, $httpBackend) {

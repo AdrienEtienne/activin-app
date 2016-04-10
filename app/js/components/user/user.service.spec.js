@@ -37,6 +37,7 @@ describe('Service: User', function () {
         _id: 'id',
         sports: []
       });
+      $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/setLocation').respond(200);
       User.get();
       $httpBackend.flush();
     });
@@ -63,26 +64,20 @@ describe('Service: User', function () {
     beforeEach(function () {
       $httpBackend.when('GET', 'http://localhost:9000/api/users/me').respond({
         _id: 'id',
-        keepLocation: true,
-        location: [1, 1]
+        location: [0, 0]
       });
       User.get();
       $httpBackend.flush();
     });
 
     describe('currentLocation(lat, long)', function () {
-      it('should return the location', function () {
-        User.currentLocation().should.deep.equal([1, 1]);
+      it('should return the location empty', function () {
+        User.getCurrentUser().location = null;
+        User.currentLocation().should.deep.equal([]);
       });
 
-      it('should not call /api/users/:id/setLocation', function (done) {
-        User.getCurrentUser().keepLocation = false;
-        User.currentLocation(1, 2)
-          .catch(function () {
-            User.currentLocation().should.deep.equal([1, 1]);
-            done();
-          });
-        $rootScope.$digest();
+      it('should return the location', function () {
+        User.currentLocation().should.deep.equal([0, 0]);
       });
 
       it('should call /api/users/:id/setLocation', function (done) {
@@ -90,9 +85,9 @@ describe('Service: User', function () {
           keepLocation: true,
           location: [1, 2]
         }).respond({
-          location: [1, 2],
-          keepLocation: true
+          location: [1, 2]
         });
+        User.getCurrentUser().keepLocation = true;
         User.currentLocation(1, 2).then(function () {
           User.currentLocation().should.deep.equal([1, 2]);
           User.keepLocation().should.equal(true);
@@ -102,13 +97,22 @@ describe('Service: User', function () {
         $rootScope.$digest();
       });
 
+      it('should not call /api/users/:id/setLocation', function (done) {
+        User.getCurrentUser().keepLocation = false;
+        User.currentLocation(1, 2)
+          .catch(function () {
+            User.currentLocation().should.deep.equal([0, 0]);
+            done();
+          });
+        $rootScope.$digest();
+      });
+
+
       it('should call /api/users/:id/setLocation and return 404', function (done) {
-        $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/setLocation', {
-          keepLocation: true,
-          location: [1, 2]
-        }).respond(403);
+        $httpBackend.when('PUT', 'http://localhost:9000/api/users/id/setLocation').respond(403);
+        User.getCurrentUser().keepLocation = true;
         User.currentLocation(1, 2).catch(function () {
-          User.currentLocation().should.deep.equal([1, 1]);
+          User.currentLocation().should.deep.equal([0, 0]);
           User.keepLocation().should.equal(true);
           done();
         });
@@ -142,9 +146,9 @@ describe('Service: User', function () {
           keepLocation: true,
           location: [1, 2]
         }).respond({
-          location: [1, 2],
-          keepLocation: true
+          location: [1, 2]
         });
+        User.getCurrentUser().keepLocation = true;
         User.updateLocation().then(function () {
           User.currentLocation().should.deep.equal([1, 2]);
           User.keepLocation().should.equal(true);
@@ -157,6 +161,7 @@ describe('Service: User', function () {
 
     describe('keepLocation(newVal)', function () {
       it('should return true', function () {
+        User.getCurrentUser().keepLocation = true;
         User.keepLocation().should.equal(true);
       });
 

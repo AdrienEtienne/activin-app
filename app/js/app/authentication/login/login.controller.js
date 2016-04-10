@@ -17,7 +17,6 @@ angular.module('authentication.module')
         .login(that.user.email, that.user.password)
         .then(function () {
           that.isLogin = false;
-          User.updateLocation();
           $state.go('homemenu.dash');
         })
         .catch(function (response) {

@@ -10,6 +10,7 @@
         return $q(function (resolve, reject) {
           UserResource.get().$promise.then(function (data) {
             currentUser = data;
+            User.updateLocation();
             resolve(data);
           }).catch(reject);
         });
